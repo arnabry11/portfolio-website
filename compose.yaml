@@ -1,0 +1,7 @@
+services:
+  portfolio:
+    build:
+      context: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${PORTFOLIO_PORT:-8083}:80"

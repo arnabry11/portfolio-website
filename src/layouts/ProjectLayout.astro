@@ -1,0 +1,52 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ProjectVisual from '@/components/ProjectVisual.astro';
+
+const { frontmatter } = Astro.props;
+const {
+  title,
+  kicker,
+  summary,
+  year,
+  role,
+  stack,
+  kind,
+  liveUrl,
+  sourceUrl,
+  deploymentStatus,
+} = frontmatter;
+---
+
+<BaseLayout title={`${title} — Arnab Roy`} description={summary}>
+  <article class="case-study">
+    <header class="case-hero page-shell">
+      <a class="back-link" href="/#work"><span aria-hidden="true">←</span> Selected work</a>
+      <div class="case-hero__grid">
+        <div>
+          <p class="eyebrow">{kicker}</p>
+          <h1>{title}</h1>
+          <p class="case-hero__summary">{summary}</p>
+          <div class="case-actions">
+            {liveUrl ? <a class="button button--dark" href={liveUrl} target="_blank" rel="noreferrer">Open live demo <span aria-hidden="true">↗</span></a> : <span class="button button--muted"><i></i>{deploymentStatus || 'Deployment in progress'}</span>}
+            {sourceUrl && <a class="text-link" href={sourceUrl} target="_blank" rel="noreferrer">View source <span aria-hidden="true">↗</span></a>}
+          </div>
+        </div>
+        <dl class="case-facts">
+          <div><dt>Year</dt><dd>{year}</dd></div>
+          <div><dt>Role</dt><dd>{role}</dd></div>
+          <div><dt>Stack</dt><dd>{stack}</dd></div>
+        </dl>
+      </div>
+    </header>
+    <div class="page-shell case-visual-wrap"><ProjectVisual kind={kind} /></div>
+    <div class="case-body page-shell">
+      <slot />
+    </div>
+    <aside class="next-project page-shell">
+      <p class="eyebrow">Continue exploring</p>
+      {kind === 'ev' && <a href="/projects/ask-the-docs/"><span>Next project</span><strong>Ask the Docs</strong><i aria-hidden="true">↗</i></a>}
+      {kind === 'docs' && <a href="/projects/niyojan/"><span>Next project</span><strong>Niyojan</strong><i aria-hidden="true">↗</i></a>}
+      {kind === 'niyojan' && <a href="/projects/ev-charging/"><span>Back to first project</span><strong>EV Charging</strong><i aria-hidden="true">↗</i></a>}
+    </aside>
+  </article>
+</BaseLayout>

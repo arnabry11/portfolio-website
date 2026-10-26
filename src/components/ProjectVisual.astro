@@ -1,0 +1,76 @@
+---
+interface Props {
+  kind: 'ev' | 'docs' | 'niyojan';
+  compact?: boolean;
+}
+
+const { kind, compact = false } = Astro.props;
+---
+
+<figure class:list={["project-visual", `project-visual--${kind}`, { "project-visual--compact": compact }]}>
+  {kind === 'ev' && (
+    <div class="screen ev-screen" aria-label="Illustration of the EV Charging live operations board">
+      <div class="screen__bar">
+        <div class="screen__dots"><i></i><i></i><i></i></div>
+        <span>Fleet operations</span>
+        <span class="live-indicator"><i></i> live</span>
+      </div>
+      <div class="ev-screen__body">
+        <div class="ev-kpis">
+          <div><small>Charging now</small><strong>10</strong></div>
+          <div><small>Energy delivered</small><strong>1.86 <em>kWh</em></strong></div>
+          <div><small>Running amount</small><strong>₹133.04</strong></div>
+        </div>
+        <div class="ev-chart">
+          <div class="ev-chart__heading"><span>Fleet power</span><strong>72.4 kW</strong></div>
+          <svg viewBox="0 0 520 116" role="img" aria-label="Power rising across a fleet of chargers">
+            <defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e56d37" stop-opacity=".32"/><stop offset="1" stop-color="#e56d37" stop-opacity="0"/></linearGradient></defs>
+            <path class="chart-grid" d="M0 20H520M0 57H520M0 94H520" />
+            <path class="chart-fill" d="M0 96C40 94 42 72 82 78S134 50 176 60 214 38 258 44 300 18 344 29 388 12 430 24 470 8 520 18V116H0Z" />
+            <path class="chart-line" d="M0 96C40 94 42 72 82 78S134 50 176 60 214 38 258 44 300 18 344 29 388 12 430 24 470 8 520 18" />
+          </svg>
+        </div>
+        <div class="charger-row">
+          <div class="charger-card"><span><i></i> CHG-MUM-0001</span><strong>72%</strong><div><i style="width:72%"></i></div><small>0.18 kWh · ₹13.24</small></div>
+          <div class="charger-card"><span><i></i> CHG-MUM-0002</span><strong>48%</strong><div><i style="width:48%"></i></div><small>0.12 kWh · ₹12.16</small></div>
+          <div class="charger-card"><span><i></i> CHG-MUM-0003</span><strong>91%</strong><div><i style="width:91%"></i></div><small>0.22 kWh · ₹13.96</small></div>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {kind === 'docs' && (
+    <div class="screen docs-screen" aria-label="Illustration of the Ask the Docs streaming answer interface">
+      <div class="docs-screen__top"><span class="docs-mark">A</span><span><strong>Ask the Docs</strong><small>Rails Guides + PostgreSQL</small></span><em>Sources first</em></div>
+      <div class="docs-screen__body">
+        <div class="docs-question"><span>You</span><p>How does an index help PostgreSQL find rows?</p></div>
+        <div class="docs-answer">
+          <div class="docs-avatar">A</div>
+          <div><small>ASK THE DOCS</small><p>PostgreSQL can use an index to locate matching row positions without scanning every row in the table.<span class="typing-caret"></span></p><div class="source-chip"><span>1</span> PostgreSQL 16 · Indexes</div></div>
+        </div>
+      </div>
+      <div class="docs-composer"><span>Ask about Rails or PostgreSQL…</span><b>Send</b></div>
+    </div>
+  )}
+
+  {kind === 'niyojan' && (
+    <div class="screen niyojan-screen" aria-label="Illustration of the Niyojan operations dashboard">
+      <div class="niyojan-sidebar">
+        <div class="niyojan-logo"><span>N</span> Niyojan</div>
+        <div class="niyojan-nav"><i class="active"></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="niyojan-main">
+        <div class="niyojan-top"><span>Shakti Bricks &amp; Blocks</span><span class="niyojan-user">MT</span></div>
+        <div class="niyojan-content">
+          <div class="niyojan-title"><div><small>HEAD OFFICE</small><strong>Plant snapshot</strong></div><button>+ New production batch</button></div>
+          <div class="niyojan-kpis"><div><small>Finished stock</small><b>13,540</b><em>units across 2 products</em></div><div><small>Customer dues</small><b>₹41,257.50</b><em>across 2 customers</em></div><div><small>Unit cost</small><b>₹5.78</b><em>per good unit</em></div></div>
+          <div class="niyojan-panels">
+            <div class="niyojan-panel"><span>Unit cost, last 7 days</span><svg viewBox="0 0 300 90" aria-hidden="true"><path d="M0 70C30 58 45 67 73 48S118 50 144 36 193 42 220 24 265 26 300 14" /></svg></div>
+            <div class="niyojan-alerts"><span>Needs attention</span><p><i></i>Material variance</p><p><i></i>Customer dues</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+  <figcaption class="sr-only">A representative interface view based on the project’s current implementation.</figcaption>
+</figure>
