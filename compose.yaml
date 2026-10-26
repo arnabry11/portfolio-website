@@ -1,5 +1,6 @@
 services:
   portfolio:
+    image: "${PORTFOLIO_IMAGE:-portfolio-website:local}"
     build:
       context: .
     restart: unless-stopped
