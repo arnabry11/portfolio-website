@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
+import { Picture } from 'astro:assets';
+import portrait from '@/assets/arnab-roy-portrait.jpg';
 import { getProjects } from '@/lib/projects';
 import { site } from '@/site';
 
@@ -11,6 +13,7 @@ const person = {
   name: site.name,
   jobTitle: site.jobTitle,
   url: Astro.site?.href,
+  image: new URL(portrait.src, Astro.site).href,
   email: `mailto:${site.email}`,
   address: { '@type': 'PostalAddress', addressLocality: 'Dhanbad', addressCountry: 'IN' },
   sameAs: Object.values(site.links),
@@ -79,7 +82,17 @@ const person = {
   </section>
 
   <section class="about page-shell" id="about">
-    <div class="about__label"><p class="eyebrow">04 / About</p><span class="about__mark">AR</span></div>
+    <div class="about__label">
+      <p class="eyebrow">04 / About</p>
+      <Picture
+        class="about__portrait"
+        src={portrait}
+        formats={['avif', 'webp']}
+        widths={[300, 600, 900]}
+        sizes="(max-width: 700px) 260px, (max-width: 980px) 20vw, 300px"
+        alt="Arnab Roy at a desk in a home office, with code open on a monitor behind"
+      />
+    </div>
     <div class="about__copy">
       <h2>Your idea needs someone who can see it through.</h2>
       <p>I’m a software engineer based in Dhanbad, India. I enjoy connecting a business problem to the technical decisions that make an application work. Whether I’m building a product independently or working within a team, I take responsibility for how the pieces fit together.</p>
