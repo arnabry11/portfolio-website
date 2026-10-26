@@ -9,7 +9,7 @@ const { kind, compact = false } = Astro.props;
 
 <figure class:list={["project-visual", `project-visual--${kind}`, { "project-visual--compact": compact }]}>
   {kind === 'ev' && (
-    <div class="screen ev-screen" aria-label="Illustration of the EV Charging live operations board">
+    <div class="screen ev-screen" role="img" aria-label="Illustration of the EV Charging live operations board">
       <div class="screen__bar">
         <div class="screen__dots"><i></i><i></i><i></i></div>
         <span>Fleet operations</span>
@@ -23,7 +23,7 @@ const { kind, compact = false } = Astro.props;
         </div>
         <div class="ev-chart">
           <div class="ev-chart__heading"><span>Fleet power</span><strong>72.4 kW</strong></div>
-          <svg viewBox="0 0 520 116" role="img" aria-label="Power rising across a fleet of chargers">
+          <svg viewBox="0 0 520 116" aria-hidden="true">
             <defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e56d37" stop-opacity=".32"/><stop offset="1" stop-color="#e56d37" stop-opacity="0"/></linearGradient></defs>
             <path class="chart-grid" d="M0 20H520M0 57H520M0 94H520" />
             <path class="chart-fill" d="M0 96C40 94 42 72 82 78S134 50 176 60 214 38 258 44 300 18 344 29 388 12 430 24 470 8 520 18V116H0Z" />
@@ -40,7 +40,7 @@ const { kind, compact = false } = Astro.props;
   )}
 
   {kind === 'docs' && (
-    <div class="screen docs-screen" aria-label="Illustration of the Ask the Docs streaming answer interface">
+    <div class="screen docs-screen" role="img" aria-label="Illustration of the Ask the Docs streaming answer interface">
       <div class="docs-screen__top"><span class="docs-mark">A</span><span><strong>Ask the Docs</strong><small>Rails Guides + PostgreSQL</small></span><em>Sources first</em></div>
       <div class="docs-screen__body">
         <div class="docs-question"><span>You</span><p>How does an index help PostgreSQL find rows?</p></div>
@@ -54,7 +54,7 @@ const { kind, compact = false } = Astro.props;
   )}
 
   {kind === 'niyojan' && (
-    <div class="screen niyojan-screen" aria-label="Illustration of the Niyojan operations dashboard">
+    <div class="screen niyojan-screen" role="img" aria-label="Illustration of the Niyojan operations dashboard">
       <div class="niyojan-sidebar">
         <div class="niyojan-logo"><span>N</span> Niyojan</div>
         <div class="niyojan-nav"><i class="active"></i><i></i><i></i><i></i><i></i><i></i></div>
@@ -62,7 +62,7 @@ const { kind, compact = false } = Astro.props;
       <div class="niyojan-main">
         <div class="niyojan-top"><span>Shakti Bricks &amp; Blocks</span><span class="niyojan-user">MT</span></div>
         <div class="niyojan-content">
-          <div class="niyojan-title"><div><small>HEAD OFFICE</small><strong>Plant snapshot</strong></div><button>+ New production batch</button></div>
+          <div class="niyojan-title"><div><small>HEAD OFFICE</small><strong>Plant snapshot</strong></div><span class="niyojan-action">+ New production batch</span></div>
           <div class="niyojan-kpis"><div><small>Finished stock</small><b>13,540</b><em>units across 2 products</em></div><div><small>Customer dues</small><b>₹41,257.50</b><em>across 2 customers</em></div><div><small>Unit cost</small><b>₹5.78</b><em>per good unit</em></div></div>
           <div class="niyojan-panels">
             <div class="niyojan-panel"><span>Unit cost, last 7 days</span><svg viewBox="0 0 300 90" aria-hidden="true"><path d="M0 70C30 58 45 67 73 48S118 50 144 36 193 42 220 24 265 26 300 14" /></svg></div>

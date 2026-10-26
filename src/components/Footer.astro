@@ -1,3 +1,7 @@
+---
+import { site } from '@/site';
+---
+
 <footer class="site-footer">
   <div class="page-shell site-footer__grid">
     <div>
@@ -5,15 +9,15 @@
       <p class="site-footer__headline">Have an idea?<br />Let’s build it.</p>
     </div>
     <div class="site-footer__links">
-      <a href="mailto:rarnab021@gmail.com">rarnab021@gmail.com <span aria-hidden="true">↗</span></a>
-      <a href="https://t.me/arnabry11" target="_blank" rel="noreferrer">Telegram <span aria-hidden="true">↗</span></a>
-      <a href="https://github.com/arnabry11" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-      <a href="https://www.linkedin.com/in/arnab-roy-824b72157/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
-      <a href="/Arnab-Roy-Resume.pdf">Résumé <span aria-hidden="true">↓</span></a>
+      <a href={`mailto:${site.email}`}>{site.email} <span aria-hidden="true">↗</span></a>
+      <a href={site.links.telegram} target="_blank" rel="noreferrer">Telegram <span aria-hidden="true">↗</span></a>
+      <a href={site.links.github} target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+      <a href={site.links.linkedin} target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+      <a href={site.resume}>Résumé <span aria-hidden="true">↓</span></a>
     </div>
   </div>
   <div class="page-shell site-footer__base">
-    <span>© {new Date().getFullYear()} Arnab Roy</span>
-    <span>Designed and built with care in Dhanbad, India</span>
+    <span>© {new Date().getFullYear()} {site.name}</span>
+    <span>Designed and built with care in {site.location}</span>
   </div>
 </footer>

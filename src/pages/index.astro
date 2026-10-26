@@ -1,9 +1,24 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ProjectVisual from '@/components/ProjectVisual.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import { getProjects } from '@/lib/projects';
+import { site } from '@/site';
+
+const projects = await getProjects();
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: site.jobTitle,
+  url: Astro.site?.href,
+  email: `mailto:${site.email}`,
+  address: { '@type': 'PostalAddress', addressLocality: 'Dhanbad', addressCountry: 'IN' },
+  sameAs: Object.values(site.links),
+};
 ---
 
 <BaseLayout>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(person)} />
   <section class="hero page-shell">
     <div class="hero__availability"><i></i> Software engineer · Dhanbad, India</div>
     <h1>From your idea to <em>working software.</em></h1>
@@ -11,7 +26,7 @@ import ProjectVisual from '@/components/ProjectVisual.astro';
       <p>I’m Arnab, a software engineer with 7+ years of experience. I help businesses turn ideas into web applications, internal tools, and automated workflows. From planning and development to deployment, I take responsibility for bringing the pieces together.</p>
       <div class="hero__actions">
         <a class="button button--dark" href="#work">Explore selected work <span aria-hidden="true">↓</span></a>
-        <a class="text-link" href="/Arnab-Roy-Resume.pdf">View résumé <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href={site.resume}>View résumé <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
@@ -32,41 +47,7 @@ import ProjectVisual from '@/components/ProjectVisual.astro';
       <p>Explore the applications I’ve built, the problems they solve, and the engineering decisions behind them—from charging sessions to documentation search and business operations.</p>
     </div>
 
-    <article class="project-card project-card--ev">
-      <a class="project-card__visual-link" href="/projects/ev-charging/" aria-label="Read the EV Charging case study"><ProjectVisual kind="ev" compact /></a>
-      <div class="project-card__copy">
-        <div class="project-card__meta"><span>01</span><span>Go · Rails · OCPP · PostgreSQL</span></div>
-        <p class="eyebrow">Real-time systems + money</p>
-        <h3><a href="/projects/ev-charging/">EV Charging</a></h3>
-        <p>An EV charging application with a live operations board. A Go gateway manages simulated chargers while Rails handles prepaid sessions, GST invoices, and refunds.</p>
-        <ul class="project-points"><li>10 concurrent simulated chargers</li><li>Idempotent commands and events</li><li>Meter-based settlement</li></ul>
-        <div class="project-card__actions"><a class="text-link" href="/projects/ev-charging/">Read case study <span aria-hidden="true">↗</span></a><span class="status-pill"><i></i> Deployment in progress</span></div>
-      </div>
-    </article>
-
-    <article class="project-card project-card--docs project-card--reverse">
-      <a class="project-card__visual-link" href="/projects/ask-the-docs/" aria-label="Read the Ask the Docs case study"><ProjectVisual kind="docs" compact /></a>
-      <div class="project-card__copy">
-        <div class="project-card__meta"><span>02</span><span>Python · FastAPI · pgvector · Redis</span></div>
-        <p class="eyebrow">Inspectable AI systems</p>
-        <h3><a href="/projects/ask-the-docs/">Ask the Docs</a></h3>
-        <p>A documentation assistant with a streaming chat interface. Behind each answer: hybrid search, local reranking, source citations, and a retrieval pipeline you can inspect.</p>
-        <ul class="project-points"><li>785 evaluated source chunks</li><li>48/50 gold-document hit@5</li><li>Provider calls gated and cached</li></ul>
-        <div class="project-card__actions"><a class="button button--dark button--small" href="https://ask-the-docs.arnabroy.co.in/demo/" target="_blank" rel="noreferrer">Try the live demo <span aria-hidden="true">↗</span></a><a class="text-link" href="/projects/ask-the-docs/">Case study</a></div>
-      </div>
-    </article>
-
-    <article class="project-card project-card--niyojan">
-      <a class="project-card__visual-link" href="/projects/niyojan/" aria-label="Read the Niyojan case study"><ProjectVisual kind="niyojan" compact /></a>
-      <div class="project-card__copy">
-        <div class="project-card__meta"><span>03</span><span>Rails · GraphQL · React · PostgreSQL</span></div>
-        <p class="eyebrow">End-to-end product engineering</p>
-        <h3><a href="/projects/niyojan/">Niyojan</a></h3>
-        <p>A multi-tenant operations platform I built end to end, joining procurement, inventory, production, billing, permissions, and approval workflows into one coherent system.</p>
-        <ul class="project-points"><li>Frontend and backend built by me</li><li>Role and feature permissions</li><li>India-aware billing workflows</li></ul>
-        <div class="project-card__actions"><a class="text-link" href="/projects/niyojan/">Read case study <span aria-hidden="true">↗</span></a><span class="status-pill"><i></i> Deployment in progress</span></div>
-      </div>
-    </article>
+    {projects.map((project, index) => <ProjectCard project={project} reverse={index % 2 === 1} />)}
   </section>
 
   <section class="principles-wrap">
@@ -105,7 +86,7 @@ import ProjectVisual from '@/components/ProjectVisual.astro';
       <p>Backend engineering is my deepest expertise: Rails, PostgreSQL, APIs, integrations, and reliable background processing. My earlier React experience gives me a foundation for frontend work; today I use AI assistance for interface implementation and visual design, while guiding the structure and reviewing the code.</p>
       <p>I also handle application deployment on AWS, from compute and containers to DNS and load balancing. That combination lets me carry an idea from a technical plan to a working application and its deployment. Niyojan shows the breadth of my implementation work: I built both its frontend and backend.</p>
       <div class="about__skills"><span>Ruby on Rails</span><span>PostgreSQL</span><span>Python</span><span>Go</span><span>Redis</span><span>GraphQL</span><span>React · AI-assisted</span><span>Docker</span><span>AWS EC2</span><span>AWS ECS</span><span>Route 53</span><span>Load balancing</span></div>
-      <div class="about__links"><a class="button button--dark" href="mailto:rarnab021@gmail.com">Let’s discuss your idea <span aria-hidden="true">↗</span></a><a class="text-link" href="/Arnab-Roy-Resume.pdf">Download résumé <span aria-hidden="true">↓</span></a></div>
+      <div class="about__links"><a class="button button--dark" href={`mailto:${site.email}`}>Let’s discuss your idea <span aria-hidden="true">↗</span></a><a class="text-link" href={site.resume}>Download résumé <span aria-hidden="true">↓</span></a></div>
     </div>
   </section>
 </BaseLayout>

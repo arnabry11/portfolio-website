@@ -1,19 +1,21 @@
 ---
+import { site } from '@/site';
+
 const currentPath = Astro.url.pathname;
 const onHome = currentPath === '/';
 ---
 
 <header class="site-header">
   <div class="site-header__inner page-shell">
-    <a class="wordmark" href="/" aria-label="Arnab Roy, home">
+    <a class="wordmark" href="/" aria-label={`${site.name}, home`}>
       <span class="wordmark__monogram" aria-hidden="true">AR</span>
-      <span class="wordmark__name">Arnab Roy</span>
+      <span class="wordmark__name">{site.name}</span>
     </a>
     <nav class="site-nav" aria-label="Primary navigation">
       <a href={onHome ? '#work' : '/#work'}>Work</a>
       <a href={onHome ? '#experience' : '/#experience'}>Experience</a>
       <a href={onHome ? '#about' : '/#about'}>About</a>
-      <a class="site-nav__contact" href="mailto:rarnab021@gmail.com">Let’s talk <span aria-hidden="true">↗</span></a>
+      <a class="site-nav__contact" href={`mailto:${site.email}`}>Let’s talk <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
 </header>

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
-
 :root {
   --paper: #f2eee6;
   --paper-deep: #e8e2d7;
@@ -11,8 +9,8 @@
   --sage: #d7e0d6;
   --night: #101a1c;
   --white: #fffdf8;
-  --sans: 'DM Sans', system-ui, sans-serif;
-  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: var(--font-dm-sans);
+  --serif: var(--font-instrument-serif);
   --shadow: 0 26px 70px rgb(40 34 25 / 14%);
 }
 
@@ -159,7 +157,7 @@ img, svg { display: block; max-width: 100%; }
 .niyojan-title div { display: flex; flex-direction: column; }
 .niyojan-title small { color: #738092; font-size: 5px; }
 .niyojan-title strong { font-size: 18px; letter-spacing: -.04em; }
-.niyojan-title button { padding: 7px 9px; color: #fff; background: #ef7700; border: 0; border-radius: 4px; font-size: 6px; font-weight: 600; }
+.niyojan-action { padding: 7px 9px; color: #fff; background: #ef7700; border: 0; border-radius: 4px; font-size: 6px; font-weight: 600; }
 .niyojan-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 14px 0; }
 .niyojan-kpis > div { display: flex; flex-direction: column; padding: 10px; background: white; border: 1px solid #dde1e6; border-radius: 4px; }
 .niyojan-kpis small { color: #667487; font-size: 5px; }
@@ -307,7 +305,7 @@ img, svg { display: block; max-width: 100%; }
   .niyojan-logo span { font-size: 15px; }
   .niyojan-content { padding: 10px; }
   .niyojan-title strong { font-size: 13px; }
-  .niyojan-title button { display: none; }
+  .niyojan-action { display: none; }
   .niyojan-kpis { grid-template-columns: 1fr 1fr; }
   .niyojan-kpis > :last-child { display: none; }
   .principles { padding: 90px 0; }

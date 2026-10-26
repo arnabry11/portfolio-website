@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/ProjectLayout.astro
+order: 2
 title: Ask the Docs
 kicker: Inspectable AI systems
 summary: A retrieval-augmented generation service that shows its sources, exposes retrieval separately from generation, and treats every streamed token as provisional until its citations pass.
@@ -9,6 +9,13 @@ stack: Python, FastAPI, PostgreSQL, pgvector, Redis, FastEmbed, Docker
 kind: docs
 liveUrl: https://ask-the-docs.arnabroy.co.in/demo/
 sourceUrl: https://github.com/arnabry11/ask-the-docs
+card:
+  stack: Python · FastAPI · pgvector · Redis
+  summary: "A documentation assistant with a streaming chat interface. Behind each answer: hybrid search, local reranking, source citations, and a retrieval pipeline you can inspect."
+  highlights:
+    - 785 evaluated source chunks
+    - 48/50 gold-document hit@5
+    - Provider calls gated and cached
 ---
 
 ## The problem

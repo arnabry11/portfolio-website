@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/ProjectLayout.astro
+order: 1
 title: EV Charging
 kicker: Real-time systems + money
 summary: A small but complete EV charging backend where live device state and financial state have separate owners—and retries never create a second charge.
@@ -8,7 +8,13 @@ role: Product, architecture, and implementation
 stack: Go, Ruby on Rails, OCPP 1.6J, PostgreSQL, Redis, Docker
 kind: ev
 sourceUrl: https://github.com/arnabry11/ev-charging
-deploymentStatus: Homeserver deployment next
+card:
+  stack: Go · Rails · OCPP · PostgreSQL
+  summary: An EV charging application with a live operations board. A Go gateway manages simulated chargers while Rails handles prepaid sessions, GST invoices, and refunds.
+  highlights:
+    - 10 concurrent simulated chargers
+    - Idempotent commands and events
+    - Meter-based settlement
 ---
 
 ## The problem

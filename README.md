@@ -79,8 +79,9 @@ claim that the public URL is reachable before the tunnel route is configured.
 
 ## Content map
 
+- `src/site.ts` — name, email, social links, and résumé path
 - `src/pages/index.astro` — homepage copy and sections
-- `src/pages/projects/*.md` — project case studies
+- `src/content/projects/*.md` — project case studies; frontmatter also drives the homepage cards, next-project links, and sitemap (schema in `src/content.config.ts`)
 - `src/components/ProjectVisual.astro` — representative interface visuals
 - `src/styles/global.css` — visual system and responsive behavior
 - `public/Arnab-Roy-Resume.pdf` — downloadable résumé

@@ -1,5 +1,5 @@
 ---
-layout: ../../layouts/ProjectLayout.astro
+order: 3
 title: Niyojan
 kicker: End-to-end product engineering
 summary: A multi-tenant operations platform I designed and built across the frontend and backend, covering procurement, stock, production, billing, and the permissions connecting them.
@@ -7,7 +7,13 @@ year: 2026
 role: Sole product engineer — frontend and backend
 stack: Ruby on Rails, GraphQL, React, TypeScript, PostgreSQL, Redis
 kind: niyojan
-deploymentStatus: Homeserver deployment next
+card:
+  stack: Rails · GraphQL · React · PostgreSQL
+  summary: A multi-tenant operations platform I built end to end, joining procurement, inventory, production, billing, permissions, and approval workflows into one coherent system.
+  highlights:
+    - Frontend and backend built by me
+    - Role and feature permissions
+    - India-aware billing workflows
 ---
 
 ## The problem
