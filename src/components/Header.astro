@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import avatar from '@/assets/arnab-roy-avatar.jpg';
 import { site } from '@/site';
 
 const currentPath = Astro.url.pathname;
@@ -8,7 +10,7 @@ const onHome = currentPath === '/';
 <header class="site-header">
   <div class="site-header__inner page-shell">
     <a class="wordmark" href="/" aria-label={`${site.name}, home`}>
-      <span class="wordmark__monogram" aria-hidden="true">AR</span>
+      <Image class="wordmark__avatar" src={avatar} width={34} height={34} densities={[1, 2, 3]} format="webp" alt="" loading="eager" />
       <span class="wordmark__name">{site.name}</span>
     </a>
     <nav class="site-nav" aria-label="Primary navigation">
