@@ -42,7 +42,9 @@ if [[ "$mode" == deploy ]]; then
   scp -q -o BatchMode=yes "$archive" "$host:$remote_archive"
 fi
 
-ssh -o BatchMode=yes "$host" bash -s -- "$destination" "$mode" "$revision" "$remote_archive" <<'REMOTE'
+# SSH passes a command string to the remote shell; preserve empty rollback args.
+printf -v remote_command 'bash -s -- %q %q %q %q' "$destination" "$mode" "$revision" "$remote_archive"
+ssh -o BatchMode=yes "$host" "$remote_command" <<'REMOTE'
 set -euo pipefail
 root=$1
 mode=$2
