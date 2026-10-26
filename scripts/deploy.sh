@@ -109,6 +109,18 @@ if [[ -n "$current" && "$current" != "$revision" ]]; then
 fi
 printf '%s\n' "$revision" > "$root/current.tmp"
 mv "$root/current.tmp" "$root/current"
+
+# Keep only the current and previous releases; the previous one is the rollback target.
+previous=
+[[ ! -f "$root/previous" ]] || previous=$(cat "$root/previous")
+while IFS= read -r release; do
+  [[ "$release" =~ ^[0-9a-f]{40}$ ]] || continue
+  [[ "$release" != "$revision" && "$release" != "$previous" ]] || continue
+  echo "Pruning release $release"
+  rm -rf -- "$root/releases/$release" || true
+  docker image rm "portfolio-website:$release" >/dev/null 2>&1 || true
+done < <({ ls -1 "$root/releases"; docker image ls portfolio-website --format '{{.Tag}}'; } | sort -u)
+
 echo "Deployed $revision to $root"
 echo 'Healthy at http://127.0.0.1:8083'
 echo 'Cloudflare tunnel service: http://127.0.0.1:8083'

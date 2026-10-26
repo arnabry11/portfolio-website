@@ -57,8 +57,10 @@ Each release is stored under `releases/<commit>`, with `current` and `previous`
 files recording successful deployments. The old container stays running during
 the build; replacing it causes a brief interruption. Failed startup or HTTP
 checks trigger an automatic attempt to restore the previous release. A failed
-first deployment has no earlier release to restore. Releases and images are kept
-for rollback; the script does not prune them or modify other applications.
+first deployment has no earlier release to restore. After a successful deployment,
+the script keeps only the current and previous releases (the rollback target) and
+removes every older release directory and `portfolio-website` image. It does not
+modify other applications.
 
 To restore the previous successful deployment:
 
