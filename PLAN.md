@@ -11,7 +11,7 @@ Implementation checkpoint (2026-10-26): the first complete local portfolio versi
 - **Positioning:** software engineer with deep backend expertise and the ability to build and deploy complete applications. Rails and PostgreSQL remain the strongest foundation. Earlier React experience supports current AI-assisted frontend implementation with explicit code conventions and review; visual design is assisted. AWS infrastructure experience includes EC2, ECS, Route 53, and load balancing.
 - **Design:** light editorial style; warm white, charcoal text, a restrained blue accent, strong typography, generous spacing, and large application previews.
 - **Content:** a homepage, three project case studies, résumé, and direct contact links.
-- **Projects:** EV Charging, Ask the Docs, and Niyojan. Initial order is EV Charging, Ask the Docs, then Niyojan; revisit after selecting screenshots and clarifying Niyojan's story.
+- **Projects:** EV Charging, Ask the Docs, and Niyojan. Order is Niyojan, Ask the Docs, then EV Charging (changed 2026-10-29 to lead with the broadest business application). Case studies share one plain-language structure: what it is, the problem it solves, who it's for, what it does, how it works, built with, good to know.
 - **Technology:** Astro, TypeScript, plain CSS, and Markdown case studies; static output served by Nginx in Docker Compose.
 - **Hosting:** the existing homeserver and Cloudflare Tunnel, administered over Tailscale.
 - **Primary URL:** `https://portfolio.arnabroy.co.in/`. No portfolio `/demo/` route or redirect is planned.

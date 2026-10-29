@@ -1,8 +1,8 @@
 ---
-order: 1
+order: 3
 title: EV Charging
-kicker: Real-time systems + money
-summary: A small but complete EV charging backend where live device state and financial state have separate owners—and retries never create a second charge.
+kicker: Charging and billing platform
+summary: A working EV charging platform. Drivers prepay, chargers start and stop automatically, and the final invoice and refund are calculated from the energy actually delivered.
 year: 2026
 role: Product, architecture, and implementation
 stack: Go, Ruby on Rails, OCPP 1.6J, PostgreSQL, Redis, Docker
@@ -10,43 +10,55 @@ kind: ev
 sourceUrl: https://github.com/arnabry11/ev-charging
 card:
   stack: Go · Rails · OCPP · PostgreSQL
-  summary: An EV charging application with a live operations board. A Go gateway manages simulated chargers while Rails handles prepaid sessions, GST invoices, and refunds.
+  summary: Prepay, charge, and get an exact invoice and refund, with a live board showing ten simulated chargers at work.
   highlights:
-    - 10 concurrent simulated chargers
-    - Idempotent commands and events
-    - Meter-based settlement
+    - Live operations board
+    - Retries never charge a driver twice
+    - Invoice and refund from meter readings
 ---
 
-## The problem
+## What it is
 
-An EV charging platform has to reconcile two very different kinds of truth. A charger holds a long-lived socket and reports what is happening *now*. Billing has to remain correct days later, after retries, restarts, or an interrupted network.
+A demonstration EV charging platform with two parts. A Go service talks to ten simulated chargers using OCPP 1.6J, the standard protocol chargers use. A Ruby on Rails application handles drivers, payments, pricing, invoices, and refunds. A live board shows everything happening in real time.
 
-I built a working portfolio slice around that boundary. A Go gateway speaks OCPP 1.6J to ten simulated chargers. A Rails platform takes a prepaid card payment, tells the gateway when to stop, and settles a GST invoice and refund from the final meter readings.
+## The problem it solves
 
-> The demo uses simulated chargers and an in-process payment provider. It does not connect to a real charging network, payment processor, or tax authority.
+A charger reports what is happening right now. Billing has to stay correct days later, even after retries, restarts, or a dropped network connection. The risk is mistakes with money: charging a driver twice after a retry, or billing for the wrong amount of energy.
 
-## A deliberate ownership split
+This platform keeps live charger activity and billing separate, and it is built so a retry can never create a second charge.
 
-The gateway owns live device state: connections, connector availability, OCPP transactions, meter readings, and enforcement of energy and duration limits. The Rails platform owns drivers, tariffs, payments, invoices, refunds, and durable session state.
+## Who it's for
 
-That division keeps pricing out of the gateway and OCPP out of the billing platform. The services have separate PostgreSQL databases and communicate through a small signed HTTP contract.
+Charging network operators and the teams building their software. Drivers benefit indirectly: they pay once and are billed for what they actually used.
 
-### From prepayment to settlement
+## What it does
 
-1. The platform charges a simulated card exactly once and snapshots the tariff.
-2. It sends a signed start command with energy and time limits.
-3. The gateway starts a charger and streams meter values back as ordered events.
-4. When a limit is reached, the gateway stops the charger.
-5. The platform calculates the final price from the start and stop meter readings, then writes one invoice and any refund.
+- **Prepaid sessions.** A driver pays up front, and each session runs within energy and time limits.
+- **Automatic stop.** When a limit is reached, the charger is stopped without anyone stepping in.
+- **Exact settlement.** The final price comes from the charger's start and stop meter readings. The platform issues one GST invoice and refunds any unused balance.
+- **No double charging.** Duplicate or repeated messages are recognized and ignored, so a retry never charges a driver again.
+- **Live operations board.** See all ten chargers, their power levels, the fleet's power curve, energy delivered, running amounts, and progress toward each prepaid limit.
+- **Session detail.** Each finished session links charger events to the charge, invoice, and refund.
 
-## Reliability is part of the domain
+## How a session flows
 
-Delivery is at least once, so duplicate commands and events are expected. Commands use a `command_id`; events use an `event_id` and per-session sequence number. Unique database constraints provide the final defense against duplicate work.
+1. The driver prepays. The card is charged once and the tariff is locked in.
+2. The platform sends a signed start command with energy and time limits.
+3. The charger delivers energy and sends meter readings back, in order.
+4. At the limit, the charger is stopped.
+5. The platform works out the final price from the meter readings and issues one invoice and any refund.
 
-Gateway state changes and outgoing events are written in the same transaction through an outbox. A missing event sequence is rejected until the gap is filled, and a scheduled worker keeps retrying recoverable failures.
+## How it stays reliable
 
-## What the demo makes visible
+- **Separate responsibilities.** The Go service owns live charger state. The Rails application owns money. They use separate databases and a small signed API between them.
+- **Safe retries.** Every command and event carries a unique ID, and the database rejects duplicates as a final safeguard.
+- **Nothing gets lost.** Events are saved together with the state change that caused them, out-of-order events are held back until the gap is filled, and a scheduled worker keeps retrying failures that can be recovered.
 
-The live board streams server-rendered updates over SSE. It shows ten chargers operating at different power levels, the fleet’s power curve, delivered energy, running amounts, and progress toward each prepaid limit. When a session settles, its detail page connects device events to the charge, invoice, and refund.
+## Built with
 
-The next step is packaging the existing services for the homeserver, verifying the root landing route, and exposing the confirmed local port at `ev-charging.arnabroy.co.in`.
+Go for the charger gateway, Ruby on Rails for drivers, payments, and invoicing, PostgreSQL and Redis for data, and Docker for deployment.
+
+## Good to know
+
+- The demo uses simulated chargers and an in-process payment provider. It does not connect to a real charging network, payment processor, or tax authority.
+- The source code is on GitHub. A public live demo is being prepared.

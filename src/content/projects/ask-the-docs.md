@@ -1,8 +1,8 @@
 ---
 order: 2
 title: Ask the Docs
-kicker: Inspectable AI systems
-summary: A retrieval-augmented generation service that shows its sources, exposes retrieval separately from generation, and treats every streamed token as provisional until its citations pass.
+kicker: AI documentation assistant
+summary: A question-and-answer assistant for documentation. It finds the relevant pages, answers in plain language, and shows exactly which sources each answer came from.
 year: 2026
 role: Architecture and implementation
 stack: Python, FastAPI, PostgreSQL, pgvector, Redis, FastEmbed, Docker
@@ -11,41 +11,55 @@ liveUrl: https://ask-the-docs.arnabroy.co.in/demo/
 sourceUrl: https://github.com/arnabry11/ask-the-docs
 card:
   stack: Python · FastAPI · pgvector · Redis
-  summary: "A documentation assistant with a streaming chat interface. Behind each answer: hybrid search, local reranking, source citations, and a retrieval pipeline you can inspect."
+  summary: Ask a question and get an answer with its sources, so you can check it instead of just trusting it.
   highlights:
-    - 785 evaluated source chunks
-    - 48/50 gold-document hit@5
-    - Provider calls gated and cached
+    - Every answer cites its sources
+    - Says so when it doesn't have the evidence
+    - Keeps AI usage costs under control
 ---
 
-## The problem
+## What it is
 
-Many RAG demos collapse search and generation into one opaque answer box. Ask the Docs keeps the steps separate so a visitor can inspect what was retrieved, see which passages support an answer, and understand when the system refuses to generate.
+Ask the Docs is a chat-style assistant that answers questions from a body of documentation. In the demo it is loaded with selected pages from the Rails Guides and the PostgreSQL 16 documentation. The same approach can be applied to a company's own manuals, policies, or help center.
 
-The corpus contains selected Rails Guides and PostgreSQL 16 documentation. Ingestion, embeddings, search, reranking, and evaluation run locally. Only an opted-in answer-cache miss calls an external model.
+## The problem it solves
 
-## The retrieval pipeline
+People lose time hunting through long documentation. AI chatbots can answer quickly, but if they don't show where an answer came from, you can't tell whether to trust it.
 
-Each question runs vector similarity and PostgreSQL full-text search in parallel. Reciprocal rank fusion combines the result lists, a local cross-encoder reranks the leading passages, and a score gate decides whether generation has enough evidence to continue.
+Ask the Docs answers only from your documents and shows the passages behind each answer, so you can verify it. When it doesn't have enough evidence, it says so instead of guessing.
 
-The public `/query` endpoint stops at retrieval. The `/answer` endpoint adds cache lookup, provider generation, and citation validation, streaming progress and source events along the way.
+## Who it's for
 
-### A source-first stream
+Teams with a lot of documentation, such as support, onboarding, or engineering teams, who want fast answers they can check.
 
-1. Search and rank candidate passages.
-2. Send the selected sources to the browser.
-3. Stream provisional answer tokens.
-4. Validate every numbered citation marker against the supplied passages.
-5. Send one final event; the interface only accepts the final answer when validation succeeds.
+## What it does
 
-This protects the interface from treating an interrupted or malformed stream as a completed answer. It cannot prove that every sentence is supported by its cited passage, and the case study says so explicitly.
+- **Answers with citations.** Each answer points to numbered source passages.
+- **Shows sources first.** The supporting passages appear before the answer finishes, so you can read along.
+- **Declines when unsure.** If the search doesn't find enough evidence, no answer is generated.
+- **Searches two ways at once.** It combines meaning-based search with keyword search, then re-ranks the results.
+- **Lets you inspect the search.** A separate search-only endpoint returns just the passages, without an AI-written answer.
+- **Controls cost.** Search and ranking run on the server itself. The external AI model is called only when needed, and answers are cached.
 
-## Evidence, with limits
+## How it works
 
-The retrieval evaluation covers 50 answerable and 10 unanswerable questions over 24 selected pages and 785 chunks. Hybrid retrieval followed by reranking places a curated gold page in the first five chunks for 48 of the 50 answerable questions.
+1. Your question is searched two ways at the same time.
+2. A local model re-ranks the best passages.
+3. If the evidence is strong enough, the sources are sent to your screen right away.
+4. The answer streams in and is marked provisional.
+5. Every citation is checked against the sources. The interface accepts the answer only if the check passes.
 
-That is a retrieval metric, not an answer-accuracy score. The small refusal set and answer-support checks are useful regression evidence, but they are not presented as general reliability guarantees.
+## How well it works
 
-## Cost and operational boundaries
+I tested it on 50 questions that the documentation can answer and 10 that it can't, across 24 pages and 785 passages. For 48 of the 50 answerable questions, the right page was among the top five search results.
 
-Embeddings and reranking run locally. Generation is gated, bounded, and cached. A question without enough retrieval evidence never calls the provider, and the service remains useful for inspecting sources even when generation is not configured.
+That measures search quality, not answer accuracy. The citation check confirms that references point to real source passages, but it cannot prove that every sentence is supported by what it cites.
+
+## Built with
+
+Python and FastAPI, with PostgreSQL (pgvector) for search, Redis for caching, FastEmbed for local embeddings, and Docker for deployment.
+
+## Good to know
+
+- The live demo is public, and the source code is on GitHub.
+- Without an AI model configured, the search and source inspection still work.

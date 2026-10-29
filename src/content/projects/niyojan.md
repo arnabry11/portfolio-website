@@ -1,49 +1,59 @@
 ---
-order: 3
+order: 1
 title: Niyojan
-kicker: End-to-end product engineering
-summary: A multi-tenant operations platform I designed and built across the frontend and backend, covering procurement, stock, production, billing, and the permissions connecting them.
+kicker: Business operations platform
+summary: A web platform that brings a small business's purchasing, stock, production, sales, and billing into one place, with approvals and access controls for each team.
 year: 2026
 role: Sole product engineer — frontend and backend
 stack: Ruby on Rails, GraphQL, React, TypeScript, PostgreSQL, Redis
 kind: niyojan
 card:
   stack: Rails · GraphQL · React · PostgreSQL
-  summary: A multi-tenant operations platform I built end to end, joining procurement, inventory, production, billing, permissions, and approval workflows into one coherent system.
+  summary: One system for purchasing, stock, production, sales, and billing, instead of separate, disconnected tools.
   highlights:
-    - Frontend and backend built by me
-    - Role and feature permissions
-    - India-aware billing workflows
+    - Purchase request to payment in one flow
+    - Approvals and role-based access
+    - Designed and built by me, frontend and backend
 ---
 
-## The problem
+## What it is
 
-Small manufacturing businesses often operate purchasing, inventory, production, and finance as separate islands. Niyojan explores how those workflows can share one reliable operational model without becoming one tangled set of screens and tables.
+Niyojan is a web application for running the day-to-day operations of a small business. It connects purchasing, inventory, production, sales, and billing, so each step feeds the next. It is multi-tenant: many businesses can use it, and each one's data stays separate.
 
-I built the whole application: a Rails GraphQL backend and a React/TypeScript frontend. The repository is private, so this case study focuses on product scope, architecture, and the decisions visible in the running demo.
+## The problem it solves
 
-## One workflow, several responsibilities
+Small businesses often run buying, stock, production, and accounts in separate tools. Information has to be passed between them by hand, it is hard to see the full picture, and it is hard to control who can approve or spend what.
 
-The system follows work from an internal need through approval, purchase, receipt, stock, production, invoice, and payment. Organizations configure offices, users, roles, cost centers, units, item catalogues, vendors, budgets, and approval levels.
+Niyojan keeps one connected record from the original purchase request through to the final payment.
 
-The application also covers stock ledgers and counts, production batches and material usage, customer sales, organization subscriptions, and India-aware billing details.
+## Who it's for
 
-### A representative procurement path
+Owners and teams of small manufacturing and service businesses who want purchasing, stock, and billing in one place, with different access for managers, approvers, and staff.
 
-1. A user raises a purchase request against items, cost centers, and budget categories.
-2. Configured approval levels determine who can approve each line.
-3. Approved requirements move through quotations or directly to a purchase order.
-4. A goods receipt updates inventory and establishes vendor dues.
-5. Invoices and payments preserve the financial trail back to the original purchase.
+## What it does
 
-## Architecture around tenant boundaries
+- **Purchasing and approvals.** Raise purchase requests against budgets and cost centers. Configurable approval levels decide who signs off on each line.
+- **Quotations and purchase orders.** Approved needs go out for vendor quotations or straight to a purchase order.
+- **Stock control.** Goods receipts update inventory automatically, and stock ledgers and counts keep a clear trail.
+- **Production.** Record production batches and the materials each one used.
+- **Sales and billing.** Handle customer sales, invoices, payments, and vendor dues, with India-aware billing details.
+- **People and permissions.** Set up offices, users, roles, and feature permissions to control who can see or change what.
+- **Subscriptions.** Switch modules on or off for each organization, separately from what individual users are allowed to do.
 
-The Rails API exposes GraphQL and keeps write behavior in explicit domain services. Organization-owned records carry their tenant identity, while role, feature, and permission data control what each user can read or change.
+## How a purchase flows
 
-The React frontend uses generated GraphQL types, TanStack Query, route-level modules, and consistent data-table and form patterns. Billing entitlements can enable modules independently from user permissions, keeping commercial access and authorization as different concerns.
+1. Someone raises a purchase request.
+2. The right people approve it.
+3. It becomes a quotation or a purchase order.
+4. The goods arrive, stock updates, and the vendor's balance is recorded.
+5. Invoices and payments link back to the original purchase.
 
-## Designed for a credible demonstration
+## Built with
 
-The seed data models several small Indian businesses across manufacturing and services, with sample users, catalogues, approval rules, budgets, and historical purchase-to-payment flows. That gives the public demo realistic workflows without using real business data.
+A Ruby on Rails API (GraphQL) and a React and TypeScript frontend, backed by PostgreSQL and Redis. Every record belongs to an organization, and business rules live in clearly separated services so the system stays easy to change.
 
-The next step is to create the homeserver Compose deployment, define a safe shared demo login and reset policy, verify the local port, and then expose the root application at `niyojan.arnabroy.co.in`.
+## Good to know
+
+- I designed and built all of it, frontend and backend. The source code is private.
+- The demo uses sample data for several small Indian businesses across manufacturing and services. No real business data is involved.
+- A public live demo is being prepared.

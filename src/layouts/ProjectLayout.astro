@@ -23,9 +23,25 @@ const {
   sourceUrl,
   deploymentStatus,
 } = project.data;
+
+const status = liveUrl ? 'Live demo available' : deploymentStatus;
+const application = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: title,
+  description: summary,
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: new URL(projectPath(project), Astro.site).href,
+  ...(liveUrl && { installUrl: liveUrl }),
+  ...(sourceUrl && { codeRepository: sourceUrl }),
+  author: { '@type': 'Person', name: site.name, url: Astro.site?.href },
+  dateCreated: String(year),
+};
 ---
 
 <BaseLayout title={`${title} — ${site.name}`} description={summary} type="article">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(application)} />
   <article class="case-study">
     <header class="case-hero page-shell">
       <a class="back-link" href="/#work"><span aria-hidden="true">←</span> Selected work</a>
@@ -40,6 +56,7 @@ const {
           </div>
         </div>
         <dl class="case-facts">
+          <div><dt>Status</dt><dd>{status}</dd></div>
           <div><dt>Year</dt><dd>{year}</dd></div>
           <div><dt>Role</dt><dd>{role}</dd></div>
           <div><dt>Stack</dt><dd>{stack}</dd></div>
