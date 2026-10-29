@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import avatar from '@/assets/arnab-roy-avatar.jpg';
+import ContactDialog from '@/components/ContactDialog.astro';
 import { site } from '@/site';
 
 const currentPath = Astro.url.pathname;
@@ -18,7 +19,8 @@ const onHome = currentPath === '/';
       <a href={onHome ? '#consulting' : '/#consulting'}>Consulting</a>
       <a href={onHome ? '#experience' : '/#experience'}>Experience</a>
       <a href={onHome ? '#about' : '/#about'}>About</a>
-      <a class="site-nav__contact" href={`mailto:${site.email}`}>Let’s talk <span aria-hidden="true">↗</span></a>
+      <a class="site-nav__contact" href={`mailto:${site.email}`} aria-haspopup="dialog" data-contact-trigger>Let’s talk <span aria-hidden="true">↗</span></a>
     </nav>
   </div>
+  <ContactDialog />
 </header>

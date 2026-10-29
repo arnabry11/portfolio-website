@@ -1,0 +1,52 @@
+---
+import { site } from '@/site';
+
+const telegramHandle = new URL(site.links.telegram).pathname.slice(1);
+---
+
+<dialog class="contact-dialog" id="contact-dialog" aria-labelledby="contact-dialog-title">
+  <div class="contact-dialog__panel">
+    <p class="eyebrow">Let’s talk</p>
+    <h2 id="contact-dialog-title">Choose how to reach me</h2>
+    <p class="contact-dialog__lead">Tell me about your idea, your team’s process, or the problem you want solved.</p>
+    <div class="contact-dialog__options">
+      <a class="contact-option" href={`mailto:${site.email}`} data-contact-close>
+        <span class="contact-option__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 7 8.5 6 8.5-6" /></svg>
+        </span>
+        <span class="contact-option__text"><strong>Email</strong><span>{site.email}</span></span>
+        <span class="contact-option__arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="contact-option" href={site.links.telegram} target="_blank" rel="noreferrer" data-contact-close>
+        <span class="contact-option__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4 3 11l6 2.2L11 20l3.2-4.4L19 19.5 21 4Z" /><path d="m9 13.2 12-9.2" /></svg>
+        </span>
+        <span class="contact-option__text"><strong>Telegram</strong><span>@{telegramHandle}</span></span>
+        <span class="contact-option__arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <button class="contact-dialog__close" type="button" aria-label="Close" data-contact-close><span aria-hidden="true">×</span></button>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('#contact-dialog');
+
+  if (dialog && typeof dialog.showModal === 'function') {
+    document.querySelectorAll<HTMLElement>('[data-contact-trigger]').forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        dialog.showModal();
+      });
+    });
+
+    dialog.querySelectorAll<HTMLElement>('[data-contact-close]').forEach((control) => {
+      control.addEventListener('click', () => dialog.close());
+    });
+
+    // A click on the backdrop lands on the dialog element itself, not the panel.
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+</script>
