@@ -14,7 +14,7 @@ Implementation checkpoint (2026-10-26): the first complete local portfolio versi
 - **Projects:** EV Charging, Ask the Docs, and Niyojan. Order is Niyojan, Ask the Docs, then EV Charging (changed 2026-10-29 to lead with the broadest business application). Case studies share one plain-language structure: what it is, the problem it solves, who it's for, what it does, how it works, built with, good to know.
 - **Technology:** Astro, TypeScript, plain CSS, and Markdown case studies; static output served by Nginx in Docker Compose.
 - **Hosting:** the existing homeserver and Cloudflare Tunnel, administered over Tailscale.
-- **Primary URL:** `https://portfolio.arnabroy.co.in/`. No portfolio `/demo/` route or redirect is planned.
+- **Primary URL:** `https://portfolio.arnabroy.co.in/`. No portfolio `/demo/` route or redirect is planned. The Niyojan live demo is the static Batchline prototype at `/demos/batchline/` (`public/demos/batchline/`, fonts self-hosted so the strict CSP holds, `noindex`); a marketing site is planned separately.
 - **Project destinations:** Ask the Docs links to `https://ask-the-docs.arnabroy.co.in/demo/`; EV Charging links to `https://ev-charging.arnabroy.co.in/`; Niyojan links to `https://niyojan.arnabroy.co.in/`. Only Ask the Docs uses `/demo/`. These are the agreed destinations; deployment verification remains a separate step.
 - **Niyojan authorship:** Arnab built the entire project, including both frontend and backend. Present it as an end-to-end application built by him.
 - **Public content constraint:** use only approved professional details. Niyojan source remains private.

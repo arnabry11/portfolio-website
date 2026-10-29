@@ -7,8 +7,8 @@ year: 2026
 role: Sole product engineer — frontend and backend
 stack: Ruby on Rails 8, GraphQL, React 19, TypeScript, PostgreSQL, Redis, Sidekiq
 kind: niyojan
-deploymentStatus: Demo available on request
-galleryIntro: These screens come from Batchline, an interactive demo workspace I built on sample data for a fictional moulded-bottle plant. They show the production, stock, and costing side of this kind of platform.
+liveUrl: https://portfolio.arnabroy.co.in/demos/batchline/
+galleryIntro: These screens come from Batchline, the live demo linked at the top of this page. It is an interactive workspace I built on sample data for a fictional moulded-bottle plant, showing the production, stock, and costing side of this kind of platform.
 gallery:
   - src: ../../assets/niyojan/batch-board.png
     alt: The Batchline batch board with columns for Planned, Blocked, In production, Quality check, Completed, and Failed or cancelled, each holding batch cards with bottle counts and action buttons.
@@ -82,5 +82,6 @@ A Ruby on Rails 8 GraphQL API with PostgreSQL, and a React 19 and TypeScript web
 ## Good to know
 
 - I designed and built all of it: the web app, the API, the billing system, and the admin portal. The source code is private.
-- It runs on my own server. There is no public sign-up, so demo accounts are set up by an admin. Get in touch if you would like to see it.
-- The demo uses sample data for fictional businesses. No real business data is involved.
+- The live demo is Batchline, a clickable prototype that runs entirely in your browser. It covers the dashboard, batches, work requests, purchasing, stock, sales, and costing. Nothing you do in it is sent anywhere, and a button in the sidebar resets it.
+- The full application runs on my own server. It has no public sign-up, so access is set up by an admin. Get in touch for a walkthrough.
+- Every name, company, and figure in the demos is fictional sample data. No real business data is involved.

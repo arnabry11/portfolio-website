@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Batchline · Polytech Moulded Products</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+:root{
+  --f-head:'Barlow Condensed','Arial Narrow',Arial,sans-serif;
+  --f-body:'Barlow','Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+  --bg:#EDEFEC; --panel:#F8F9F7; --panel-2:#EFF1EE; --line:#D8DCD6; --line-2:#C3C8C0;
+  --ink:#22262A; --ink-2:#4A5157; --mute:#6D747A;
+  --yellow:#F2B705; --yellow-edge:#D39F00; --yellow-soft:#FBF0C4;
+  --side:#DFE2DD; --side-line:#CBD0C8; --side-hover:#D3D7D1;
+  --link:#1D4E89;
+  --ok:#276B40; --ok-bg:#DCEEDF; --warn:#8A5700; --warn-bg:#F8E7B5; --bad:#A8241C; --bad-bg:#F5D9D5; --info:#1D4E89; --info-bg:#DAE5F2;
+  --stripe-dark:#22262A;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15171A; --panel:#1D2023; --panel-2:#24282B; --line:#31373B; --line-2:#444C51;
+    --ink:#E9EBE7; --ink-2:#B9BFBA; --mute:#8C9399;
+    --yellow-soft:#3A3110; --side:#111315; --side-line:#2A2F33; --side-hover:#1B1E21;
+    --link:#82B3EC; --ok:#72C690; --ok-bg:#1C3226; --warn:#EBBB4F; --warn-bg:#3A2F12; --bad:#F2918A; --bad-bg:#3D1E1B; --info:#82B3EC; --info-bg:#1A2A3E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15171A; --panel:#1D2023; --panel-2:#24282B; --line:#31373B; --line-2:#444C51;
+  --ink:#E9EBE7; --ink-2:#B9BFBA; --mute:#8C9399;
+  --yellow-soft:#3A3110; --side:#111315; --side-line:#2A2F33; --side-hover:#1B1E21;
+  --link:#82B3EC; --ok:#72C690; --ok-bg:#1C3226; --warn:#EBBB4F; --warn-bg:#3A2F12; --bad:#F2918A; --bad-bg:#3D1E1B; --info:#82B3EC; --info-bg:#1A2A3E;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.45 var(--f-body);font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--panel);z-index:60}
+a{color:var(--link)}
+h1,h2,h3{margin:0}
+.stripe{height:6px;background:repeating-linear-gradient(-45deg,var(--yellow) 0 12px,var(--stripe-dark) 12px 24px)}
+.app{display:grid;grid-template-columns:244px minmax(0,1fr);min-height:calc(100vh - 6px)}
+.side{background:var(--side);border-right:1px solid var(--side-line);position:sticky;top:env(safe-area-inset-top,0px);height:calc(100vh - 6px - env(safe-area-inset-top,0px));overflow:auto;padding:14px 10px 18px;display:flex;flex-direction:column}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 8px 12px}
+.mark{width:34px;height:34px;background:var(--yellow);color:#22262A;font:700 25px/34px var(--f-head);text-align:center;border-radius:3px}
+.brand b{display:block;font:700 21px/1 var(--f-head);letter-spacing:.3px}
+.brand span{font-size:12.5px;color:var(--mute)}
+.grp{margin-top:10px}
+.grp>span{display:block;padding:4px 10px;font:600 12.5px var(--f-body);color:var(--mute)}
+.nv{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:3px;color:var(--ink-2);text-decoration:none;font-weight:500;border-left:3px solid transparent}
+.nv:hover{background:var(--side-hover)}
+.nv.on{background:var(--panel);color:var(--ink);font-weight:600;border-left-color:var(--yellow)}
+.nv .ic{flex:none;opacity:.8}
+.nv .bd{margin-left:auto;background:var(--yellow);color:#22262A;font:700 11.5px var(--f-body);padding:0 6px;border-radius:9px;min-width:18px;text-align:center}
+.side-foot{margin-top:auto;padding:14px 10px 0;font-size:12.5px;color:var(--mute)}
+.side-foot button{background:none;border:0;color:var(--link);font:inherit;padding:0;cursor:pointer;text-decoration:underline}
+.main{min-width:0}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);border-bottom:1px solid var(--line);height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 24px}
+.org{display:flex;align-items:center;gap:10px;min-width:0}
+.org .av{width:34px;height:34px;border:2px solid var(--ink);border-radius:3px;display:grid;place-items:center;font:700 15px var(--f-head)}
+.org b{display:block;font-weight:600;line-height:1.15}
+.org small{color:var(--mute);font-size:12.5px}
+.tr{display:flex;align-items:center;gap:10px}
+.user{display:flex;align-items:center;gap:9px;padding-left:12px;border-left:1px solid var(--line)}
+.user .av{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--panel);display:grid;place-items:center;font:600 12.5px var(--f-body)}
+.user b{display:block;font-weight:600;line-height:1.1;font-size:14px}
+.user small{color:var(--mute);font-size:12px}
+.iconbtn{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);border-radius:3px;cursor:pointer}
+.menu-btn{display:none}
+#view{padding:26px 32px 70px;max-width:1440px}
+.ph{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+h1{font:700 38px/1.02 var(--f-head);letter-spacing:.2px}
+.sub{margin:6px 0 0;color:var(--mute);max-width:62ch}
+.acts{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.back{display:inline-flex;align-items:center;gap:4px;color:var(--ink-2);text-decoration:none;margin-bottom:10px;font-weight:500}
+.back:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 15px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);border-radius:3px;font:600 14px var(--f-body);cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--panel-2)}
+.btn.pri{background:var(--yellow);border-color:var(--yellow-edge);color:#22262A}
+.btn.pri:hover{background:#FFC71F}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+.btn.danger{color:var(--bad)}
+.btn.sm{height:30px;padding:0 11px;font-size:13px}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.tabs{display:inline-flex;border:1px solid var(--line-2);border-radius:3px;overflow:hidden;background:var(--panel)}
+.tabs button{border:0;background:none;color:var(--ink-2);height:36px;padding:0 16px;font:600 14px var(--f-body);cursor:pointer}
+.tabs button.on{background:var(--ink);color:var(--panel)}
+.pn{background:var(--panel);border:1px solid var(--line);border-radius:6px;min-width:0}
+.pn.pad{padding:18px 20px}
+.pn-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:16px 20px 12px}
+.pn h2,.pn-h h2{font:600 21px/1.1 var(--f-head);letter-spacing:.2px}
+.pn.pad h2{margin-bottom:12px}
+.mut{color:var(--mute);font-size:13.5px}
+.stack{display:grid;gap:18px;align-content:start;min-width:0}
+.g2{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px;margin-top:18px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.two{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px;align-items:start}
+.ticker{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--ink);border-radius:6px}
+.ticker.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.ticker.c6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.ticker.c6 .tk .n{font-size:34px}
+.tk{padding:15px 20px 16px;border-right:1px solid var(--line)}
+.tk:last-child{border-right:0}
+.tk .k{color:var(--mute);font-weight:500;font-size:14px}
+.tk .n{display:block;font:600 46px/1.05 var(--f-head);margin:3px 0 1px;letter-spacing:.2px}
+.tk .n small{font-size:21px;color:var(--mute);font-weight:500;margin-left:4px}
+.tk .s{color:var(--ink-2);font-size:13.5px}
+.tk .s.bad{color:var(--bad);font-weight:600}
+.tw{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px}
+.tbl th{text-align:left;font:600 13px var(--f-body);color:var(--mute);border-bottom:1px solid var(--line-2);border-top:1px solid var(--line);padding:9px 14px;background:var(--panel-2);white-space:nowrap}
+.tbl td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl tbody tr:hover td{background:var(--panel-2)}
+.tbl td a.id{font-weight:600;text-decoration:none}
+.tbl td a.id:hover{text-decoration:underline}
+.tbl .num,.tbl th.num{text-align:right}
+.tbl .sm{color:var(--mute);font-size:13px;display:block}
+.tbl tfoot td{font-weight:600;background:var(--panel-2);border-top:1px solid var(--line-2)}
+.pill{display:inline-block;padding:1px 9px;border-radius:2px;font:600 12.5px/1.5 var(--f-body);white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.bad{background:var(--bad-bg);color:var(--bad)}.pill.info{background:var(--info-bg);color:var(--info)}.pill.mute{background:var(--panel-2);color:var(--mute);border:1px solid var(--line)}
+.pill.blk{background:var(--ink);color:var(--panel)}
+.toolbar{display:flex;gap:10px;padding:0 20px 14px;flex-wrap:wrap;align-items:center}
+.toolbar input,.toolbar select{width:auto;min-width:190px}
+label{display:grid;gap:5px;font-weight:500;font-size:13.5px;color:var(--ink-2);min-width:0}
+input,select,textarea{width:100%;height:38px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink);border-radius:3px;padding:0 10px;font:400 15px var(--f-body)}
+textarea{height:70px;padding:8px 10px;resize:vertical}
+input[type=number]{text-align:right}
+.fg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.fg .w2{grid-column:span 2}.fg .w3{grid-column:1/-1}
+.kvs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 22px}
+.kv span{display:block;color:var(--mute);font-size:13px}
+.kv b{font-weight:600}
+.kv small{display:block;color:var(--mute)}
+.sum{display:grid;gap:8px}
+.sum div{display:flex;justify-content:space-between;gap:12px}
+.sum .t{border-top:1px solid var(--line-2);padding-top:10px;margin-top:4px;font:600 26px/1.1 var(--f-head)}
+.sum .m{color:var(--mute)}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;gap:12px;padding:13px 20px;border-top:1px solid var(--line);align-items:flex-start}
+.list li:first-child{border-top:0}
+.list .dot{width:10px;height:10px;border-radius:50%;margin-top:6px;flex:none;background:var(--yellow);box-shadow:0 0 0 3px var(--yellow-soft)}
+.list .dot.bad{background:var(--bad);box-shadow:0 0 0 3px var(--bad-bg)}
+.list .dot.ok{background:var(--ok);box-shadow:0 0 0 3px var(--ok-bg)}
+.list a{font-weight:600;text-decoration:none}
+.list small{display:block;color:var(--mute)}
+.bars{padding:2px 20px 18px;display:grid;gap:11px}
+.vr{display:grid;grid-template-columns:150px 1fr 66px;gap:12px;align-items:center;font-size:14px}
+.vt{position:relative;height:14px;background:var(--panel-2);border:1px solid var(--line);border-radius:2px}
+.vt i{position:absolute;top:0;bottom:0;background:var(--ok)}
+.vt i.bad{background:var(--bad)}
+.vt:after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--ink)}
+.vr .val{text-align:right;font-weight:600}
+.bg{height:12px;background:var(--panel-2);border:1px solid var(--line);border-radius:2px;position:relative;overflow:hidden;min-width:120px}
+.bg i{position:absolute;left:0;top:0;bottom:0;background:var(--ink)}
+.bg b{position:absolute;top:0;bottom:0;background:var(--yellow)}
+.chart{padding:4px 12px 14px}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{fill:var(--mute);font:500 12px var(--f-body)}
+.ln{fill:none;stroke:var(--ink);stroke-width:2.2}
+.ref{fill:none;stroke:var(--mute);stroke-width:1.5;stroke-dasharray:5 4}
+.dotc{fill:var(--yellow);stroke:var(--ink);stroke-width:1.6}
+.gridl{stroke:var(--line);stroke-width:1}
+.stk{display:flex;height:22px;border:1px solid var(--line-2);border-radius:2px;overflow:hidden}
+.stk i{display:block;height:100%}
+.empty{padding:30px 20px;text-align:center;color:var(--mute)}
+.row-btns{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.iline{display:grid;grid-template-columns:minmax(0,2.2fr) .8fr .9fr .7fr .7fr 1fr 34px;gap:10px;align-items:end;padding:12px 0;border-top:1px solid var(--line)}
+.iline:first-child{border-top:0}
+.ltot{text-align:right;font-weight:600;padding-bottom:8px}
+.steps{display:flex;gap:0;margin:0;padding:0;list-style:none;flex-wrap:wrap}
+.steps li{flex:1;min-width:130px;padding:10px 14px 0 0;position:relative;color:var(--mute);font-size:13.5px}
+.steps li:before{content:"";display:block;height:6px;background:var(--line-2);margin-bottom:8px}
+.steps li.done{color:var(--ink)}
+.steps li.done:before{background:var(--ink)}
+.steps b{display:block;font-weight:600}
+.mask{position:fixed;inset:0;background:rgba(14,16,18,.6);display:grid;place-items:center;padding:16px;z-index:80}
+.modal{background:var(--panel);border:1px solid var(--line-2);border-top:4px solid var(--yellow);border-radius:6px;width:min(600px,100%);max-height:92vh;overflow:auto}
+.modal-h{display:flex;justify-content:space-between;align-items:center;padding:16px 20px 4px}
+.modal-h h2{font:600 24px var(--f-head)}
+.modal-b{padding:10px 20px 6px;display:grid;gap:14px}
+.modal-f{display:flex;gap:10px;justify-content:flex-end;padding:14px 20px 18px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:11px 18px;border-radius:3px;font-weight:500;z-index:90;opacity:0;pointer-events:none;transition:opacity .18s;max-width:calc(100vw - 32px)}
+.toast.on{opacity:1}
+.warnbox{background:var(--warn-bg);color:var(--warn);padding:9px 12px;border-radius:3px;font-weight:500;font-size:14px}
+.okbox{background:var(--ok-bg);color:var(--ok);padding:9px 12px;border-radius:3px;font-weight:500;font-size:14px}
+.tbl tbody td.best{background:var(--yellow-soft)}
+.tbl th .btn{margin-top:7px;font-weight:600}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--ink);cursor:pointer;padding:0}
+.board{display:grid;grid-template-columns:repeat(6,minmax(182px,1fr));gap:10px;overflow-x:auto;align-items:start;padding-bottom:12px}
+.col{background:var(--panel-2);border:1px solid var(--line);border-radius:6px;min-height:340px;display:flex;flex-direction:column}
+.col.drop{outline:3px dashed var(--yellow-edge);outline-offset:-5px}
+.col-h{padding:12px 14px 10px;border-top:4px solid var(--ink);border-radius:6px 6px 0 0;border-bottom:1px solid var(--line);background:var(--panel)}
+.col-h b{font:600 20px/1.1 var(--f-head);letter-spacing:.2px}
+.col-h .n{display:inline-block;margin-left:8px;min-width:22px;padding:0 7px;border-radius:11px;background:var(--panel-2);border:1px solid var(--line-2);font:600 12.5px/20px var(--f-body);text-align:center}
+.col-h small{display:block;color:var(--mute);margin-top:2px}
+.cards{padding:10px;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;align-content:start;flex:1}
+.bcard{min-width:0;background:var(--panel);border:1px solid var(--line-2);border-radius:4px;padding:12px 12px 10px;cursor:grab;display:grid;gap:7px}
+.bcard.dragging{opacity:.45}
+.bcard .r1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.bcard .vol{font:600 28px/1 var(--f-head)}
+.bcard .ca .btn{padding:0 10px}
+.bcard .vol small{font-size:16px;color:var(--mute);font-weight:500;margin-left:3px}
+.bcard .sm{display:block;color:var(--mute);font-size:13px}
+.bcard .pill{white-space:normal;line-height:1.35;padding:2px 8px}
+.bcard .ca{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.colend{padding:0 10px 12px}
+.hero{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:18px}
+.out{padding:22px 26px 20px}
+.out .bigrow{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-top:6px}
+.out .big{font:700 92px/.95 var(--f-head);letter-spacing:.5px}
+.out .of{font:500 24px var(--f-head);color:var(--ink-2)}
+.seg{display:flex;height:34px;border:1px solid var(--line-2);border-radius:3px;overflow:hidden;margin:20px 0 12px;background:var(--panel-2)}
+.seg i{display:block;height:100%;border-right:2px solid var(--panel)}
+.seg i:last-child{border-right:0}
+.seg.mini{height:14px;margin:0}
+.lg{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13.5px;color:var(--ink-2)}
+.lg .sw{margin-right:6px}
+.out .fc{margin:16px 0 0;color:var(--ink-2);max-width:70ch}
+.risk .rk{padding:2px 20px 8px;font:500 20px var(--f-head);color:var(--ink-2)}
+.risk .rk b{font:700 54px/1 var(--f-head);color:var(--bad);margin-right:4px}
+.risk .rk span{font-family:var(--f-body);font-size:14px;color:var(--mute);margin-left:8px}
+.list .amt{margin-left:auto;font-weight:600;white-space:nowrap;padding-left:12px}
+.ticker.c4 .tk .n{font-size:38px}
+.cap{margin:-4px 20px 14px;color:var(--ink-2);font-size:14px;max-width:84ch}
+.board.wboard{grid-template-columns:repeat(5,minmax(150px,1fr)) repeat(2,minmax(128px,.72fr));gap:8px}
+.wcard{padding:10px 10px 9px;gap:6px}
+.wcard .r1{flex-wrap:wrap;gap:4px 8px;justify-content:flex-start}
+.wcard .r1 a{white-space:nowrap}
+.wcard .sm a{color:var(--link)}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:var(--ink-2);padding:10px 20px 4px}
+@media (max-width:1080px){
+  .ticker,.ticker.c4,.ticker.c6{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tk{border-bottom:1px solid var(--line)}
+  .g2,.two,.g3,.hero{grid-template-columns:minmax(0,1fr)}
+  .out .big{font-size:72px}
+  .kvs,.fg{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .iline{grid-template-columns:1fr 1fr}
+}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;left:0;top:0;bottom:0;height:auto;width:270px;z-index:70;transform:translateX(-102%);transition:transform .2s}
+  .side.open{transform:none}
+  .menu-btn{display:grid}
+  .top{padding:0 14px}
+  #view{padding:20px 14px 70px}
+  .user b,.user small,.org small{display:none}
+  h1{font-size:32px}
+}
+@media (max-width:560px){.fg,.kvs{grid-template-columns:minmax(0,1fr)}.fg .w2{grid-column:auto}.vr{grid-template-columns:110px 1fr 56px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="stripe" aria-hidden="true"></div>
+<div class="app">
+  <aside class="side" id="side">
+    <div class="brand"><div class="mark">B</div><div><b>Batchline</b><span>Manufacturing ERP</span></div></div>
+    <nav id="nav" aria-label="Main"></nav>
+    <div class="side-foot">Prototype with sample data.<br><button data-act="reset" type="button">Reset demo data</button></div>
+  </aside>
+  <div class="main">
+    <header class="top">
+      <div class="org">
+        <button class="iconbtn menu-btn" data-act="menu" aria-label="Open menu" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <div class="av">PM</div>
+        <div><b>Polytech Moulded Products</b><small>Vadodara Plant · Bottle plant workspace</small></div>
+      </div>
+      <div class="tr">
+        <button class="iconbtn" data-act="theme" aria-label="Switch colour theme" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg></button>
+        <div class="user"><div class="av">KS</div><div><b>Ketan Shah</b><small>Admin</small></div></div>
+      </div>
+    </header>
+    <main id="view" tabindex="-1"></main>
+  </div>
+</div>
+<div id="modal"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+/* ================= utilities ================= */
+const TODAY='2026-10-28';
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const nf=(n,min=2,max=min)=>new Intl.NumberFormat('en-IN',{minimumFractionDigits:min,maximumFractionDigits:max}).format(n);
+const inr=(n,d=2)=>'₹'+nf(n,d);
+const n2=n=>nf(n,0,2);
+const lk=n=>n>=1e7?'₹'+nf(n/1e7,2)+' cr':n>=1e5?'₹'+nf(n/1e5,2)+' L':inr(n,0);
+const pad=(n,w=4)=>String(n).padStart(w,'0');
+const dmy=d=>d?d.slice(8,10)+'/'+d.slice(5,7)+'/'+d.slice(0,4):'—';
+const dt=d=>new Date(d+'T00:00:00Z');
+const addDays=(d,n)=>new Date(dt(d).getTime()+n*864e5).toISOString().slice(0,10);
+const diff=(a,b)=>Math.round((dt(a)-dt(b))/864e5);
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+const clone=o=>JSON.parse(JSON.stringify(o));
+const DOC={qr:n=>'QR/26-27/'+pad(n),pr:n=>'PR/26-27/'+pad(n),po:n=>'PO/26-27/'+pad(n),grn:n=>'GRN/26-27/'+pad(n),bt:n=>'BT/26-27/'+pad(n),si:n=>'SI/26-27/'+pad(n),rcp:n=>'RCP/26-27/'+pad(n)};
+const ORG={name:'Polytech Moulded Products',gstin:'24AABCP1111A1Z5',stateCode:'24',state:'Gujarat'};
+const STATES={'24':'Gujarat','27':'Maharashtra','19':'West Bengal','08':'Rajasthan','05':'Uttarakhand'};
+const SHIFT={A:'Shift A · 7 am – 3 pm',B:'Shift B · 3 pm – 11 pm'};
+
+const ICON={
+dash:'<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>',
+box:'<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/>',
+truck:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
+file:'<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+cart:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a1 1 0 0 0 1 .8h8.7a1 1 0 0 0 1-.8L20 7H6"/>',
+check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>',
+flask:'<path d="M9 3h6M10 3v6L4.5 19a1.5 1.5 0 0 0 1.3 2.2h12.4a1.5 1.5 0 0 0 1.3-2.2L14 9V3"/><path d="M7.5 15h9"/>',
+play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/>',
+list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+chart:'<path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/>',
+users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6.5 6.5 0 0 1 3.5 6"/>',
+rupee:'<path d="M6 4h12M6 9h12M6 4c6 0 8 2 8 5s-3 5-8 5l7 6"/>',
+wallet:'<path d="M3 7a2 2 0 0 1 2-2h14v4"/><path d="M3 7v11a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2z"/><circle cx="16.5" cy="14.5" r="1"/>',
+alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',
+x:'<path d="M6 6l12 12M18 6L6 18"/>',
+left:'<path d="M15 6l-6 6 6 6"/>',
+down:'<path d="M12 4v12M6 11l6 6 6-6"/>',
+layers:'<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
+wrench:'<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'
+};
+const I=(n,s=18)=>'<svg class="ic" width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(ICON[n]||'')+'</svg>';
+
+/* ================= seed data ================= */
+const ITEMS=[
+{id:'pp',name:'PP Homopolymer Granules',sku:'PMP-RES-001',group:'Polymer Resins',uom:'kg',hsn:'3902',gst:18,rate:104,reorder:1500,brands:[{n:'IOCL',c:'IOCL-PP-H030SG',q:2000},{n:'Reliance Polymers',c:'REL-H110MA',q:5650}]},
+{id:'hdpe',name:'HDPE Blow Grade',sku:'PMP-RES-002',group:'Polymer Resins',uom:'kg',hsn:'3901',gst:18,rate:114,reorder:3000,brands:[{n:'Haldia Petrochemicals',c:'HPL-B52H03',q:1200},{n:'Reliance Polymers',c:'REL-B5500',q:2500}]},
+{id:'pvc',name:'PVC Compound Granules',sku:'PMP-RES-003',group:'Polymer Resins',uom:'kg',hsn:'3904',gst:18,rate:88,reorder:1000,stock:2600},
+{id:'abs',name:'ABS Natural Granules',sku:'PMP-RES-004',group:'Polymer Resins',uom:'kg',hsn:'3903',gst:18,rate:168,reorder:800,brands:[{n:'Reliance Polymers',c:'REL-ABS-NAT',q:600},{n:'Haldia Petrochemicals',c:'HPL-ABS-750',q:1400}]},
+{id:'blk',name:'Black Masterbatch 40%',sku:'PMP-MB-001',group:'Masterbatch & Additives',uom:'kg',hsn:'3206',gst:18,rate:152,reorder:300,brands:[{n:'Clariant',c:'CLA-REMAFIN-BLACK',q:150},{n:'Plastiblends',c:'PB-BLACK-40',q:400}]},
+{id:'tio2',name:'TiO2 White Masterbatch',sku:'PMP-MB-002',group:'Masterbatch & Additives',uom:'kg',hsn:'3206',gst:18,rate:142,reorder:600,brands:[{n:'Clariant',c:'CLA-REMAFIN-WHITE',q:150},{n:'Plastiblends',c:'PB-WHITE-70',q:380}]},
+{id:'uv',name:'UV Stabilizer Additive',sku:'PMP-ADD-001',group:'Masterbatch & Additives',uom:'kg',hsn:'3812',gst:18,rate:300,reorder:60,stock:104},
+{id:'carton',name:'Export Carton 5-ply',sku:'PMP-PKG-001',group:'Shop Consumables',uom:'Nos',hsn:'4819',gst:5,rate:28,reorder:2000,stock:900},
+{id:'hyd',name:'Hydraulic Oil ISO 46',sku:'PMP-CNS-002',group:'Shop Consumables',uom:'L',hsn:'2710',gst:18,rate:165,reorder:200,brands:[{n:'IOCL',c:'IOCL-HYD-46',q:80},{n:'Servo',c:'SERVO-SYSTEM-46',q:220}]},
+{id:'rel',name:'Mould Release Spray',sku:'PMP-CNS-001',group:'Shop Consumables',uom:'Nos',hsn:'3403',gst:18,rate:285,reorder:24,stock:72},
+{id:'hrt',name:'Hot Runner Tip Set',sku:'PMP-TLS-001',group:'Tooling Spares',uom:'Set',hsn:'8480',gst:18,rate:56000,reorder:3,brands:[{n:'Yudo',c:'YUDO-HOT-TIP-KIT',q:2},{n:'Husky',c:'HSK-ULTRA-TIP-SET',q:6}]},
+{id:'ejp',name:'Ejector Pin Kit',sku:'PMP-TLS-002',group:'Tooling Spares',uom:'Set',hsn:'8480',gst:18,rate:4800,reorder:6,stock:14}
+];
+const VENDORS=[
+{id:'reliance',name:'Reliance Polymers Dist. West',email:'orders@relpolywest.example',gstin:'24AABCR1111A1Z1',contact:'Chirag Mehta',city:'Vadodara, Gujarat'},
+{id:'haldia',name:'Haldia Petrochem Traders',email:'sales@haldiatraders.example',gstin:'19AABCH2222B1Z2',contact:'Subrata Ghosh',city:'Kolkata, West Bengal'},
+{id:'plasti',name:'Plastiblends Masterbatch',email:'b2b@plastiblends.example',gstin:'27AABCP3333C1Z3',contact:'Sneha Kulkarni',city:'Mumbai, Maharashtra'},
+{id:'mouldtech',name:'MouldTech Hot Runner Systems',email:'spares@mouldtech.example',gstin:'27AABCM4444D1Z4',contact:'Rahul Jadhav',city:'Pune, Maharashtra'},
+{id:'westcorr',name:'WestCorr Packaging',email:'sales@westcorr.example',gstin:'24AABCW5555E1Z5',contact:'Ami Trivedi',city:'Ahmedabad, Gujarat'},
+{id:'grey',name:'Grey Market Resin',email:'x@greymarketresin.example',gstin:'24AABCG6666F1Z6',contact:'N/A',city:'Surat, Gujarat',blocked:true},
+{id:'gujres',name:'Gujarat Resin Mart',email:'sales@gujaratresinmart.example',gstin:'24AABCG8888H1Z8',contact:'Mehul Desai',city:'Ahmedabad, Gujarat'},
+{id:'saimb',name:'Sai Masterbatch Co.',email:'orders@saimasterbatch.example',gstin:'24AABCS9999J1Z9',contact:'Kiran Patel',city:'Vapi, Gujarat'}
+];
+const PREF_VENDOR={pp:'reliance',hdpe:'reliance',pvc:'haldia',abs:'haldia',blk:'plasti',tio2:'plasti',uv:'plasti',carton:'westcorr',hyd:'gujres',rel:'gujres',hrt:'mouldtech',ejp:'mouldtech'};
+const BUDGETS=[{name:'Masterbatch & Additives',group:'Masterbatch & Additives',amount:1500000,from:'2026-10-01',period:'Quarterly · Oct – Dec'},{name:'Moulds & Hot Runners',group:'Tooling Spares',amount:2500000,from:'2026-04-01',period:'Annually · FY 2026-27'},{name:'Polymer Resins',group:'Polymer Resins',amount:7000000,from:'2026-10-01',period:'Quarterly · Oct – Dec'},{name:'Shop Consumables',group:'Shop Consumables',amount:500000,from:'2026-10-01',period:'Quarterly · Oct – Dec'}];
+const COSTCENTERS=[['Finished Goods Packing','Cartoning, labelling and despatch of finished bottles',96800],['Injection Molding','Cap, closure and injection moulding machines',212400],['Quality','Leak, weight and top-load testing',48600],['Resin Stores','Resin, masterbatch and additive stores',64300],['Tool Room','Moulds, hot runners and spares',139700]];
+const DEFAULT_CC={pp:'Resin Stores',hdpe:'Resin Stores',pvc:'Resin Stores',abs:'Resin Stores',blk:'Resin Stores',tio2:'Resin Stores',uv:'Resin Stores',carton:'Finished Goods Packing',hyd:'Injection Molding',rel:'Injection Molding',hrt:'Tool Room',ejp:'Tool Room'};
+const budgetFor=id=>(BUDGETS.find(b=>b.group===ITEMS.find(x=>x.id===id).group)||{}).name;
+const BC_NAMES=()=>BUDGETS.map(b=>b.name), CC_NAMES=()=>COSTCENTERS.map(c=>c[0]);
+const optList=(arr,sel)=>arr.map(x=>'<option'+(x===sel?' selected':'')+'>'+esc(x)+'</option>').join('');
+const VEHICLES=['GJ 06 AX 4471','GJ 01 DT 2093','MH 04 KP 8120','GJ 05 BV 3306','GJ 18 AZ 7714','RJ 14 GC 9052'];
+
+let S=null;
+function seed(){
+  S={};
+  S.items=clone(ITEMS); S.vendors=clone(VENDORS);
+  S.prs=[
+   {no:14,i:'tio2',q:500,pr:'Medium',need:'2026-11-04',status:'Approved',po:null,by:'Bhavna Parmar',note:'White masterbatch is below its reorder level'},
+   {no:13,i:'hdpe',q:4000,pr:'High',need:'2026-11-02',status:'Approved',po:11,by:'Bhavna Parmar',note:'Resin cover is under five days'},
+   {no:12,i:'carton',q:5000,pr:'High',need:'2026-11-01',status:'Approved',po:null,by:'Bhavna Parmar',note:'5-ply cartons are down to 900'},
+   {no:11,i:'blk',q:80,pr:'Medium',need:'2026-10-25',status:'Draft',po:null,by:'Bhavna Parmar',note:''},
+   {no:10,i:'hyd',q:200,pr:'Medium',need:'2026-10-16',status:'Cancelled',po:null,by:'Bhavna Parmar',note:'Supplier price revised, re-quoting'},
+   {no:9,i:'hrt',q:2,pr:'Low',need:'2026-10-09',status:'Rejected',po:null,by:'Bhavna Parmar',note:'Existing sets are still within life'},
+   {no:5,i:'blk',q:250,pr:'Medium',need:'2026-08-14',status:'Approved',po:5,by:'Bhavna Parmar',note:''}
+  ];
+  S.prs.forEach(p=>{ p.bc=budgetFor(p.i); p.cc=DEFAULT_CC[p.i]; });
+  const po=(no,v,date,status,lines,extra)=>Object.assign({no,v,date,status,bc:budgetFor(lines[0][0]),lines:lines.map(([i,q,r,recv])=>({i,q,r,recv,cc:DEFAULT_CC[i]})),by:'Hardik Dave',appr:status==='Pending approval'?null:'Ketan Shah',sent:status==='Pending approval'?null:date,terms:'Net 30',del:'FOR Vadodara plant',prs:[]},extra||{});
+  S.pos=[
+   po(1,'reliance','2026-06-12','Fully received',[['hdpe',3000,112,3000]]),
+   po(2,'haldia','2026-06-26','Fully received',[['hdpe',1200,117.5,1200]]),
+   po(3,'plasti','2026-07-10','Fully received',[['tio2',380,142,380]]),
+   po(4,'mouldtech','2026-07-24','Partially received',[['hrt',4,56000,2]]),
+   po(5,'plasti','2026-08-07','Partially received',[['blk',250,152,150]],{prs:[5]}),
+   po(6,'mouldtech','2026-08-21','Fully received',[['ejp',4,4800,4]]),
+   po(7,'westcorr','2026-09-04','Fully received',[['carton',1000,28,1000]],{terms:'Net 15'}),
+   po(8,'reliance','2026-09-18','Fully received',[['hdpe',1500,114,1500]]),
+   po(9,'plasti','2026-10-06','Fully received',[['uv',45,300,45]]),
+   po(10,'reliance','2026-10-16','Fully received',[['hdpe',3000,113.5,3000]]),
+   po(11,'reliance','2026-10-27','Pending approval',[['hdpe',4000,114.5,0]],{prs:[13]})
+  ];
+  S.qrs=[
+   {no:4,prs:[14],vendors:['plasti','saimb'],status:'Open',created:'2026-10-26',by:'Hardik Dave',awarded:null,po:null,quotes:{plasti:{rates:{14:142},freight:4000,days:5,terms:'Net 30'},saimb:{rates:{14:139},freight:1500,days:3,terms:'Net 15'}}},
+   {no:3,prs:[13],vendors:['reliance','haldia','gujres'],status:'Awarded',created:'2026-10-24',by:'Hardik Dave',awarded:'reliance',po:11,quotes:{reliance:{rates:{13:114.5},freight:0,days:2,terms:'Net 30'},haldia:{rates:{13:112},freight:38000,days:6,terms:'Net 30'},gujres:{rates:{13:116},freight:0,days:2,terms:'Net 15'}}},
+   {no:2,prs:[9],vendors:['mouldtech','gujres'],status:'Cancelled',created:'2026-10-06',by:'Hardik Dave',awarded:null,po:null,quotes:{}}
+  ];
+  S.grns=[];
+  S.pos.forEach(p=>{ if(p.lines.some(l=>l.recv>0)){
+    S.grns.push({no:p.no,po:p.no,date:addDays(p.date,2),by:'Hardik Dave',challan:'CH-'+(4100+p.no*37),veh:VEHICLES[p.no%VEHICLES.length],lines:p.lines.filter(l=>l.recv>0).map(l=>({i:l.i,q:l.recv}))});
+  }});
+  S.recipes=[
+   {id:'b200',grade:'200 ml',name:'200 ml HDPE Bottle (White)',wt:22,wtTol:1,pack:100,loss:3,labour:150,direct:300,ovh:250,price:4.40,ver:'v2',lines:[['hdpe',22],['tio2',0.55],['carton',10]]},
+   {id:'b500',grade:'500 ml',name:'500 ml HDPE Bottle (White)',wt:34,wtTol:1.5,pack:60,loss:3,labour:180,direct:360,ovh:300,price:6.40,ver:'v3',lines:[['hdpe',34],['tio2',0.85],['carton',16.7]]},
+   {id:'b1l',grade:'1 L',name:'1 L HDPE Bottle (White)',wt:52,wtTol:1.5,pack:50,loss:3,labour:160,direct:330,ovh:270,price:9.20,ver:'v3',lines:[['hdpe',52],['tio2',1.3],['carton',20]]},
+   {id:'b1lb',grade:'1 L Black',name:'1 L HDPE Bottle (Black)',wt:52,wtTol:1.5,pack:50,loss:3,labour:160,direct:330,ovh:270,price:9.60,ver:'v1',lines:[['hdpe',52],['blk',1.56],['uv',0.26],['carton',20]]},
+   {id:'b5l',grade:'5 L',name:'5 L HDPE Jerrycan (Natural)',wt:220,wtTol:5,pack:4,loss:2.5,labour:450,direct:1700,ovh:1350,price:44,ver:'v2',lines:[['hdpe',220],['uv',1.1],['carton',250]]}
+  ].map(r=>{ r.lines=r.lines.map(([i,q])=>({i,q,u:ITEMS.find(x=>x.id===i).uom,tol:i==='hdpe'||i==='carton'?2:i==='uv'?5:3})); return r; });
+  const rows=[
+   ['2026-10-22','A','b1l',6000,185,.8,-.3,1.1],['2026-10-22','A','b500',8000,245,1.4,.2,.9],['2026-10-22','B','b200',10000,300,.6,.1,.4],
+   ['2026-10-23','A','b1lb',4000,120,1.1,.5,2.0],['2026-10-23','A','b1l',6000,185,.9,-.2,.7],['2026-10-23','B','b500',8000,245,2.9,.3,1.8],
+   ['2026-10-24','A','b5l',2000,50,.7,.4,.6],['2026-10-24','A','b1l',7000,215,1.0,.1,1.0],['2026-10-24','B','b200',11000,330,.5,0,.3],
+   ['2026-10-25','A','b500',4500,135,.4,.2,.2],
+   ['2026-10-26','A','b1l',6500,200,.8,.3,.9],['2026-10-26','A','b1lb',4500,135,1.0,.2,.5],['2026-10-26','B','b5l',2500,65,1.3,.6,1.1],
+   ['2026-10-27','A','b1l',7000,215,1.2,.4,1.4],['2026-10-27','A','b200',9000,270,.9,.1,.8],['2026-10-27','B','b500',8000,245,3.4,.8,2.2],
+   ['2026-10-28','A','b1l',6000,185,.9,.2,.8],['2026-10-28','A','b500',4000,120,1.1,.3,.6],['2026-10-28','A','b200',4000,120,.7,.4,.5]
+  ];
+  S.batches=rows.map((r,k)=>{
+    const [date,shift,rid,good,ret,vr,vm,vc]=r; const rec=S.recipes.find(x=>x.id===rid); const total=good+ret; const act={};
+    rec.lines.forEach(l=>{ const v=l.i==='hdpe'?vr:l.i==='carton'?vc:vm; act[l.i]=+(l.q*total*.001*(1+v/100)).toFixed(3); });
+    return {no:128+k,date,shift,rid,good,ret,stage:'Completed',planned:good+(date===TODAY?0:[0,0,300,0,150,0][k%6]),cartons:Math.ceil(good/rec.pack),wt:+(rec.wt+((k%5)-2)*rec.wtTol*0.25).toFixed(1),samples:sampleCount(good),act,by:k%3?'Ketan Shah':'Bhavna Parmar',note:''};
+  });
+  const expAct=(rid,vol)=>{ const r=S.recipes.find(x=>x.id===rid); const mix=vol/(1-r.loss/100); const a={}; r.lines.forEach(l=>{ a[l.i]=+(l.q*mix*.001).toFixed(3); }); return a; };
+  S.batches.push(
+   {no:147,date:TODAY,shift:'A',rid:'b1l',planned:6000,good:0,ret:0,stage:'Failed or cancelled',reason:'Machine breakdown',note:'Heater band failed on blow-moulder 2. The run was moved to machine 3.',since:'2026-10-28T08:40',returned:expAct('b1l',6000),by:'Bhavna Parmar',log:[{s:'Planned',at:'2026-10-28T06:50'},{s:'In production',at:'2026-10-28T08:05'},{s:'Failed or cancelled',at:'2026-10-28T08:40'}]},
+   {no:148,date:TODAY,shift:'A',rid:'b1l',planned:3000,good:0,ret:0,stage:'Quality check',since:'2026-10-28T12:30',act:expAct('b1l',3000),by:'Bhavna Parmar',log:[{s:'Planned',at:'2026-10-28T09:10'},{s:'In production',at:'2026-10-28T11:05'},{s:'Quality check',at:'2026-10-28T12:30'}]},
+   {no:149,date:TODAY,shift:'A',rid:'b500',planned:4000,good:0,ret:0,stage:'In production',since:'2026-10-28T14:10',act:expAct('b500',4000),by:'Ketan Shah',log:[{s:'Planned',at:'2026-10-28T10:20'},{s:'In production',at:'2026-10-28T14:10'}]},
+   {no:150,date:TODAY,shift:'B',rid:'b1l',planned:6000,good:0,ret:0,stage:'Planned',since:'2026-10-28T13:15',by:'Ketan Shah',log:[{s:'Planned',at:'2026-10-28T13:15'}]},
+   {no:151,date:TODAY,shift:'B',rid:'b200',planned:6000,good:0,ret:0,stage:'Planned',since:'2026-10-28T13:18',by:'Ketan Shah',log:[{s:'Planned',at:'2026-10-28T13:18'}]},
+   {no:152,date:TODAY,shift:'B',rid:'b5l',planned:4000,good:0,ret:0,stage:'Planned',since:'2026-10-28T13:25',by:'Bhavna Parmar',log:[{s:'Planned',at:'2026-10-28T13:25'}]},
+   {no:153,date:TODAY,shift:'A',rid:'b1lb',planned:2000,good:0,ret:0,stage:'Blocked',prev:'In production',blockReason:'Equipment breakdown',blockNote:'Chiller compressor tripped. Maintenance has been called.',since:'2026-10-28T13:20',act:expAct('b1lb',2000),by:'Ketan Shah',log:[{s:'Planned',at:'2026-10-28T10:50'},{s:'In production',at:'2026-10-28T12:55'},{s:'Blocked',at:'2026-10-28T13:20'}]}
+  );
+  S.cust=[
+   {id:'c1',name:'Gopal Edible Oils Pvt. Ltd.',city:'Rajkot, Gujarat',gstin:'24AAGCG4410B1Z7',credit:30,contact:'Dhaval Gopani',email:'accounts@gopaledibleoils.example'},
+   {id:'c2',name:'Sanjivani Agro Chemicals',city:'Ankleshwar, Gujarat',gstin:'24AAHFS7721K1Z3',credit:45,contact:'Jignesh Patel',email:'billing@sanjivaniagro.example'},
+   {id:'c3',name:'Navkar Home Care Pvt. Ltd.',city:'Vapi, Gujarat',gstin:'24ABHCN3105M1ZP',credit:30,contact:'Pooja Shah',email:'purchase@navkarhomecare.example'},
+   {id:'c4',name:'Rajputana Lubricants LLP',city:'Jaipur, Rajasthan',gstin:'08AAAFR9082Q1ZK',credit:15,contact:'Mahendra Rathore',email:'stores@rajputanalube.example'},
+   {id:'c5',name:'Konkan Fine Foods Pvt. Ltd.',city:'Pune, Maharashtra',gstin:'27AABCK5530L1Z2',credit:30,contact:'Aarti Kulkarni',email:'accounts@konkanfinefoods.example'},
+   {id:'c6',name:'Himalayan Naturals Pvt. Ltd.',city:'Haridwar, Uttarakhand',gstin:'05AAKFH1822N1Z5',credit:30,contact:'Rohit Bisht',email:'finance@himalayannaturals.example'}
+  ];
+  S.inv=[
+   {no:85,date:'2026-08-25',c:'c5',lines:[{p:'b500',q:120000,r:6.40}],freight:18000,pay:[{date:'2026-09-30',amt:500000,mode:'NEFT',ref:'SBIN526273049115',acc:'bank'}]},
+   {no:87,date:'2026-09-05',c:'c1',lines:[{p:'b1l',q:150000,r:9.20}],freight:0,pay:[{date:'2026-10-02',amt:1628400,mode:'RTGS',ref:'ICICR52026100200418',acc:'bank'}]},
+   {no:89,date:'2026-09-10',c:'c3',lines:[{p:'b200',q:200000,r:4.40}],freight:0,pay:[]},
+   {no:91,date:'2026-09-18',c:'c2',lines:[{p:'b1lb',q:80000,r:9.60},{p:'b500',q:60000,r:6.40}],freight:0,pay:[{date:'2026-10-20',amt:1359360,mode:'RTGS',ref:'HDFCR52026102000731',acc:'bank'}]},
+   {no:94,date:'2026-09-29',c:'c1',lines:[{p:'b1l',q:120000,r:9.20},{p:'b5l',q:8000,r:44}],freight:0,pay:[{date:'2026-10-15',amt:600000,mode:'NEFT',ref:'ICIC526288140562',acc:'bank'}]},
+   {no:97,date:'2026-10-03',c:'c3',lines:[{p:'b500',q:90000,r:6.40}],freight:0,pay:[]},
+   {no:99,date:'2026-10-08',c:'c6',lines:[{p:'b200',q:150000,r:4.40},{p:'b500',q:70000,r:6.40}],freight:24000,pay:[]},
+   {no:101,date:'2026-10-10',c:'c5',lines:[{p:'b500',q:150000,r:6.40}],freight:0,pay:[]},
+   {no:103,date:'2026-10-14',c:'c4',lines:[{p:'b1l',q:48000,r:9.20}],freight:0,pay:[]},
+   {no:105,date:'2026-10-20',c:'c2',lines:[{p:'b1lb',q:60000,r:9.60},{p:'b5l',q:6000,r:44}],freight:0,pay:[]},
+   {no:107,date:'2026-10-26',c:'c1',lines:[{p:'b1l',q:110000,r:9.20},{p:'b5l',q:10000,r:44}],freight:0,pay:[]}
+  ];
+  S.acc=[{id:'cash',name:'Cash',type:'Cash',bal:52000},{id:'bank',name:'ICICI Bank · Current account',type:'Bank',bal:3841250}];
+  const wl=(...a)=>a.map(([s,at,by])=>({s,at:'2026-10-'+at,by}));
+  S.wrs=[
+   {no:43,machine:'Carton sealer',title:'Guard interlock rattles when the door closes',type:'Safety',impact:'None yet',by:'Bhavna Parmar',assignee:null,stage:'Requested',since:'2026-10-28T11:30',desc:'The door sensor loosens after every shift. Still stops the machine when opened.',log:wl(['Requested','28T11:30','Bhavna Parmar'])},
+   {no:42,machine:'Blow-moulder 1',title:'Hydraulic oil weeping at the pump',type:'Breakdown',impact:'None yet',by:'Jayesh Patel',assignee:null,stage:'Requested',since:'2026-10-28T13:10',desc:'A small patch of oil under the pump since the morning shift. Level is still normal.',log:wl(['Requested','28T13:10','Jayesh Patel'])},
+   {no:41,machine:'Blow-moulder 3',title:'Air leak at the clamp cylinder',type:'Breakdown',impact:'Slowed',by:'Ravi Makwana',assignee:null,stage:'Requested',since:'2026-10-28T14:05',desc:'Hissing from the clamp cylinder. Cycle time is up by about two seconds.',log:wl(['Requested','28T14:05','Ravi Makwana'])},
+   {no:40,machine:'Chiller',title:'Replace the contactor on the compressor',type:'Breakdown',impact:'Stopped',by:'Jayesh Patel',assignee:'Dinesh Rathod',stage:'Approved',since:'2026-10-28T13:25',desc:'Compressor trips on start. The 1 L black bottle run is held until it is fixed.',log:wl(['Requested','28T13:05','Jayesh Patel'],['Approved','28T13:25','Ketan Shah'])},
+   {no:39,machine:'Blow-moulder 3',title:'Clean and polish the 500 ml mould',type:'Tooling',impact:'Quality risk',by:'Ravi Makwana',assignee:'Imran Shaikh',stage:'Approved',since:'2026-10-28T12:40',desc:'Flash on the parting line of the last 200 bottles.',log:wl(['Requested','28T12:15','Ravi Makwana'],['Approved','28T12:40','Ketan Shah'])},
+   {no:38,machine:'Blow-moulder 2',title:'Replace the heater band on zone 3',type:'Breakdown',impact:'Stopped',by:'Jayesh Patel',assignee:'Dinesh Rathod',stage:'In progress',since:'2026-10-28T13:40',desc:'Zone 3 will not hold temperature. The machine is stopped.',log:wl(['Requested','28T12:50','Jayesh Patel'],['Approved','28T13:05','Ketan Shah'],['In progress','28T13:40','Ketan Shah'])},
+   {no:37,machine:'Resin hopper loader',title:'Grease and inspect the loader',type:'Preventive',impact:'None yet',by:'Ketan Shah',assignee:'Mukesh Solanki',stage:'In progress',since:'2026-10-28T14:20',desc:'Monthly service from the preventive schedule.',log:wl(['Requested','28T08:00','Ketan Shah'],['Approved','28T08:05','Ketan Shah'],['In progress','28T14:20','Ketan Shah'])},
+   {no:36,machine:'Injection moulder 2',title:'Swap the hot runner tip set on the cap mould',type:'Tooling',impact:'Slowed',by:'Ravi Makwana',assignee:'Imran Shaikh',stage:'Waiting',since:'2026-10-27T16:40',waitFor:'Shutdown window',waitNote:'Mould must be cold. Planned for the Sunday shutdown.',desc:'Two cavities are short-shooting.',log:wl(['Requested','27T10:30','Ravi Makwana'],['Approved','27T11:00','Ketan Shah'],['In progress','27T15:00','Ketan Shah'],['Waiting','27T16:40','Ketan Shah'])},
+   {no:35,machine:'Air compressor',title:'Annual service',type:'Preventive',impact:'None yet',by:'Ketan Shah',assignee:'Mukesh Solanki',stage:'Waiting',since:'2026-10-26T10:00',waitFor:'Vendor visit',waitNote:'The service engineer visits on Thursday.',desc:'Annual service under the maintenance contract.',log:wl(['Requested','24T09:00','Ketan Shah'],['Approved','24T09:10','Ketan Shah'],['In progress','26T09:30','Ketan Shah'],['Waiting','26T10:00','Ketan Shah'])},
+   {no:34,machine:'Leak tester',title:'Reset the seal on the test head',type:'Breakdown',impact:'Quality risk',by:'Jayesh Patel',assignee:'Mukesh Solanki',stage:'Done',since:'2026-10-28T11:10',doneNote:'Seal replaced and the tester re-run on a known good bottle.',desc:'Good bottles were failing the leak test.',log:wl(['Requested','28T09:20','Jayesh Patel'],['Approved','28T09:30','Ketan Shah'],['In progress','28T09:50','Ketan Shah'],['Done','28T11:10','Ketan Shah'])},
+   {no:33,machine:'Carton sealer',title:'Replace the drive belt',type:'Breakdown',impact:'Slowed',by:'Bhavna Parmar',assignee:'Dinesh Rathod',stage:'Done',since:'2026-10-28T09:45',doneNote:'Belt replaced and tension set.',desc:'Belt slipping on heavy cartons.',log:wl(['Requested','28T07:30','Bhavna Parmar'],['Approved','28T07:45','Ketan Shah'],['In progress','28T08:20','Ketan Shah'],['Done','28T09:45','Ketan Shah'])},
+   {no:32,machine:'Resin hopper loader',title:'Noisy bearing on the standby loader',type:'Breakdown',impact:'None yet',by:'Ravi Makwana',assignee:null,stage:'Rejected',since:'2026-10-28T10:15',reason:'Not a fault, working as designed',note:'The noise is within the vendor limit. It was checked at the last service.',desc:'A rumble when the standby loader runs.',log:wl(['Requested','28T09:40','Ravi Makwana'],['Rejected','28T10:15','Ketan Shah'])},
+   {no:31,machine:'Chiller',title:'Chiller keeps tripping',type:'Breakdown',impact:'Stopped',by:'Ravi Makwana',assignee:null,stage:'Duplicate',since:'2026-10-28T13:15',dupOf:40,desc:'Tripped twice during the 1 L black bottle run.',log:wl(['Requested','28T13:00','Ravi Makwana'],['Duplicate','28T13:15','Ketan Shah'])}
+  ];
+  return S;
+}
+function sampleCount(g){ return Math.max(5,Math.ceil(g/1000)); }
+
+/* ================= lookups & calculators ================= */
+const ITEM=id=>S.items.find(x=>x.id===id), VEN=id=>S.vendors.find(x=>x.id===id), CUS=id=>S.cust.find(x=>x.id===id), REC=id=>S.recipes.find(x=>x.id===id);
+const PRODS=()=>S.recipes.map(r=>({id:r.id,name:r.name,hsn:'39233090',price:r.price,svc:false}));
+const PROD=id=>PRODS().find(p=>p.id===id);
+const stockOf=it=>it.brands?sum(it.brands,b=>b.q):it.stock;
+const r3=n=>Math.round(n*1000)/1000;
+function addStock(it,q){ if(it.brands) it.brands[0].q=r3(it.brands[0].q+q); else it.stock=r3(it.stock+q); }
+function takeStock(it,q){ if(it.brands){ let rem=q; for(const b of it.brands){ const t=Math.min(b.q,rem); b.q=r3(b.q-t); rem-=t; if(rem<=0) break; } } else it.stock=r3(it.stock-q); }
+function poCalc(po){
+  const v=VEN(po.v); const inter=v.gstin.slice(0,2)!==ORG.stateCode; let taxable=0,tax=0;
+  const lines=po.lines.map(l=>{ const it=ITEM(l.i); const t=l.q*l.r; const g=t*it.gst/100; taxable+=t; tax+=g; return Object.assign({},l,{it,t,g,gst:it.gst}); });
+  const pf=po.pf||0; return {lines,taxable,tax,pf,total:taxable+tax+pf,inter,v};
+}
+function batchCalc(b){
+  const r=REC(b.rid); const total=b.good+b.ret; let matExp=0,matAct=0,stdMat=0; let flagged=false;
+  const lines=r.lines.map(l=>{
+    const it=ITEM(l.i); const f=.001; const exp=l.q*total*f; const act=b.act[l.i]!=null?b.act[l.i]:exp;
+    const vp=exp?(act/exp-1)*100:0; const flag=vp>l.tol; if(flag) flagged=true;
+    matExp+=exp*it.rate; matAct+=act*it.rate; stdMat+=l.q*f*it.rate;
+    return {l,it,exp,act,vp,tol:l.tol,flag,cost:act*it.rate,expCost:exp*it.rate};
+  });
+  const conv=(r.labour+r.direct+r.ovh)/1000; const convTot=conv*total; const cost=matAct+convTot;
+  const std=(stdMat+conv)/(1-r.loss/100);
+  return {b,r,total,lines,matExp,matAct,convTot,cost,unit:b.good?cost/b.good:0,std,flagged,varPct:matExp?(matAct/matExp-1)*100:0};
+}
+function stdCost(r){ let m=0; r.lines.forEach(l=>{ m+=l.q*.001*ITEM(l.i).rate; }); const conv=(r.labour+r.direct+r.ovh)/1000; return {mat:m,conv,std:(m+conv)/(1-r.loss/100)}; }
+function invCalc(inv){
+  const c=CUS(inv.c); const inter=c.gstin.slice(0,2)!==ORG.stateCode; let taxable=0,gst=0;
+  const lines=inv.lines.map(l=>{ const p=PROD(l.p); const t=l.q*l.r*(1-(l.d||0)/100); const gr=l.g==null?18:l.g; const g=t*gr/100; taxable+=t; gst+=g; return Object.assign({},l,{t,g,gr,name:p.name,hsn:p.hsn,svc:p.svc}); });
+  const freight=inv.freight||0; const total=taxable+gst+freight; const paid=sum(inv.pay||[],p=>p.amt); const due=Math.max(0,total-paid);
+  const dueDate=addDays(inv.date,c.credit); const od=due>0.5?Math.max(0,diff(TODAY,dueDate)):0;
+  const status=due<=0.5?'Paid':od>0?'Overdue':paid>0?'Partly paid':'Unpaid';
+  return {inv,c,inter,lines,taxable,gst,freight,total,paid,due,dueDate,od,status,qty:sum(inv.lines,l=>l.q)};
+}
+function duesData(){
+  const rows=S.cust.map(c=>{ const b=[0,0,0,0,0]; S.inv.filter(i=>i.c===c.id).map(invCalc).filter(x=>x.due>0.5).forEach(x=>{ const od=diff(TODAY,x.dueDate); const k=od<=0?0:od<=30?1:od<=60?2:od<=90?3:4; b[k]+=x.due; }); return {c,b,total:sum(b,x=>x)}; }).filter(r=>r.total>0.5);
+  const tot=[0,1,2,3,4].map(k=>sum(rows,r=>r.b[k]));
+  return {rows,tot,total:sum(tot,x=>x),overdue:sum(tot.slice(1),x=>x)};
+}
+function budgetRows(){
+  return BUDGETS.map(b=>{ let spent=0,blocked=0;
+    S.pos.forEach(p=>{ if(p.date<b.from||(p.bc?p.bc!==b.name:ITEM(p.lines[0].i).group!==b.group)) return; const t=poCalc(p).total;
+      if(['Fully received','Partially received','Sent to vendor','Approved'].includes(p.status)) spent+=t; else if(p.status==='Pending approval') blocked+=t; });
+    return Object.assign({},b,{spent,blocked,rem:b.amount-spent-blocked}); });
+}
+function poRem(){
+  const bc=$('#po-bc'); if(!bc) return; const p=S.prs.find(x=>x.no===+$('#po-pr').value); const it=ITEM(p.i);
+  const est=(+$('#po-q').value||0)*(+$('#po-r').value||0)*(1+it.gst/100); const b=budgetRows().find(x=>x.name===bc.value);
+  $('#po-rem').innerHTML=b?'Remaining in <b>'+esc(b.name)+'</b> ('+esc(b.period)+'): '+inr(b.rem,0)+'. This order is about '+inr(est,0)+(est>b.rem?'. <span style="color:var(--bad);font-weight:600">It goes over the budget.</span>':'.'):'';
+}
+function lowStock(){ return S.items.filter(it=>stockOf(it)<it.reorder); }
+function lastRate(id){ for(let k=S.pos.length-1;k>=0;k--){ const l=S.pos[k].lines.find(x=>x.i===id); if(l) return l.r; } return ITEM(id).rate; }
+
+/* ================= ui helpers ================= */
+const pillMap={'Fully received':'ok','Partially received':'info','Pending approval':'warn','Approved':'ok','Draft':'mute','Open':'info','Awarded':'ok','Planned':'mute','Requested':'mute','In progress':'info','Waiting':'warn','Done':'ok','Duplicate':'mute','Breakdown':'bad','Preventive':'info','Tooling':'warn','Safety':'blk','Stopped':'bad','Slowed':'warn','Quality risk':'warn','None yet':'mute','Blocked':'blk','In production':'info','Quality check':'warn','Completed':'ok','Failed or cancelled':'bad','Rejected':'bad','Cancelled':'mute','Sent to vendor':'info','Active':'ok','Paid':'ok','Partly paid':'warn','Unpaid':'mute','Overdue':'bad','Flagged':'bad','Within tolerance':'ok','High':'bad','Medium':'warn','Low':'mute','Low stock':'bad','In stock':'ok'};
+const pill=s=>'<span class="pill '+(pillMap[s]||'mute')+'">'+esc(s)+'</span>';
+const ph=(h,sub,acts,back)=>(back?'<a class="back" href="'+back[0]+'">'+I('left',16)+' '+back[1]+'</a>':'')+'<div class="ph"><div><h1>'+h+'</h1>'+(sub?'<p class="sub">'+sub+'</p>':'')+'</div><div class="acts">'+(acts||'')+'</div></div>';
+const kv=(k,v,s)=>'<div class="kv"><span>'+k+'</span><b>'+v+'</b>'+(s?'<small>'+s+'</small>':'')+'</div>';
+const tbl=(head,rows,foot,id)=>'<div class="tw"><table class="tbl"'+(id?' id="'+id+'"':'')+'><thead><tr>'+head.map(h=>typeof h==='string'?'<th>'+h+'</th>':'<th class="num">'+h[0]+'</th>').join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody>'+(foot||'')+'</table></div>';
+const emptyRow=(n,t)=>'<tr><td colspan="'+n+'"><div class="empty">'+t+'</div></td></tr>';
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),3200); }
+function openModal(title,body,foot){ $('#modal').innerHTML='<div class="mask" data-act="maskClose"><div class="modal" role="dialog" aria-modal="true" aria-label="'+esc(title)+'"><div class="modal-h"><h2>'+title+'</h2><button class="iconbtn" data-act="closeModal" aria-label="Close" type="button">'+I('x',16)+'</button></div><div class="modal-b">'+body+'</div><div class="modal-f">'+foot+'</div></div></div>'; const f=$('#modal input,#modal select'); if(f) f.focus(); }
+function closeModal(){ $('#modal').innerHTML=''; }
+const go=h=>{ if(location.hash==='#'+h) render(); else location.hash=h; };
+function lineChart(pts,ref,w,h){
+  const vals=pts.map(p=>p.v).concat(pts.map(p=>p.std)); const mn=Math.floor((Math.min(...vals,0)-0.3)/0.5)*0.5, mx=Math.ceil((Math.max(...vals,0)+0.3)/0.5)*0.5;
+  const X=i=>46+i*(w-70)/(pts.length-1), Y=v=>h-30-(v-mn)/(mx-mn)*(h-52);
+  let g=''; for(let k=0;k<=3;k++){ const v=mn+(mx-mn)*k/3; g+='<line class="gridl" x1="46" x2="'+(w-24)+'" y1="'+Y(v)+'" y2="'+Y(v)+'"/><text x="40" y="'+(Y(v)+4)+'" text-anchor="end">'+(v>0?'+':'')+nf(v,1)+'%</text>'; }
+  const path=pts.map((p,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(p.v).toFixed(1)).join(' ');
+  const rp=pts.map((p,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(p.std).toFixed(1)).join(' ');
+  const dots=pts.map((p,i)=>'<circle class="dotc" cx="'+X(i).toFixed(1)+'" cy="'+Y(p.v).toFixed(1)+'" r="4.5"/><text x="'+X(i).toFixed(1)+'" y="'+(h-8)+'" text-anchor="middle">'+p.l+'</text>').join('');
+  return '<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Cost against the recipe standard for the last seven days">'+g+'<path class="ref" d="'+rp+'"/><path class="ln" d="'+path+'"/>'+dots+'</svg>';
+}
+
+/* ================= navigation ================= */
+const NAV=[
+ ['Dashboard','/','dash'],
+ {g:'Master',items:[['Items','/master/items','box'],['Vendors','/master/vendors','truck'],['Cost centers','/master/cost-centers','layers'],['Budget categories','/budget/categories','rupee']]},
+ {g:'Procurement',items:[['Purchase requests','/procurement/purchase-requests','file'],['Quotation requests','/procurement/quotation-requests','layers'],['Purchase orders','/procurement/purchase-orders','cart'],['Goods receipts','/procurement/goods-receipts','down'],['Approvals','/procurement/approvals','check','appr']]},
+ {g:'Production',items:[['Recipes','/production/recipes','flask'],['Plan a batch','/production/batches/new','plus'],['Batches','/production/batches','play'],['Work requests','/production/work-requests','wrench','wr'],['Variance','/production/variance','alert']]},
+ {g:'Sales',items:[['Customers','/sales/customers','users'],['Invoices','/sales/invoices','file'],['Receipts','/sales/receipts','wallet'],['Dues','/sales/dues','rupee']]},
+ {g:'Costing',items:[['Costing and margin','/costing','chart']]},
+ {g:'Stock',items:[['Summary','/stocks/summary','box'],['Low stock','/stocks/low-stock','alert','low']]},
+ {g:'Accounts',items:[['Cash and bank','/accounts/cash-bank','wallet']]}
+];
+function renderNav(path){
+  const badge=k=>{ if(k==='appr'){ const n=pendingApprovals().length; return n?'<span class="bd">'+n+'</span>':''; } if(k==='wr'){ const n=S.wrs.filter(w=>w.stage==='Requested').length; return n?'<span class="bd">'+n+'</span>':''; } if(k==='low'){ const n=lowStock().length; return n?'<span class="bd">'+n+'</span>':''; } return ''; };
+  const link=([t,h,ic,bk])=>{ const on=h==='/'?path==='/':(path===h||path.startsWith(h+'/'))&&!(h==='/production/batches'&&path==='/production/batches/new'); return '<a class="nv'+(on?' on':'')+'" href="#'+h+'">'+I(ic)+'<span>'+t+'</span>'+badge(bk)+'</a>'; };
+  $('#nav').innerHTML=NAV.map(n=>Array.isArray(n)?link(n):'<div class="grp"><span>'+n.g+'</span>'+n.items.map(link).join('')+'</div>').join('');
+}
+function pendingApprovals(){
+  return S.prs.filter(p=>p.status==='Pending approval').map(p=>({t:'pr',d:p})).concat(S.pos.filter(p=>p.status==='Pending approval').map(p=>({t:'po',d:p})));
+}
+
+/* ================= pages ================= */
+let dashTab='plant';
+function dashboard(){
+  const tabs='<div class="tabs" role="tablist"><button data-act="tab" data-v="plant" class="'+(dashTab==='plant'?'on':'')+'" type="button">Plant</button><button data-act="tab" data-v="proc" class="'+(dashTab==='proc'?'on':'')+'" type="button">Procurement</button></div>';
+  return ph(dashTab==='plant'?'Today at the plant':'Procurement snapshot','Head Office · Wednesday, 28 Oct 2026 · '+t12(NOW),tabs)+(dashTab==='plant'?plantDash():procDash());
+}
+function outputChart(days){
+  const w=640,h=236,L=52,B=34,T=14,R=16; const plotW=w-L-R, plotH=h-T-B;
+  const data=days.map(d=>{ const bs=S.batches.filter(b=>b.date===d&&b.stage!=='Failed or cancelled'); return {d,prod:sum(bs.filter(b=>b.stage==='Completed'),b=>b.good),plan:sum(bs,b=>b.planned||b.good)}; });
+  const max=Math.max(10000,Math.ceil(Math.max(...data.map(x=>Math.max(x.prod,x.plan)))/10000)*10000);
+  const Y=v=>T+plotH-(v/max)*plotH, step=plotW/data.length, bw=Math.min(54,step*.56);
+  let g=''; for(let v=0;v<=max;v+=max/4){ g+='<line class="gridl" x1="'+L+'" x2="'+(w-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+(v/1000)+'k</text>'; }
+  const bars=data.map((x,i)=>{ const cx=L+step*i+step/2, x0=cx-bw/2, today=x.d===TODAY;
+    return (x.plan>x.prod?'<rect x="'+x0+'" y="'+Y(x.plan)+'" width="'+bw+'" height="'+(Y(x.prod)-Y(x.plan))+'" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 3"/>':'')+'<rect x="'+x0+'" y="'+Y(x.prod)+'" width="'+bw+'" height="'+(plotH+T-Y(x.prod))+'" fill="var(--ink)"/>'+'<text x="'+cx+'" y="'+(h-12)+'" text-anchor="middle">'+(today?'Today':x.d.slice(8)+' Oct')+'</text>'+(x.prod?'<text x="'+cx+'" y="'+(Y(x.prod)-6)+'" text-anchor="middle" style="fill:var(--ink);font-weight:600">'+nf(x.prod/1000,1)+'k</text>':''); }).join('');
+  return '<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Good bottles produced each day against the plan">'+g+bars+'</svg>';
+}
+function plantDash(){
+  const all=doneB().map(batchCalc); const dd=duesData(); const week=all.filter(c=>c.b.date>='2026-10-22');
+  const tb=S.batches.filter(b=>b.date===TODAY&&b.stage!=='Failed or cancelled'); const by=st=>tb.filter(b=>b.stage===st);
+  const doneQ=sum(by('Completed'),b=>b.good), doneP=sum(by('Completed'),b=>b.planned||b.good), ip=sum(by('In production'),b=>b.planned), qc=sum(by('Quality check'),b=>b.planned), blk=sum(by('Blocked'),b=>b.planned), wait=sum(by('Planned'),b=>b.planned);
+  const shortfall=Math.max(0,doneP-doneQ), plan=doneP+ip+qc+blk+wait, pct=plan?Math.round(doneQ/plan*100):0;
+  const blocked=by('Blocked'), starved=by('Planned').filter(b=>shortOf(b).length);
+  const risk=sum(blocked,b=>b.planned)+sum(starved,b=>b.planned), forecast=plan-shortfall-risk;
+  const hrs=(+NOW.slice(11,13))+(+NOW.slice(14,16))/60, elapsed=Math.max(0,Math.min(100,Math.round((hrs-7)/16*100)));
+  const seg=[['Done',doneQ,'var(--ok)'],['Short of plan',shortfall,'repeating-linear-gradient(-45deg,var(--bad-bg) 0 4px,var(--bad) 4px 5px)'],['Quality check',qc,'var(--yellow)'],['In production',ip,'var(--info)'],['Blocked',blk,'var(--ink)'],['Waiting to start',wait,'var(--line-2)']].filter(x=>x[1]>0);
+  const li=(dot,href,title,sub,amt)=>'<li><span class="dot '+dot+'"></span><div><a href="#'+href+'">'+title+'</a><small>'+sub+'</small></div>'+(amt?'<span class="amt">'+amt+'</span>':'')+'</li>';
+  const hero='<div class="hero"><section class="pn out"><div class="mut" style="font-weight:500">Today’s output against plan</div>'
+   +'<div class="bigrow"><span class="big">'+n2(doneQ)+'</span><span class="of">of '+n2(plan)+' bottles planned · '+pct+'% done</span></div>'
+   +'<div class="seg" role="img" aria-label="Plan split by stage">'+seg.map(x=>'<i style="width:'+(x[1]/plan*100).toFixed(2)+'%;background:'+x[2]+'" title="'+x[0]+': '+n2(x[1])+'"></i>').join('')+'</div>'
+   +'<div class="lg">'+seg.map(x=>'<span><i class="sw" style="background:'+x[2]+'"></i>'+x[0]+' <b>'+n2(x[1])+'</b></span>').join('')+'</div>'
+   +'<p class="fc">At this pace the plant finishes the day with about <b>'+n2(forecast)+' bottles ('+Math.round(forecast/plan*100)+'% of plan)</b>. The day is '+elapsed+'% gone. <a href="#/production/batches">Open the batch board</a></p></section>'
+   +'<section class="pn risk"><div class="pn-h" style="padding-bottom:4px"><h2>At risk today</h2><span class="mut">'+t12(NOW)+'</span></div><div class="rk"><b>'+n2(risk)+'</b> bottles <span>'+(plan?Math.round(risk/plan*100):0)+'% of plan</span></div><ul class="list">'
+   +blocked.map(b=>li('bad','/production/batches/'+b.no,DOC.bt(b.no)+' · '+REC(b.rid).grade,'Blocked · '+esc(b.blockReason)+' · '+dur(mins(b.since)),n2(b.planned))).join('')
+   +starved.map(b=>{ const x=shortOf(b)[0]; const pr=S.prs.find(p=>p.i===x.it.id&&p.status==='Approved'&&!p.po); return li('bad','/production/batches/'+b.no,DOC.bt(b.no)+' · '+REC(b.rid).grade,'Short of '+x.it.name+' by '+n2(x.by)+' '+x.it.uom+(pr?' · '+DOC.pr(pr.no)+' approved, no order yet':''),n2(b.planned)); }).join('')
+   +(risk?'':'<li><span class="dot ok"></span><div><b>Nothing at risk</b><small>Every planned batch can run.</small></div></li>')+'</ul></section></div>';
+  // business health
+  const wStd=sum(week,c=>c.std*c.b.good), wCost=sum(week,c=>c.cost), costPct=wStd?(wCost/wStd-1)*100:0;
+  const wTot=sum(week,c=>c.total), rej=wTot?sum(week,c=>c.b.ret)/wTot*100:0, expRej=wTot?sum(week,c=>c.r.loss*c.total)/wTot:0;
+  const cash=sum(S.acc,a=>a.bal);
+  const health='<section class="ticker c4" aria-label="Business health" style="margin-top:18px">'
+   +'<div class="tk"><span class="k">Cost against standard, 7 days</span><b class="n">'+(costPct>=0?'+':'')+nf(costPct,1)+'<small>%</small></b><span class="s">'+inr(wCost-wStd,0)+' over the recipe cost of '+n2(sum(week,c=>c.b.good))+' bottles</span></div>'
+   +'<div class="tk"><span class="k">Reject rate, 7 days</span><b class="n">'+nf(rej,1)+'<small>%</small></b><span class="s">'+(rej>expRej+0.05?'Above':'Within')+' the expected '+nf(expRej,1)+'%</span></div>'
+   +'<div class="tk"><span class="k">Customer dues</span><b class="n">'+lk(dd.total)+'</b><span class="s '+(dd.overdue?'bad':'')+'">'+(dd.overdue?lk(dd.overdue)+' overdue':'Nothing overdue')+' · '+dd.rows.length+' customers</span></div>'
+   +'<div class="tk"><span class="k">Cash and bank</span><b class="n">'+lk(cash)+'</b><span class="s">Bank '+lk(S.acc.find(a=>a.id==='bank').bal)+' · Cash '+lk(S.acc.find(a=>a.id==='cash').bal)+'</span></div></section>';
+  // decisions for the owner
+  let dec='';
+  S.pos.filter(p=>p.status==='Pending approval').forEach(p=>{ dec+=li('','/procurement/approvals',DOC.po(p.no)+' is waiting for your approval',VEN(p.v).name+' · '+p.lines.map(l=>n2(l.q)+' '+ITEM(l.i).uom+' '+ITEM(l.i).name).join(', '),inr(poCalc(p).total,0)); });
+  S.prs.filter(p=>p.status==='Pending approval').forEach(p=>{ dec+=li('','/procurement/approvals',DOC.pr(p.no)+' is waiting for your approval',n2(p.q)+' '+ITEM(p.i).uom+' '+ITEM(p.i).name,''); });
+  S.qrs.filter(q=>q.status==='Open').forEach(q=>{ const c=qrCalc(q); const n=c.vs.filter(x=>x.done).length; dec+=li('','/procurement/quotation-requests/'+q.no,DOC.qr(q.no)+' is ready to award',n+' of '+q.vendors.length+' quotes in'+(c.low?' · lowest from '+c.low.v.name:''),c.low?inr(c.low.landed,0):''); });
+  S.prs.filter(p=>p.status==='Approved'&&!p.po&&!prOnQR(p.no)).forEach(p=>{ dec+=li('','/procurement/purchase-requests',DOC.pr(p.no)+' is approved but has no order',n2(p.q)+' '+ITEM(p.i).uom+' '+ITEM(p.i).name,'≈ '+inr(p.q*lastRate(p.i),0)); });
+  const late=S.inv.map(invCalc).filter(x=>x.od>0).sort((a,b)=>b.od-a.od);
+  if(late.length) dec+=li('bad','/sales/dues',lk(dd.overdue)+' is overdue from '+late.length+' customers',late.map(x=>x.c.name+' '+x.od+' days').join(' · '),'');
+  const low=lowStock(); if(low.length) dec+=li('','/stocks/low-stock',low.length+' items are below their reorder level',low.map(i=>i.name).join(' · '),'');
+  const flagged=week.filter(c=>c.flagged); if(flagged.length) dec+=li('','/production/variance',flagged.length+' batches ran over tolerance this week',[...new Set(flagged.map(c=>c.lines.filter(x=>x.flag)[0].it.name))].join(' · '),'');
+  // by product
+  const rows=S.recipes.map(r=>{ const bs=tb.filter(b=>b.rid===r.id); if(!bs.length) return ''; const q=st=>sum(bs.filter(b=>b.stage===st),b=>b.planned);
+    const d=sum(bs.filter(b=>b.stage==='Completed'),b=>b.good), p=sum(bs.filter(b=>b.stage==='Completed'),b=>b.planned||b.good)+q('In production')+q('Quality check')+q('Blocked')+q('Planned');
+    const parts=[[d,'var(--ok)'],[q('Quality check'),'var(--yellow)'],[q('In production'),'var(--info)'],[q('Blocked'),'var(--ink)'],[q('Planned'),'var(--line-2)']];
+    return '<tr><td><b>'+r.name+'</b></td><td class="num">'+n2(p)+'</td><td style="min-width:200px"><div class="seg mini" role="img" aria-label="'+esc(r.name)+' progress">'+parts.filter(x=>x[0]>0).map(x=>'<i style="width:'+(x[0]/p*100).toFixed(2)+'%;background:'+x[1]+'"></i>').join('')+'</div></td><td class="num">'+n2(d)+'</td><td class="num">'+Math.round(d/p*100)+'%</td></tr>'; }).join('');
+  // cost chart
+  const days=[22,23,24,25,26,27,28].map(d=>'2026-10-'+d);
+  const pts=days.map(d=>{ const cs=all.filter(c=>c.b.date===d); const g=sum(cs,c=>c.b.good); const sd=sum(cs,c=>c.std*c.b.good); return {l:d.slice(8)+' Oct',v:g?(sum(cs,c=>c.cost)/sd-1)*100:0,std:0,g}; }).filter(p=>p.g>0);
+  return hero+health
+   +'<div class="g2"><section class="pn"><div class="pn-h"><h2>Plan by product today</h2><span class="mut">Green done · yellow lab · blue running · dark blocked · grey waiting</span></div>'+tbl(['Product',['Planned'],'Progress',['Done'],['']],[rows])+'</section>'
+   +'<section class="pn"><div class="pn-h"><h2>Needs your decision</h2><span class="mut">'+(dec.match(/<li>/g)||[]).length+' items</span></div><ul class="list">'+(dec||'<li><span class="dot ok"></span><div><b>All clear</b><small>Nothing is waiting on you.</small></div></li>')+'</ul></section></div>'
+   +'<div class="g2"><section class="pn"><div class="pn-h"><h2>Good bottles per day</h2><span class="mut">Solid is produced · dashed is the rest of the plan</span></div><div class="chart">'+outputChart(days)+'</div></section>'
+   +'<section class="pn"><div class="pn-h"><h2>Cost against standard</h2><span class="mut">Percent above recipe cost · dashed line is zero</span></div><div class="chart">'+lineChart(pts,0,520,236)+'</div></section></div>';
+}
+function procDash(){
+  const open=S.pos.filter(p=>['Sent to vendor','Partially received','Approved'].includes(p.status)); const openVal=sum(open,p=>poCalc(p).total);
+  const awaiting=S.prs.filter(p=>p.status==='Approved'&&!p.po&&!prOnQR(p.no)).length;
+  const bud=budgetRows();
+  const ticker='<section class="ticker c4"><div class="tk"><span class="k">Open purchase orders</span><b class="n">'+open.length+'</b><span class="s">'+inr(openVal,0)+' still to receive</span></div>'
+   +'<div class="tk"><span class="k">Waiting for approval</span><b class="n">'+pendingApprovals().length+'</b><span class="s">'+(pendingApprovals().length?'<a href="#/procurement/approvals">Open the approvals inbox</a>':'Inbox is empty')+'</span></div>'
+   +'<div class="tk"><span class="k">Approved, no PO yet</span><b class="n">'+awaiting+'</b><span class="s">'+(awaiting?'<a href="#/procurement/purchase-requests">Create purchase orders</a>':'Everything is on an order')+'</span></div>'
+   +'<div class="tk"><span class="k">Below reorder level</span><b class="n">'+lowStock().length+'</b><span class="s">'+(lowStock().length?'<a href="#/stocks/low-stock">Review low stock</a>':'Stock is healthy')+'</span></div></section>';
+  const brows=bud.map(b=>{ const sp=b.spent/b.amount*100, bl=b.blocked/b.amount*100; return '<tr><td><b>'+b.name+'</b><span class="sm">'+b.period+'</span></td><td class="num">'+inr(b.amount,0)+'</td><td style="min-width:170px"><div class="bg"><i style="width:'+sp.toFixed(1)+'%"></i><b style="left:'+sp.toFixed(1)+'%;width:'+bl.toFixed(1)+'%"></b></div></td><td class="num">'+inr(b.spent,0)+'</td><td class="num">'+inr(b.rem,0)+'</td></tr>'; }).join('');
+  const orows=S.pos.slice().reverse().slice(0,6).map(p=>'<tr><td><a class="id" href="#/procurement/purchase-orders/'+p.no+'">'+DOC.po(p.no)+'</a></td><td>'+VEN(p.v).name+'</td><td>'+pill(p.status)+'</td><td class="num">'+inr(poCalc(p).total,0)+'</td></tr>').join('');
+  return ticker+'<div class="g2"><section class="pn"><div class="pn-h"><h2>Budget this quarter</h2><span class="mut">Dark bar is spent, yellow is held by pending orders</span></div>'+tbl(['Category',['Budget'],'Used',['Spent'],['Remaining']],[brows])+'</section>'
+   +'<section class="pn"><div class="pn-h"><h2>Latest purchase orders</h2><a href="#/procurement/purchase-orders">See all</a></div>'+tbl(['Number','Vendor','Status',['Total']],[orows])+'</section></div>';
+}
+
+function pgItems(){
+  const rows=S.items.map(it=>'<tr><td><b>'+it.name+'</b></td><td>'+it.sku+'</td><td>'+it.group+'</td><td>'+it.hsn+'</td><td>'+it.uom+'</td><td class="num">'+it.gst+'%</td><td class="num">'+inr(it.rate,0)+'</td><td class="num">'+n2(stockOf(it))+' '+it.uom+'</td></tr>').join('');
+  return ph('Items','Raw materials, consumables and spares used in purchase requests and recipes.','<button class="btn pri" data-act="soon" type="button">'+I('plus',16)+'Add item</button>')
+   +'<section class="pn"><div class="toolbar" style="padding-top:16px"><input data-filter="#t-items" placeholder="Search items or SKU" aria-label="Search items"></div>'+tbl(['Name','SKU','Group','HSN','UOM',['GST'],['Avg rate'],['On hand']],[rows],'','t-items')+'</section>';
+}
+function pgVendors(){
+  const rows=S.vendors.map(v=>{ const po=S.pos.filter(p=>p.v===v.id); const spend=sum(po.filter(p=>!['Pending approval','Rejected','Cancelled'].includes(p.status)),p=>poCalc(p).total); return '<tr><td><b>'+v.name+'</b>'+(v.blocked?' <span class="pill bad">Blocked</span>':'')+'<span class="sm">'+v.email+'</span></td><td>'+v.gstin+'</td><td>'+v.contact+'</td><td>'+v.city+'</td><td class="num">'+po.length+'</td><td class="num">'+inr(spend,0)+'</td></tr>'; }).join('');
+  return ph('Vendors','Suppliers attached to your organization. Shared identity is matched by GSTIN or email.','<button class="btn pri" data-act="soon" type="button">'+I('plus',16)+'Add vendor</button>')+'<section class="pn">'+tbl(['Name','GSTIN','Contact','Location',['Orders'],['Purchased this year']],[rows])+'</section>';
+}
+function pgCC(){
+  return ph('Cost centers','Where costs are booked. Purchase order lines and expenses carry a cost center.','<button class="btn pri" data-act="soon" type="button">'+I('plus',16)+'Add cost center</button>')
+   +'<section class="pn">'+tbl(['Name','What it covers',['Booked this month']],[COSTCENTERS.map(c=>'<tr><td><b>'+c[0]+'</b></td><td>'+c[1]+'</td><td class="num">'+inr(c[2],0)+'</td></tr>').join('')])+'</section>';
+}
+function pgBudget(){
+  const rows=budgetRows().map(b=>{ const sp=b.spent/b.amount*100, bl=b.blocked/b.amount*100; return '<tr><td><b>'+b.name+'</b></td><td class="num">'+inr(b.amount,0)+'</td><td class="num">'+inr(b.spent,0)+'</td><td class="num">'+inr(b.blocked,0)+'</td><td class="num">'+inr(b.rem,0)+'</td><td style="min-width:150px"><div class="bg"><i style="width:'+sp.toFixed(1)+'%"></i><b style="left:'+sp.toFixed(1)+'%;width:'+bl.toFixed(1)+'%"></b></div></td><td>'+b.period+'</td></tr>'; }).join('');
+  return ph('Budget categories','Plan spend limits by period. Remaining updates from approved and received purchase orders.','<button class="btn pri" data-act="soon" type="button">'+I('plus',16)+'Add budget category</button>')+'<section class="pn">'+tbl(['Name',['Amount'],['Spent'],['Blocked'],['Remaining'],'Used','Duration'],[rows])+'</section>';
+}
+
+function pgPR(){
+  const rows=S.prs.map(p=>{ const it=ITEM(p.i); let act='';
+    if(p.status==='Draft') act='<button class="btn sm" data-act="prSubmit" data-no="'+p.no+'" type="button">Submit for approval</button>';
+    else if(p.status==='Approved'&&!p.po&&!prOnQR(p.no)) act='<div class="row-btns" style="justify-content:flex-start"><button class="btn sm pri" data-act="qrStart" data-no="'+p.no+'" type="button">Request quotes</button><button class="btn sm" data-act="prToPO" data-no="'+p.no+'" type="button">Create PO</button></div>';
+    else if(p.status==='Pending approval') act='<a class="btn sm" href="#/procurement/approvals">Review</a>';
+    return '<tr data-st="'+p.status+'"><td><a class="id" href="#/procurement/purchase-requests">'+DOC.pr(p.no)+'</a></td><td><b>'+it.name+'</b><span class="sm">'+it.sku+'</span></td><td class="num">'+n2(p.q)+' '+it.uom+'</td><td>'+esc(p.bc||'—')+'</td><td>'+esc(p.cc||'—')+'</td><td>'+pill(p.pr)+'</td><td>'+dmy(p.need)+'</td><td>'+pill(p.status)+'</td><td>'+p.by+(p.note?'<span class="sm">'+esc(p.note)+'</span>':'')+'</td><td>'+(p.po?'<a href="#/procurement/purchase-orders/'+p.po+'">'+DOC.po(p.po)+'</a>':prOnQR(p.no)?'<a href="#/procurement/quotation-requests/'+prOnQR(p.no).no+'">'+DOC.qr(prOnQR(p.no).no)+'</a>':'—')+'</td><td>'+act+'</td></tr>'; }).join('');
+  return ph('Purchase requests','Raise what the plant needs, submit it for approval, then turn approved requests into purchase orders.','<button class="btn pri" data-act="prNew" type="button">'+I('plus',16)+'New purchase request</button>')
+   +'<section class="pn"><div class="toolbar" style="padding-top:16px"><select data-filter-status="#t-pr" aria-label="Filter by status"><option value="">All statuses</option>'+['Draft','Pending approval','Approved','Rejected','Cancelled'].map(s=>'<option>'+s+'</option>').join('')+'</select></div>'+tbl(['Number','Item',['Qty'],'Budget category','Cost center','Priority','Need by','Status','Requested by','Order','Action'],[rows],'','t-pr')+'</section>';
+}
+
+/* ---- quotation requests ---- */
+let qrDraft={step:1,prs:[],vendors:[]};
+const prOnQR=no=>S.qrs.find(q=>['Draft','Open'].includes(q.status)&&q.prs.includes(no));
+function qrCalc(q){
+  const lines=q.prs.map(n=>{ const p=S.prs.find(x=>x.no===n); return {p,it:ITEM(p.i)}; });
+  const vs=q.vendors.map(id=>{ const v=VEN(id), qt=q.quotes[id]; const done=!!qt&&lines.every(l=>qt.rates[l.p.no]>0); let taxable=0,gst=0;
+    if(done) lines.forEach(l=>{ const t=l.p.q*qt.rates[l.p.no]; taxable+=t; gst+=t*l.it.gst/100; });
+    const freight=done?(qt.freight||0):0; return {v,qt,done,taxable,gst,freight,landed:taxable+gst+freight}; });
+  const ok=vs.filter(x=>x.done); const low=ok.length?ok.reduce((a,b)=>b.landed<a.landed?b:a):null;
+  return {lines,vs,low};
+}
+function pgQR(){
+  const rows=S.qrs.slice().sort((a,b)=>b.no-a.no).map(q=>{ const c=qrCalc(q); const n=c.vs.filter(x=>x.done).length;
+    return '<tr data-st="'+q.status+'"><td><a class="id" href="#/procurement/quotation-requests/'+q.no+'">'+DOC.qr(q.no)+'</a></td><td>'+c.lines.map(l=>'<b>'+l.it.name+'</b><span class="sm">'+n2(l.p.q)+' '+l.it.uom+' · '+DOC.pr(l.p.no)+'</span>').join('')+'</td><td class="num">'+q.vendors.length+'</td><td>'+(q.status==='Draft'?'Not sent yet':n+' of '+q.vendors.length+' quoted')+'</td><td>'+(c.low?'<b>'+inr(c.low.landed,0)+'</b><span class="sm">'+c.low.v.name+'</span>':'—')+'</td><td>'+pill(q.status)+'</td><td>'+dmy(q.created)+'</td></tr>'; }).join('');
+  return ph('Quotation requests','Compare vendor quotations by landed total and award one vendor.','<button class="btn pri" data-act="qrNewBtn" type="button">'+I('plus',16)+'New quotation request</button>')
+   +'<section class="pn"><div class="toolbar" style="padding-top:16px"><select data-filter-status="#t-qr" aria-label="Filter by status"><option value="">All statuses</option>'+['Draft','Open','Awarded','Cancelled'].map(s=>'<option>'+s+'</option>').join('')+'</select></div>'+(S.qrs.length?tbl(['Number','Items',['Vendors'],'Quotes','Lowest landed total','Status','Created'],[rows],'','t-qr'):'<div class="empty"><b>No quotation requests</b><br>Create a quotation request from approved purchase request lines.</div>')+'</section>';
+}
+function pgQRNew(){
+  const avail=S.prs.filter(p=>p.status==='Approved'&&!p.po&&!prOnQR(p.no)); qrDraft.prs=qrDraft.prs.filter(n=>avail.some(p=>p.no===n));
+  const st=qrDraft.step; const sel=qrDraft.prs.map(n=>S.prs.find(p=>p.no===n)); let body='',foot='';
+  const steps='<ol class="steps" style="margin:0 0 20px">'+['PR lines','Vendors','Review'].map((t,k)=>'<li class="'+(k<st?'done':'')+'"><b>'+(k+1)+'. '+t+'</b></li>').join('')+'</ol>';
+  if(st===1){
+    const rows=avail.map(p=>{ const it=ITEM(p.i); return '<tr><td style="width:46px"><input type="checkbox" data-act="qrPR" data-no="'+p.no+'" '+(qrDraft.prs.includes(p.no)?'checked':'')+' aria-label="Select '+DOC.pr(p.no)+'"></td><td><b>'+DOC.pr(p.no)+'</b></td><td>'+it.name+'<span class="sm">'+it.sku+'</span></td><td class="num">'+n2(p.q)+' '+it.uom+'</td><td>'+dmy(p.need)+'</td><td>'+pill(p.pr)+'</td></tr>'; }).join('');
+    body='<h2>Purchase request lines</h2><p class="mut" style="margin:0 0 10px">Select approved, unordered lines that are not already on a draft or open quotation request. <b>'+qrDraft.prs.length+' selected</b></p>'+(avail.length?tbl(['','Purchase request','Item',['Qty'],'Need by','Priority'],[rows]):'<div class="empty">No approved, unordered purchase request lines are available.</div>');
+    foot='<a class="btn" href="#/procurement/quotation-requests">Cancel</a><button class="btn pri" data-act="qrNext" type="button" '+(qrDraft.prs.length?'':'disabled')+'>Next</button>';
+  } else if(st===2){
+    const ids=sel.map(p=>p.i); const cand=S.vendors.map(v=>{ const n=S.pos.filter(p=>p.v===v.id&&p.lines.some(l=>ids.includes(l.i))).length; const usual=ids.some(i=>PREF_VENDOR[i]===v.id); return {v,n,usual}; }).sort((a,b)=>((a.v.blocked?1:0)-(b.v.blocked?1:0))||(b.usual-a.usual)||(b.n-a.n));
+    const rows=cand.map(x=>'<tr><td style="width:46px"><input type="checkbox" data-act="qrVen" data-v="'+x.v.id+'" '+(qrDraft.vendors.includes(x.v.id)?'checked':'')+(x.v.blocked?' disabled':'')+' aria-label="Select '+esc(x.v.name)+'"></td><td><b>'+x.v.name+'</b><span class="sm">'+x.v.contact+' · '+x.v.email+'</span></td><td>'+x.v.city+'</td><td>'+(x.v.gstin.slice(0,2)===ORG.stateCode?'Intra-state':'Inter-state')+'</td><td>'+(x.v.blocked?'<span class="pill bad">Blocked vendor</span>':x.usual?'<span class="pill ok">Usual supplier</span>':x.n?'<span class="pill info">Supplied before</span>':'—')+'</td></tr>').join('');
+    body='<h2>Vendors</h2><p class="mut" style="margin:0 0 10px">Pick at least two vendors so there is something to compare. <b>'+qrDraft.vendors.length+' selected</b></p>'+tbl(['','Vendor','Location','Supply type','History'],[rows]);
+    foot='<button class="btn" data-act="qrBack" type="button">Back</button><button class="btn pri" data-act="qrNext" type="button" '+(qrDraft.vendors.length>=2?'':'disabled')+'>Next</button>';
+  } else {
+    const lr=sel.map(p=>{ const it=ITEM(p.i); return '<tr><td><b>'+DOC.pr(p.no)+'</b></td><td>'+it.name+'</td><td class="num">'+n2(p.q)+' '+it.uom+'</td><td>'+dmy(p.need)+'</td></tr>'; }).join('');
+    const vr=qrDraft.vendors.map(id=>'<tr><td><b>'+VEN(id).name+'</b></td><td>'+VEN(id).contact+'</td><td>'+VEN(id).email+'</td></tr>').join('');
+    body='<h2>Review</h2><p class="mut" style="margin:0 0 10px">The request is saved as a draft. Open it when you are ready to enter quotes.</p>'+tbl(['Purchase request','Item',['Qty'],'Need by'],[lr])+'<div style="height:14px"></div>'+tbl(['Vendor','Contact','Email'],[vr]);
+    foot='<button class="btn" data-act="qrBack" type="button">Back</button><button class="btn pri" data-act="qrCreate" type="button">Create draft</button>';
+  }
+  return ph('New quotation request','Pick approved PR lines and vendors. Open the draft when you are ready to enter quotes.','',['#/procurement/quotation-requests','Back to quotation requests'])+'<section class="pn pad">'+steps+body+'<div class="row-btns" style="margin-top:18px">'+foot+'</div></section>';
+}
+function pgQRd(no){
+  const q=S.qrs.find(x=>x.no===+no); if(!q) return nf404(); const c=qrCalc(q); const open=q.status==='Open';
+  let acts=''; if(q.status==='Draft') acts='<button class="btn danger" data-act="qrCancel" data-q="'+q.no+'" type="button">Cancel request</button><button class="btn pri" data-act="qrOpen" data-q="'+q.no+'" type="button">Open for quotes</button>'; else if(open) acts='<button class="btn danger" data-act="qrCancel" data-q="'+q.no+'" type="button">Cancel request</button>';
+  const head=['Comparison'].concat(c.vs.map(x=>'<span>'+x.v.name+'</span><span class="sm" style="font-weight:400">'+x.v.contact+'</span>'+(open?'<button class="btn sm'+(x.done?'':' pri')+'" data-act="qrQuote" data-q="'+q.no+'" data-v="'+x.v.id+'" type="button">'+(x.done?'Edit quote':'Enter quote')+'</button>':'')));
+  const best=(x)=>c.low&&x===c.low&&c.vs.filter(y=>y.done).length>1?' best':'';
+  const lineRows=c.lines.map(l=>'<tr><td><b>'+l.it.name+'</b><span class="sm">'+n2(l.p.q)+' '+l.it.uom+' · '+DOC.pr(l.p.no)+' · GST '+l.it.gst+'%</span></td>'+c.vs.map(x=>'<td>'+(x.qt&&x.qt.rates[l.p.no]?inr(x.qt.rates[l.p.no])+' per '+l.it.uom:'—')+'</td>').join('')+'</tr>').join('');
+  const rows=lineRows
+   +'<tr><td>Taxable amount</td>'+c.vs.map(x=>'<td>'+(x.done?inr(x.taxable):'—')+'</td>').join('')+'</tr>'
+   +'<tr><td>GST</td>'+c.vs.map(x=>'<td>'+(x.done?inr(x.gst):'—')+'</td>').join('')+'</tr>'
+   +'<tr><td>Freight and loading</td>'+c.vs.map(x=>'<td>'+(x.done?inr(x.freight):'—')+'</td>').join('')+'</tr>'
+   +'<tr><td><b>Landed total</b></td>'+c.vs.map(x=>'<td class="'+best(x).trim()+'">'+(x.done?'<b>'+inr(x.landed)+'</b> '+(q.awarded===x.v.id?'<span class="pill ok">Awarded</span>':best(x)?'<span class="pill ok">Lowest</span>':(c.low&&x!==c.low?'<span class="sm">'+inr(x.landed-c.low.landed,0)+' more than lowest</span>':'')):'—')+'</td>').join('')+'</tr>'
+   +'<tr><td>Delivery</td>'+c.vs.map(x=>'<td>'+(x.qt?x.qt.days+' days':'—')+'</td>').join('')+'</tr>'
+   +'<tr><td>Payment terms</td>'+c.vs.map(x=>'<td>'+(x.qt?x.qt.terms:'—')+'</td>').join('')+'</tr>'
+   +(open?'<tr><td></td>'+c.vs.map(x=>'<td>'+(x.done?'<button class="btn sm pri" data-act="qrAward" data-q="'+q.no+'" data-v="'+x.v.id+'" type="button">Award to this vendor</button>':'<span class="mut">Waiting for a quote</span>')+'</td>').join('')+'</tr>':'');
+  const banner=q.status==='Awarded'?'<p class="okbox" style="margin:0">Awarded to <b>'+VEN(q.awarded).name+'</b>. Purchase order <a href="#/procurement/purchase-orders/'+q.po+'">'+DOC.po(q.po)+'</a> was created from this quotation.</p>':q.status==='Draft'?'<p class="warnbox" style="margin:0">This request is a draft. Open it to start entering vendor quotes.</p>':q.status==='Cancelled'?'<p class="warnbox" style="margin:0">This request was cancelled. Its purchase request lines are free to use again.</p>':'';
+  return ph(DOC.qr(q.no),'Compare vendor quotations by landed total and award one vendor.',acts,['#/procurement/quotation-requests','Back to quotation requests'])
+   +'<section class="pn pad"><div class="kvs">'+kv('Status',pill(q.status))+kv('Created',dmy(q.created),'by '+q.by)+kv('Vendors',q.vendors.length,c.vs.filter(x=>x.done).length+' quotes received')+kv('Purchase requests',q.prs.map(DOC.pr).join(', '))+kv('Delivery to','Vadodara Plant','Head Office')+kv('Compared on','Landed total','Rate + GST + freight')+'</div></section>'
+   +(banner?'<div style="margin-top:18px">'+banner+'</div>':'')
+   +'<section class="pn" style="margin-top:18px"><div class="pn-h"><h2>Quotation comparison</h2><span class="mut">'+(c.low?'Lowest landed total is highlighted':'No quotes entered yet')+'</span></div>'+tbl(head,[rows])+'</section>';
+}
+function pgPO(){
+  const rows=S.pos.slice().reverse().map(p=>{ const c=poCalc(p); return '<tr data-st="'+p.status+'"><td><a class="id" href="#/procurement/purchase-orders/'+p.no+'">'+DOC.po(p.no)+'</a></td><td>'+c.v.name+'</td><td>'+p.lines.map(l=>ITEM(l.i).name).join(', ')+'</td><td>'+esc(p.bc||'—')+'</td><td>'+pill(p.status)+'</td><td class="num">'+inr(c.total)+'</td><td>'+dmy(p.date)+'</td></tr>'; }).join('');
+  return ph('Purchase orders','Review purchase orders, submit for approval, send to vendors, and track receipt status.','<a class="btn pri" href="#/procurement/purchase-requests">'+I('plus',16)+'New from a request</a>')
+   +'<section class="pn"><div class="toolbar" style="padding-top:16px"><select data-filter-status="#t-po" aria-label="Filter by status"><option value="">All statuses</option>'+['Pending approval','Approved','Sent to vendor','Partially received','Fully received','Rejected'].map(s=>'<option>'+s+'</option>').join('')+'</select></div>'+tbl(['Number','Vendor','Items','Budget category','Status',['Total'],'Created'],[rows],'','t-po')+'</section>';
+}
+function pgPOd(no){
+  const p=S.pos.find(x=>x.no===+no); if(!p) return nf404();
+  const c=poCalc(p); const bud=budgetRows().find(b=>b.name===p.bc)||budgetRows().find(b=>b.group===ITEM(p.lines[0].i).group); let acts='';
+  if(p.status==='Pending approval') acts='<button class="btn danger" data-act="poReject" data-no="'+p.no+'" type="button">Reject</button><button class="btn pri" data-act="poApprove" data-no="'+p.no+'" type="button">'+I('check',16)+'Approve</button>';
+  else if(p.status==='Approved') acts='<button class="btn pri" data-act="poSend" data-no="'+p.no+'" type="button">Send to vendor</button>';
+  else if(['Sent to vendor','Partially received'].includes(p.status)) acts='<button class="btn pri" data-act="poReceive" data-no="'+p.no+'" type="button">'+I('down',16)+'Record receipt</button>';
+  const st=[['Created',p.by,p.date],['Approved',p.appr,p.appr?p.sent||TODAY:null],['Sent to vendor',p.sent?VEN(p.v).contact:'',p.sent],['Received',p.status==='Fully received'?'Complete':p.status==='Partially received'?'In part':'',S.grns.filter(g=>g.po===p.no).slice(-1).map(g=>g.date)[0]]];
+  const steps='<ol class="steps">'+st.map(s=>'<li class="'+(s[2]?'done':'')+'"><b>'+s[0]+'</b>'+(s[2]?dmy(s[2])+(s[1]?' · '+s[1]:''):'Not yet')+'</li>').join('')+'</ol>';
+  const lines=c.lines.map(l=>'<tr><td><b>'+l.it.name+'</b><span class="sm">'+l.it.sku+'</span></td><td class="num">'+n2(l.q)+'</td><td class="num">'+n2(l.q-l.recv)+'</td><td>'+l.it.uom+'</td><td class="num">'+inr(l.r)+'</td><td>'+l.it.hsn+'</td><td class="num">'+l.gst+'%</td><td class="num">'+inr(l.t)+'</td><td class="num">'+inr(l.g)+'</td><td class="num">'+inr(l.t+l.g)+'</td><td>'+esc(l.cc||'—')+'</td></tr>').join('');
+  const gr=S.grns.filter(g=>g.po===p.no).map(g=>'<tr><td><b>'+DOC.grn(g.no)+'</b></td><td>'+dmy(g.date)+'</td><td>'+g.lines.map(l=>n2(l.q)+' '+ITEM(l.i).uom+' '+ITEM(l.i).name).join(', ')+'</td><td>'+esc(g.challan)+'</td><td>'+esc(g.veh)+'</td><td>'+g.by+'</td></tr>').join('');
+  return ph(DOC.po(p.no),'Review terms and lines, submit for approval, or send the order to the vendor.',acts,['#/procurement/purchase-orders','Back to purchase orders'])
+   +'<div class="two"><div class="stack"><section class="pn pad"><h2>Parties and organization</h2><div class="kvs">'
+   +kv('Status',pill(p.status))+kv('Vendor',c.v.name,c.v.email)+kv('Company',ORG.name)+kv('Office','Head Office')+kv('Project','General Operations')+kv('Budget category',esc(p.bc||ITEM(p.lines[0].i).group),bud?bud.period+' · Remaining: '+inr(bud.rem,0):'')+kv('Created by',p.by)+kv('Created',dmy(p.date))+kv('Linked purchase requests',p.prs.length?p.prs.map(DOC.pr).join(', '):'—')
+   +'</div></section>'
+   +'<section class="pn pad"><h2>Progress</h2>'+steps+'</section>'
+   +'<section class="pn"><div class="pn-h"><h2>Line items</h2></div>'+tbl(['Item',['Qty'],['Pending'],'UOM',['Rate'],'HSN',['GST'],['Taxable'],['Tax'],['Line total'],'Cost center'],[lines])+'</section>'
+   +'<section class="pn"><div class="pn-h"><h2>Goods receipts</h2></div>'+(gr?tbl(['Receipt','Date','Received','Challan','Vehicle','Received by'],[gr]):'<div class="empty">Nothing received yet. Record a receipt when the first truck is weighed in.</div>')+'</section></div>'
+   +'<div class="stack"><section class="pn pad"><h2>Totals</h2><div class="sum"><div><span class="m">Taxable total</span><b>'+inr(c.taxable)+'</b></div><div><span class="m">'+(c.inter?'IGST':'CGST + SGST')+'</span><b>'+inr(c.tax)+'</b></div><div><span class="m">Packing and forwarding</span><b>'+inr(c.pf)+'</b></div><div class="t"><span>Grand total</span><span>'+inr(c.total)+'</span></div></div></section>'
+   +'<section class="pn pad"><h2>GST</h2><div class="sum"><div><span class="m">Buyer GSTIN</span><b>'+ORG.gstin+'</b></div><div><span class="m">Seller GSTIN</span><b>'+c.v.gstin+'</b></div><div><span class="m">Place of supply</span><b>'+ORG.state+'</b></div><div><span class="m">Supply type</span><b>'+(c.inter?'Inter-state (IGST)':'Intra-state (CGST + SGST)')+'</b></div></div></section>'
+   +'<section class="pn pad"><h2>Terms</h2><div class="sum"><div><span class="m">Payment terms</span><b>'+p.terms+'</b></div><div><span class="m">Delivery terms</span><b>'+p.del+'</b></div></div></section></div></div>';
+}
+function pgGRN(){
+  const rows=S.grns.slice().reverse().map(g=>{ const p=S.pos.find(x=>x.no===g.po); return '<tr><td><b>'+DOC.grn(g.no)+'</b></td><td><a href="#/procurement/purchase-orders/'+p.no+'">'+DOC.po(p.no)+'</a></td><td>'+VEN(p.v).name+'</td><td>'+g.lines.map(l=>n2(l.q)+' '+ITEM(l.i).uom+' '+ITEM(l.i).name).join(', ')+'</td><td>'+esc(g.veh)+'</td><td>'+g.by+'</td><td>'+dmy(g.date)+'</td></tr>'; }).join('');
+  return ph('Goods receipts','Record and review goods receipts against purchase orders.')+'<section class="pn">'+tbl(['Number','Purchase order','Vendor','Received','Vehicle','Received by','Date'],[rows])+'</section>';
+}
+function pgAppr(){
+  const items=pendingApprovals();
+  const rows=items.map(a=>{ if(a.t==='po'){ const p=a.d,c=poCalc(p); return '<tr><td>Purchase order</td><td><a class="id" href="#/procurement/purchase-orders/'+p.no+'">'+DOC.po(p.no)+'</a><span class="sm">'+c.v.name+'</span></td><td>'+p.lines.map(l=>n2(l.q)+' '+ITEM(l.i).uom+' '+ITEM(l.i).name).join(', ')+'</td><td class="num">'+inr(c.total)+'</td><td>'+p.by+'</td><td><div class="row-btns"><button class="btn sm danger" data-act="poReject" data-no="'+p.no+'" type="button">Reject</button><button class="btn sm pri" data-act="poApprove" data-no="'+p.no+'" type="button">Approve</button></div></td></tr>'; }
+    const p=a.d,it=ITEM(p.i); return '<tr><td>Purchase request</td><td><b>'+DOC.pr(p.no)+'</b></td><td>'+n2(p.q)+' '+it.uom+' '+it.name+'</td><td class="num">≈ '+inr(p.q*lastRate(p.i),0)+'</td><td>'+p.by+'</td><td><div class="row-btns"><button class="btn sm danger" data-act="prReject" data-no="'+p.no+'" type="button">Reject</button><button class="btn sm pri" data-act="prApprove" data-no="'+p.no+'" type="button">Approve</button></div></td></tr>'; }).join('');
+  return ph('Approvals','Pending documents waiting for your approval.')+'<section class="pn">'+(items.length?tbl(['Document','Reference','Details',['Value'],'Requested by',''],[rows]):'<div class="empty"><b>Inbox empty</b><br>No documents are waiting for your approval.</div>')+'</section>';
+}
+
+function pgRec(){
+  const rows=S.recipes.map(r=>{ const st=stdCost(r); const resin=r.lines.find(l=>l.i==='hdpe').q; return '<tr><td><a class="id" href="#/production/recipes/'+r.id+'">'+r.name+'</a><span class="sm">'+r.wt+' g ± '+r.wtTol+' g · '+r.pack+' per carton</span></td><td class="num">'+n2(resin)+' kg</td><td class="num">'+inr(st.std,2)+'</td><td class="num">'+inr(r.price,2)+'</td><td class="num">'+nf((r.price-st.std)/r.price*100,1)+'%</td><td>'+r.ver+' '+pill('Active')+'</td></tr>'; }).join('');
+  return ph('Recipes','What goes into every 1,000 bottles, the expected rejects and the standard cost per bottle.','<button class="btn pri" data-act="soon" type="button">'+I('plus',16)+'New recipe</button>')+'<section class="pn">'+tbl(['Recipe',['HDPE per 1,000'],['Standard cost'],['List price'],['Margin'],'Version'],[rows])+'</section>';
+}
+function pgRecd(id){
+  const r=REC(id); if(!r) return nf404(); const s=stdCost(r);
+  const rows=r.lines.map(l=>{ const it=ITEM(l.i); return '<tr><td><b>'+it.name+'</b><span class="sm">'+it.sku+'</span></td><td class="num">'+n2(l.q)+' '+l.u+'</td><td class="num">±'+l.tol+'%</td><td class="num">'+inr(it.rate,2)+' / '+l.u+'</td><td class="num">'+inr(l.q*it.rate)+'</td></tr>'; }).join('');
+  return ph(r.name,'Standard batch is 1,000 good bottles. Each bottle weighs '+r.wt+' g ± '+r.wtTol+' g and is packed '+r.pack+' to a carton.','<a class="btn pri" href="#/production/batches/new">'+I('plus',16)+'Plan a batch</a>',['#/production/recipes','Back to recipes'])
+   +'<div class="two"><section class="pn"><div class="pn-h"><h2>Input materials per 1,000 bottles</h2></div>'+tbl(['Material',['Quantity'],['Tolerance'],['Average rate'],['Line cost']],[rows])+'</section>'
+   +'<section class="pn pad"><h2>Standard cost</h2><div class="sum"><div><span class="m">Materials per 1,000</span><b>'+inr(s.mat*1000)+'</b></div><div><span class="m">Labour per 1,000</span><b>'+inr(r.labour)+'</b></div><div><span class="m">Power and utilities per 1,000</span><b>'+inr(r.direct)+'</b></div><div><span class="m">Overhead per 1,000</span><b>'+inr(r.ovh)+'</b></div><div><span class="m">Expected rejects</span><b>'+r.loss+'%</b></div><div class="t"><span>Per good bottle</span><span>'+inr(s.std,2)+'</span></div><div><span class="m">List price per bottle</span><b>'+inr(r.price,2)+'</b></div><div><span class="m">Standard margin</span><b>'+inr(r.price-s.std,2)+' ('+nf((r.price-s.std)/r.price*100,1)+'%)</b></div></div></section></div>';
+}
+/* ---- work requests ---- */
+const WR_STAGES=['Requested','Approved','In progress','Waiting','Done','Rejected','Duplicate'];
+const WR_COLOR={'Requested':'var(--line-2)','Approved':'var(--ok)','In progress':'var(--info)','Waiting':'var(--yellow)','Done':'var(--ink)','Rejected':'var(--bad)','Duplicate':'var(--line-2)'};
+const WR_MACHINES=['Blow-moulder 1','Blow-moulder 2','Blow-moulder 3','Chiller','Air compressor','Resin hopper loader','Injection moulder 2','Carton sealer','Leak tester'];
+const WR_TECHS=['Dinesh Rathod','Imran Shaikh','Mukesh Solanki'];
+const WR_TYPES=['Breakdown','Preventive','Tooling','Safety'];
+const WR_IMPACT=['Stopped','Slowed','Quality risk','None yet'];
+const DOC_WR=n=>'WR/26-27/'+pad(n);
+const WR=no=>S.wrs.find(w=>w.no===+no);
+const wBtn=(act,no,label,cls)=>'<button class="btn sm '+(cls||'')+'" data-act="'+act+'" data-wr="'+no+'" type="button">'+label+'</button>';
+function wrSet(w,to){ w.stage=to; w.since=NOW; w.log.push({s:to,at:NOW,by:'Ketan Shah'}); }
+function wrCard(w){
+  const st=w.stage, m=mins(w.since); let note='',btns='',who;
+  if(st==='Requested'){ who='Raised by '+w.by; note=m>120?'<span class="pill warn">Waiting for screening '+dur(m)+'</span>':'<span class="mut">In the inbox '+dur(m)+'</span>'; btns=wBtn('wrApprove',w.no,'Approve','pri')+wBtn('wrReject',w.no,'Reject','ghost danger')+wBtn('wrDup',w.no,'Duplicate','ghost'); }
+  else if(st==='Approved'){ who='Assigned to '+w.assignee; note='<span class="mut">Approved '+dur(m)+' ago</span>'; btns=wBtn('wrStart',w.no,'Start work','pri'); }
+  else if(st==='In progress'){ who='Assigned to '+w.assignee; note='<span class="mut">Working for '+dur(m)+'</span>'; btns=wBtn('wrDone',w.no,'Mark done','pri')+wBtn('wrWait',w.no,'Mark waiting','ghost'); }
+  else if(st==='Waiting'){ who='Assigned to '+w.assignee; note='<span class="'+(m>1440?'pill warn':'mut')+'">'+esc(w.waitFor)+' · '+dur(m)+'</span>'; btns=wBtn('wrResume',w.no,'Resume','pri'); }
+  else if(st==='Done'){ who='Done by '+w.assignee; note='<span class="mut">Finished at '+t12(w.since)+'</span>'; }
+  else if(st==='Rejected'){ who='Raised by '+w.by; note='<span class="mut">'+esc(w.reason)+'</span>'; }
+  else { who='Raised by '+w.by; note='<span class="mut">Duplicate of <a href="#" data-act="wrView" data-wr="'+w.dupOf+'">'+'WR-'+pad(w.dupOf)+'</a></span>'; }
+  const closed=['Done','Rejected','Duplicate'].includes(st);
+  return '<div class="bcard wcard" draggable="'+(closed?'false':'true')+'" data-wr="'+w.no+'"><div class="r1"><a class="id" href="#" data-act="wrView" data-wr="'+w.no+'" style="font-weight:600;text-decoration:none">'+'WR-'+pad(w.no)+'</a>'+pill(w.type)+'</div>'
+   +'<div><b style="font-size:16px">'+esc(w.machine)+'</b><span class="sm" style="color:var(--ink);font-size:14px">'+esc(w.title)+'</span></div>'
+   +'<div class="sm" style="display:flex;gap:6px;align-items:center">Impact '+pill(w.impact)+'</div>'
+   +'<div class="sm">'+esc(who)+'</div><div>'+note+'</div>'+(btns?'<div class="ca">'+btns+'</div>':'')+'</div>';
+}
+function wrBoard(){
+  const cols=WR_STAGES.map(st=>{
+    let ws=S.wrs.filter(w=>w.stage===st); if(st==='Done') ws=ws.filter(w=>w.since.slice(0,10)===TODAY);
+    ws.sort((a,b)=>a.since<b.since?-1:1);
+    const sub={'Requested':'Waiting for screening','Approved':'Assigned, not started','In progress':'Work under way','Waiting':'Parts, vendor or shutdown','Done':'Today','Rejected':'Kept with the reason','Duplicate':'Kept with the link'}[st];
+    return '<section class="col wcol" data-wstage="'+st+'" aria-label="'+st+'"><div class="col-h" style="border-top-color:'+WR_COLOR[st]+'"><b>'+st+'</b><span class="n">'+ws.length+'</span><small>'+sub+'</small></div><div class="cards">'+(ws.map(wrCard).join('')||'<div class="empty" style="padding:22px 6px">'+(st==='Requested'?'Inbox is clear.':'Drop a request here.')+'</div>')+'</div></section>';
+  }).join('');
+  return '<div class="board wboard">'+cols+'</div>';
+}
+function pgWR(){
+  return ph('Work requests','Raise what needs fixing or doing in the plant, screen it, then follow it to done. Move a card across the board, or use the buttons on it.','<button class="btn pri" data-act="wrNew" type="button">'+I('plus',16)+'New work request</button>')+wrBoard();
+}
+function wrMove(no,to){
+  const w=WR(no); if(!w||w.stage===to) return; const from=w.stage;
+  if(['Done','Rejected','Duplicate'].includes(from)){ toast('A '+from.toLowerCase()+' request cannot be moved.'); return; }
+  const ok={'Requested':['Approved','Rejected','Duplicate'],'Approved':['In progress'],'In progress':['Waiting','Done'],'Waiting':['In progress']};
+  if(!(ok[from]||[]).includes(to)){
+    toast(from==='Requested'?'Screen it first: approve it, reject it or mark it as a duplicate.':to==='Rejected'||to==='Duplicate'?'Only requests in the inbox can be rejected or marked as duplicate.':from==='Waiting'?'Resume the work first, then mark it done.':from==='Approved'?'Start the work first.':'Requests only move forward. Use Mark waiting if the work is held up.'); return; }
+  if(to==='Approved') openWrApprove(w); else if(to==='Rejected') openWrReject(w); else if(to==='Duplicate') openWrDup(w);
+  else if(to==='In progress') wrStartOrResume(w); else if(to==='Waiting') openWrWait(w); else openWrDone(w);
+}
+function wrStartOrResume(w){ const was=w.stage; wrSet(w,'In progress'); if(was==='Waiting'){ delete w.waitFor; delete w.waitNote; } toast(DOC_WR(w.no)+(was==='Waiting'?' resumed':' started')+' · '+w.assignee); render(); }
+function openWrApprove(w){
+  openModal('Approve '+DOC_WR(w.no),'<p style="margin:0"><b>'+esc(w.machine)+'</b> · '+esc(w.title)+'</p><label>Assign to<select id="wa-t">'+WR_TECHS.map(t=>'<option>'+t+'</option>').join('')+'</select></label><input type="hidden" id="wa-no" value="'+w.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="wrApproveDo" type="button">Approve and assign</button>');
+}
+function openWrReject(w){
+  openModal('Reject '+DOC_WR(w.no),'<p style="margin:0"><b>'+esc(w.machine)+'</b> · '+esc(w.title)+'</p><label>Reason<select id="wj-r">'+['Not a fault, working as designed','Already covered by a planned job','Outside maintenance scope','Machine out of service','Not enough information','Risk accepted and recorded'].map(r=>'<option>'+r+'</option>').join('')+'</select></label><label>Note for the person who raised it<input id="wj-n" placeholder="One line they will actually read"></label><input type="hidden" id="wj-no" value="'+w.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn danger" data-act="wrRejectDo" type="button">Reject request</button>');
+}
+function openWrDup(w){
+  const opts=S.wrs.filter(x=>x.no!==w.no&&!['Rejected','Duplicate'].includes(x.stage)).map(x=>'<option value="'+x.no+'">'+DOC_WR(x.no)+' · '+esc(x.machine)+' · '+esc(x.title)+'</option>').join('');
+  openModal('Mark '+DOC_WR(w.no)+' as a duplicate','<p style="margin:0"><b>'+esc(w.machine)+'</b> · '+esc(w.title)+'</p><label>Same problem as<select id="wd-o">'+opts+'</select></label><p class="mut" style="margin:0">The request stays on the board with a link, so the count of people who reported it is kept.</p><input type="hidden" id="wd-no" value="'+w.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="wrDupDo" type="button">Mark as duplicate</button>');
+}
+function openWrWait(w){
+  openModal('Mark '+DOC_WR(w.no)+' as waiting','<p style="margin:0"><b>'+esc(w.machine)+'</b> · '+esc(w.title)+'</p><label>Waiting for<select id="ww-r">'+['Spare part','Vendor visit','Shutdown window'].map(r=>'<option>'+r+'</option>').join('')+'</select></label><label>Note<input id="ww-n" placeholder="What exactly is it waiting for"></label><input type="hidden" id="ww-no" value="'+w.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="wrWaitDo" type="button">Mark waiting</button>');
+}
+function openWrDone(w){
+  openModal('Mark '+DOC_WR(w.no)+' as done','<p style="margin:0"><b>'+esc(w.machine)+'</b> · '+esc(w.title)+'</p><label>What was done<textarea id="wn-n" placeholder="Part replaced, setting changed, test result"></textarea></label><input type="hidden" id="wn-no" value="'+w.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="wrDoneDo" type="button">Mark done</button>');
+}
+function openWrNew(){
+  openModal('New work request','<label>Machine<select id="wn-m">'+WR_MACHINES.map(m=>'<option>'+m+'</option>').join('')+'</select></label><div class="fg"><label class="w2">Type<select id="wn-t">'+WR_TYPES.map(t=>'<option>'+t+'</option>').join('')+'</select></label><label>Production impact<select id="wn-i">'+WR_IMPACT.map(t=>'<option'+(t==='Slowed'?' selected':'')+'>'+t+'</option>').join('')+'</select></label></div><label>Title<input id="wn-ti" maxlength="80" placeholder="One line, for example Air leak at the clamp cylinder"></label><label>What did you see or hear?<textarea id="wn-d" placeholder="What happened, since when, anything the technician should know"></textarea></label>','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="wrNewSave" type="button">Raise request</button>');
+}
+function openWrView(w){
+  const hist=w.log.map(l=>'<li><span class="dot'+(l.s==='Rejected'?' bad':l.s==='Done'?' ok':'')+'"></span><div><b>'+l.s+'</b><small>'+t12(l.at)+(l.at.slice(0,10)!==TODAY?' · '+dmy(l.at.slice(0,10)):'')+' · '+esc(l.by)+'</small></div></li>').join('');
+  const extra=(w.reason?'<div class="kv"><span>Reason</span><b>'+esc(w.reason)+'</b>'+(w.note?'<small>'+esc(w.note)+'</small>':'')+'</div>':'')+(w.waitFor?'<div class="kv"><span>Waiting for</span><b>'+esc(w.waitFor)+'</b>'+(w.waitNote?'<small>'+esc(w.waitNote)+'</small>':'')+'</div>':'')+(w.dupOf?'<div class="kv"><span>Duplicate of</span><b>'+DOC_WR(w.dupOf)+'</b></div>':'')+(w.doneNote?'<div class="kv"><span>What was done</span><b>'+esc(w.doneNote)+'</b></div>':'');
+  openModal(DOC_WR(w.no),'<div class="kvs" style="grid-template-columns:1fr 1fr"><div class="kv"><span>Machine</span><b>'+esc(w.machine)+'</b></div><div class="kv"><span>Stage</span><b>'+pill(w.stage)+'</b></div><div class="kv"><span>Type</span><b>'+pill(w.type)+'</b></div><div class="kv"><span>Production impact</span><b>'+pill(w.impact)+'</b></div><div class="kv"><span>Raised by</span><b>'+esc(w.by)+'</b></div><div class="kv"><span>Assigned to</span><b>'+(w.assignee?esc(w.assignee):'Not yet')+'</b></div></div><div class="kv"><span>Title</span><b>'+esc(w.title)+'</b>'+(w.desc?'<small>'+esc(w.desc)+'</small>':'')+'</div>'+extra+'<div><b>History</b><ul class="list" style="margin-top:6px">'+hist+'</ul></div>','<button class="btn" data-act="closeModal" type="button">Close</button>');
+}
+
+/* ---- batches: board ---- */
+const STAGES=['Planned','Blocked','In production','Quality check','Completed','Failed or cancelled'];
+const FLOW=['Planned','In production','Quality check','Completed'];
+const STAGE_COLOR={'Planned':'var(--line-2)','Blocked':'var(--ink)','In production':'var(--info)','Quality check':'var(--yellow)','Completed':'var(--ok)','Failed or cancelled':'var(--bad)'};
+const NOW='2026-10-28T14:55';
+/* Stock rule: materials leave stock when a batch moves INTO this stage, and return if it fails or is cancelled. */
+const ISSUE_STAGE='In production';
+const doneB=()=>S.batches.filter(b=>b.stage==='Completed');
+const t12=s=>{ let h=+s.slice(11,13); const m=s.slice(14,16); const ap=h>=12?'pm':'am'; h=h%12||12; return h+':'+m+' '+ap; };
+const mins=s=>Math.round((Date.parse(NOW+':00Z')-Date.parse(s+':00Z'))/60000);
+const dur=m=>m<1?'just now':m<60?m+' min':Math.floor(m/60)+' h'+(m%60?' '+(m%60)+' min':'');
+let batchView='board';
+function reqMat(b){ const r=REC(b.rid); const mix=b.planned/(1-r.loss/100); return r.lines.map(l=>{ const it=ITEM(l.i); const q=l.q*mix*.001; return {l,it,qty:it.uom==='Nos'?Math.ceil(q):q}; }); }
+const shortOf=b=>reqMat(b).filter(x=>x.qty>stockOf(x.it)+1e-9).map(x=>({it:x.it,by:x.qty-stockOf(x.it)}));
+const bBtn=(act,no,label,cls,dis)=>'<button class="btn sm '+(cls||'')+'" data-act="'+act+'" data-no="'+no+'" type="button"'+(dis?' disabled title="Not enough stock to start this batch"':'')+'>'+label+'</button>';
+function bCard(b){
+  const r=REC(b.rid), st=b.stage; const vol=st==='Completed'?b.good:b.planned; let info='',btns='';
+  if(st==='Planned'){ const sh=shortOf(b); info=sh.length?'<span class="pill bad">Short of '+sh.map(x=>x.it.name+' by '+n2(x.by)+' '+x.it.uom).join(', ')+'</span><span class="sm">Cannot start until stock arrives</span>':'<span class="mut">Materials available</span>'; btns=bBtn('bStart',b.no,'Start production','pri',sh.length>0)+bBtn('bBlock',b.no,'Block',sh.length?'':'ghost')+bBtn('bFail',b.no,'Cancel','ghost danger'); }
+  else if(st==='Blocked'){ info='<b>'+esc(b.blockReason)+'</b><span class="sm">Blocked for '+dur(mins(b.since))+' · was '+b.prev.toLowerCase()+'</span><span class="sm">'+(b.act?'Materials stay issued':'Nothing issued yet')+'</span>'; btns=bBtn('bResume',b.no,'Resume','pri')+bBtn('bFail',b.no,b.act?'Fail':'Cancel','ghost danger'); }
+  else if(st==='In production'){ info='<span class="mut">Materials issued · running '+dur(mins(b.since))+'</span>'; btns=bBtn('bQC',b.no,'Send to quality check','pri')+bBtn('bBlock',b.no,'Block','ghost')+bBtn('bFail',b.no,'Fail','ghost danger'); }
+  else if(st==='Quality check'){ const m=mins(b.since); info=m>120?'<span class="pill warn">Waiting for lab '+dur(m)+'</span>':'<span class="mut">Waiting for lab '+dur(m)+'</span>'; btns=bBtn('bComplete',b.no,'Complete batch','pri')+bBtn('bBlock',b.no,'Block','ghost')+bBtn('bFail',b.no,'Fail','ghost danger'); }
+  else if(st==='Completed'){ const c=batchCalc(b); info='<span class="mut">'+inr(c.unit,2)+' per bottle</span> '+(c.flagged?pill('Flagged'):''); }
+  else info='<span class="mut">'+esc(b.reason)+'</span><span class="sm">Materials returned to stock</span>';
+  return '<div class="bcard" draggable="'+(['Completed','Failed or cancelled'].includes(st)?'false':'true')+'" data-no="'+b.no+'"><div class="r1"><a class="id" href="#/production/batches/'+b.no+'" style="font-weight:600;text-decoration:none">'+DOC.bt(b.no)+'</a>'+pill(r.grade)+'</div><div class="vol">'+n2(vol)+'<small>bottles</small></div><div><span style="font-weight:500">'+r.name+'</span><span class="sm">'+SHIFT[b.shift]+'</span></div><div>'+info+'</div>'+(btns?'<div class="ca">'+btns+'</div>':'')+'</div>';
+}
+function board(){
+  const cols=STAGES.map(st=>{
+    let bs=S.batches.filter(b=>b.stage===st); if(st==='Completed'||st==='Failed or cancelled') bs=bs.filter(b=>b.date===TODAY);
+    bs.sort((a,b)=>st==='Planned'?a.no-b.no:b.no-a.no); const vol=sum(bs,b=>st==='Completed'?b.good:b.planned);
+    const sub={'Planned':'Nothing leaves stock yet','Blocked':'On hold · stock stays as it is','In production':'Materials issued from stock','Quality check':'Leak, weight and drop tests','Completed':'Today only','Failed or cancelled':'Materials returned · today'}[st];
+    return '<section class="col" data-stage="'+st+'" aria-label="'+st+'"><div class="col-h" style="border-top-color:'+STAGE_COLOR[st]+'"><b>'+st+'</b><span class="n">'+bs.length+'</span><small>'+(bs.length?n2(vol)+' bottles · ':'')+sub+'</small></div><div class="cards">'+(bs.map(bCard).join('')||'<div class="empty" style="padding:22px 6px">'+(st==='Planned'?'No batches planned.':st==='Blocked'?'Nothing is blocked.':'Drop a batch here.')+'</div>')+'</div>'+(st==='Planned'?'<div class="colend"><a class="btn sm" href="#/production/batches/new" style="width:100%;justify-content:center">'+I('plus',15)+'Plan a batch</a></div>':'')+'</section>';
+  }).join('');
+  return '<div class="board">'+cols+'</div>';
+}
+function batchList(){
+  const rows=S.batches.slice().sort((a,b)=>b.no-a.no).map(b=>{ const done=b.stage==='Completed'; const c=done?batchCalc(b):null;
+    return '<tr><td><a class="id" href="#/production/batches/'+b.no+'">'+DOC.bt(b.no)+'</a></td><td>'+dmy(b.date)+'</td><td>'+SHIFT[b.shift]+'</td><td>'+REC(b.rid).name+'</td><td>'+pill(b.stage)+'</td><td class="num">'+n2(done?b.good:b.planned)+'</td><td class="num">'+(done?n2(b.ret):'—')+'</td><td class="num">'+(done?inr(c.unit,2):'—')+'</td><td>'+(done?(c.flagged?pill('Flagged'):pill('Within tolerance')):'—')+'</td></tr>'; }).join('');
+  return '<section class="pn">'+tbl(['Batch','Date','Shift','Recipe','Stage',['Output'],['Returned'],['Unit cost'],'Check'],[rows])+'</section>';
+}
+function pgBatches(){
+  const tabs='<div class="tabs"><button data-act="bview" data-v="board" class="'+(batchView==='board'?'on':'')+'" type="button">Board</button><button data-act="bview" data-v="list" class="'+(batchView==='list'?'on':'')+'" type="button">List</button></div>';
+  return ph('Batches',batchView==='board'?'Move each batch across the board as it progresses. Materials leave stock when a batch moves to In production, and come back if it fails or is cancelled. A blocked batch is on hold and keeps its stock as it is.':'Every production batch with its stage, output and unit cost.',tabs+'<a class="btn pri" href="#/production/batches/new">'+I('plus',16)+'Plan a batch</a>')+(batchView==='board'?board():batchList());
+}
+function pgBatchActive(b){
+  const r=REC(b.rid); const st=b.stage; let acts='';
+  if(st==='Planned') acts=bBtn('bFail',b.no,'Cancel batch','danger')+bBtn('bBlock',b.no,'Block','')+bBtn('bStart',b.no,'Start production','pri',shortOf(b).length>0);
+  else if(st==='Blocked') acts=bBtn('bFail',b.no,b.act?'Fail batch':'Cancel batch','danger')+bBtn('bResume',b.no,'Resume at '+b.prev,'pri');
+  else if(st==='In production') acts=bBtn('bFail',b.no,'Fail batch','danger')+bBtn('bBlock',b.no,'Block','')+bBtn('bQC',b.no,'Send to quality check','pri');
+  else if(st==='Quality check') acts=bBtn('bFail',b.no,'Fail batch','danger')+bBtn('bBlock',b.no,'Block','')+bBtn('bComplete',b.no,'Complete batch','pri');
+  const reached=st==='Blocked'?b.prev:st;
+  const steps='<ol class="steps">'+FLOW.map(f=>{ const e=(b.log||[]).find(x=>x.s===f); return '<li class="'+(e?'done':'')+'"><b>'+f+(st==='Blocked'&&f===b.prev?' · blocked':'')+'</b>'+(e?t12(e.at):'Not yet')+'</li>'; }).join('')+'</ol>';
+  const needs=st==='Planned'||(st==='Blocked'&&!b.act); let rows='',cols;
+  if(needs){ cols=['Material',['Needed'],['On hand now'],'Check']; rows=reqMat(b).map(x=>'<tr><td><b>'+x.it.name+'</b></td><td class="num">'+n2(x.qty)+' '+x.it.uom+'</td><td class="num">'+n2(stockOf(x.it))+' '+x.it.uom+'</td><td>'+(x.qty>stockOf(x.it)+1e-9?'<span class="pill bad">Short by '+n2(x.qty-stockOf(x.it))+' '+x.it.uom+'</span>':'<span class="pill ok">Available</span>')+'</td></tr>').join(''); }
+  else { const m=st==='Failed or cancelled'?b.returned:b.act; cols=['Material',[st==='Failed or cancelled'?'Returned to stock':'Issued from stock'],['Value']]; rows=Object.keys(m||{}).map(i=>{ const it=ITEM(i); return '<tr><td><b>'+it.name+'</b></td><td class="num">'+n2(m[i])+' '+it.uom+'</td><td class="num">'+inr(m[i]*it.rate,0)+'</td></tr>'; }).join('')||'<tr><td colspan="3"><div class="empty">Nothing had left stock for this batch.</div></td></tr>'; }
+  const banner=st==='Failed or cancelled'?'<p class="warnbox" style="margin:0 0 18px">'+esc(b.reason)+(b.note?' · '+esc(b.note):'')+'</p>':st==='Blocked'?'<p class="warnbox" style="margin:0 0 18px"><b>Blocked for '+dur(mins(b.since))+':</b> '+esc(b.blockReason)+(b.blockNote?' · '+esc(b.blockNote.replace(/\.$/,'')):'')+'. '+(b.act?'The materials stay issued until you resume or fail the batch.':'Nothing has left stock for this batch.')+'</p>':st==='Quality check'&&mins(b.since)>120?'<p class="warnbox" style="margin:0 0 18px">This batch has waited for the lab for '+dur(mins(b.since))+'. Check the leak-test and weight results.</p>':'';
+  return ph(DOC.bt(b.no),r.name+' · '+SHIFT[b.shift]+' · '+dmy(b.date),acts,['#/production/batches','Back to batches'])+banner
+   +'<div class="two"><div class="stack"><section class="pn pad"><h2>Progress</h2>'+steps+'</section><section class="pn"><div class="pn-h"><h2>'+(needs?'Materials needed':st==='Failed or cancelled'?'Materials returned':'Materials issued')+'</h2></div>'+tbl(cols,[rows])+'</section></div>'
+   +'<section class="pn pad"><h2>Batch</h2><div class="kvs" style="grid-template-columns:1fr 1fr">'+kv('Stage',pill(st))+kv('Planned output',n2(b.planned)+' bottles')+kv('Recipe',r.grade,'Weight '+r.wt+' ± '+r.wtTol+' g')+kv('Planned by',b.by)+'</div></section></div>';
+}
+function pgBatchd(no){
+  const b=S.batches.find(x=>x.no===+no); if(!b) return nf404(); if(b.stage!=='Completed') return pgBatchActive(b); const c=batchCalc(b);
+  const rows=c.lines.map(x=>'<tr><td><b>'+x.it.name+'</b></td><td class="num">'+n2(x.exp)+' '+x.it.uom+'</td><td class="num">'+n2(x.act)+' '+x.it.uom+'</td><td class="num" style="color:'+(x.flag?'var(--bad)':'inherit')+'">'+(x.vp>=0?'+':'')+nf(x.vp,1)+'%</td><td class="num">±'+x.tol+'%</td><td class="num">'+inr(x.cost,0)+'</td></tr>').join('');
+  const steps=b.log?'<section class="pn pad"><h2>Progress</h2><ol class="steps">'+['Planned','In production','Quality check','Completed'].map(f=>{ const e=b.log.find(x=>x.s===f); return '<li class="'+(e?'done':'')+'"><b>'+f+'</b>'+(e?t12(e.at):'')+'</li>'; }).join('')+'</ol></section>':'';
+  return ph(DOC.bt(b.no),c.r.name+' · '+SHIFT[b.shift]+' · '+dmy(b.date),'<a class="btn" href="#/costing">See cost breakdown</a>',['#/production/batches','Back to batches'])
+   +'<div class="two"><div class="stack">'+steps+'<section class="pn pad"><h2>Output and quality</h2><div class="kvs">'+kv('Check',c.flagged?pill('Flagged'):pill('Within tolerance'))+kv('Good bottles',n2(b.good),'Planned '+n2(b.good+b.ret))+kv('Rejected bottles',n2(b.ret),nf(b.ret/c.total*100,1)+'% of bottles blown')+kv('Cartons packed',n2(b.cartons))+kv('Average weight',b.wt+' g','Target '+c.r.wt+' ± '+c.r.wtTol+' g')+kv('Leak-test samples',b.samples,'All passed')+kv('Recorded by',b.by)+'</div></section>'
+   +'<section class="pn"><div class="pn-h"><h2>Material use against the recipe</h2></div>'+tbl(['Material',['Expected'],['Actual'],['Variance'],['Tolerance'],['Cost']],[rows])+'</section></div>'
+   +'<section class="pn pad"><h2>Cost</h2><div class="sum"><div><span class="m">Materials</span><b>'+inr(c.matAct,0)+'</b></div><div><span class="m">Labour, power and overhead</span><b>'+inr(c.convTot,0)+'</b></div><div class="t"><span>Per good bottle</span><span>'+inr(c.unit,2)+'</span></div><div><span class="m">Recipe standard</span><b>'+inr(c.std,2)+'</b></div><div><span class="m">Difference</span><b style="color:'+(c.unit>c.std?'var(--bad)':'var(--ok)')+'">'+(c.unit>c.std?'+':'')+inr(c.unit-c.std,2)+' per bottle</b></div></div></section></div>';
+}
+function pgBatchNew(){
+  const ropts=S.recipes.map(r=>'<option value="'+r.id+'"'+(r.id==='b1l'?' selected':'')+'>'+r.name+'</option>').join('');
+  return ph('Plan a batch','Add a batch to the Planned column. Nothing leaves stock until it moves to In production.','',['#/production/batches','Back to batches'])
+   +'<div id="bform" class="two"><div class="stack"><section class="pn pad"><h2>Batch details</h2><div class="fg"><label>Date<input type="date" id="bf-date" value="'+TODAY+'"></label><label>Shift<select id="bf-shift"><option value="B">'+SHIFT.B+'</option><option value="A">'+SHIFT.A+'</option></select></label><label>Planned output (bottles)<input type="number" id="bf-good" value="6000" min="100" step="100"></label><label class="w2">Recipe<select id="bf-rec">'+ropts+'</select></label></div></section>'
+   +'<section class="pn"><div class="pn-h"><h2>Materials needed</h2><span class="mut">Compared with what is in stock today</span></div><div class="tw"><table class="tbl" id="bmat"></table></div></section></div>'
+   +'<aside class="stack"><section class="pn pad" id="bsum"></section><div class="row-btns"><a class="btn" href="#/production/batches">Cancel</a><button class="btn pri" id="bsave" data-act="batchSave" type="button">Add to Planned</button></div></aside></div>';
+}
+function batchRebuild(){
+  const r=REC($('#bf-rec').value); const vol=+$('#bf-good').value||0; const b={rid:r.id,planned:vol}; const req=reqMat(b); const sh=shortOf(b);
+  $('#bmat').innerHTML='<thead><tr><th>Material</th><th class="num">Needed</th><th class="num">On hand</th><th>Check</th></tr></thead><tbody>'+req.map(x=>'<tr><td><b>'+x.it.name+'</b></td><td class="num">'+n2(x.qty)+' '+x.it.uom+'</td><td class="num">'+n2(stockOf(x.it))+' '+x.it.uom+'</td><td>'+(x.qty>stockOf(x.it)+1e-9?'<span class="pill bad">Short by '+n2(x.qty-stockOf(x.it))+' '+x.it.uom+'</span>':'<span class="pill ok">Available</span>')+'</td></tr>').join('')+'</tbody>';
+  const s=stdCost(r); const est=s.std*vol;
+  $('#bsum').innerHTML='<h2>Estimate</h2><div class="sum"><div><span class="m">Standard cost per bottle</span><b>'+inr(s.std,2)+'</b></div><div class="t"><span>For '+n2(vol)+' bottles</span><span>'+inr(est,0)+'</span></div><div><span class="m">List price per bottle</span><b>'+inr(r.price,2)+'</b></div><div><span class="m">Expected margin</span><b>'+nf((r.price-s.std)/r.price*100,1)+'%</b></div></div>'+(sh.length?'<p class="warnbox" style="margin:14px 0 0">Short of '+sh.map(x=>x.it.name).join(', ')+'. You can still plan it, but it cannot start until stock arrives.</p>':'<p class="okbox" style="margin:14px 0 0">Everything this batch needs is in stock.</p>');
+  $('#bsave').disabled=vol<=0;
+}
+function moveBatch(no,to){
+  const b=S.batches.find(x=>x.no===+no); if(!b||b.stage===to) return; const from=b.stage;
+  if(from==='Completed'||from==='Failed or cancelled'){ toast('A '+from.toLowerCase()+' batch cannot be moved.'); return; }
+  if(from==='Blocked'){ if(to==='Failed or cancelled') openFail(b); else if(to===b.prev) resumeBatch(b); else toast('This batch was '+b.prev.toLowerCase()+' when it was blocked. Resume it there, or fail or cancel it.'); return; }
+  if(to==='Blocked'){ openBlock(b); return; }
+  const ok={'Planned':['In production','Failed or cancelled'],'In production':['Quality check','Failed or cancelled'],'Quality check':['Completed','Failed or cancelled']};
+  if(!(ok[from]||[]).includes(to)){
+    toast(FLOW.indexOf(to)>=0&&FLOW.indexOf(to)<FLOW.indexOf(from)?'Batches only move forward. To undo a started batch, fail or cancel it so the materials return to stock.':'A batch cannot skip a stage. Move it to '+FLOW[FLOW.indexOf(from)+1]+' first.'); return; }
+  if(to==='In production') openStart(b); else if(to==='Quality check') toQC(b); else if(to==='Completed') openComplete(b); else openFail(b);
+}
+function resumeBatch(b){ const to=b.prev; setStage(b,to); delete b.blockReason; delete b.blockNote; toast(DOC.bt(b.no)+' resumed · back in '+to); render(); }
+function openBlock(b){
+  openModal('Block '+DOC.bt(b.no),'<label>Reason<select id="bl-r">'+['Waiting for raw material','Equipment breakdown','Power cut','Waiting for lab result','Customer asked to hold','Other'].map(x=>'<option>'+x+'</option>').join('')+'</select></label><label>Note<input id="bl-n" placeholder="What is holding this batch"></label><p class="mut" style="margin:0">'+(b.act?'The materials stay issued while the batch is blocked. Resume it to carry on, or fail it to return them to stock.':'Nothing has left stock for this batch. Resume it once the problem is cleared.')+'</p><input type="hidden" id="bl-no" value="'+b.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="bBlockDo" type="button">Block batch</button>');
+}
+function setStage(b,to){ b.stage=to; b.since=NOW; (b.log=b.log||[]).push({s:to,at:NOW}); }
+function openStart(b){
+  const req=reqMat(b); const sh=req.some(x=>x.qty>stockOf(x.it)+1e-9);
+  const rows=req.map(x=>{ const after=stockOf(x.it)-x.qty; return '<tr><td><b>'+x.it.name+'</b></td><td class="num">'+n2(x.qty)+' '+x.it.uom+'</td><td class="num">'+n2(stockOf(x.it))+'</td><td class="num" style="'+(after<0?'color:var(--bad);font-weight:600':'')+'">'+n2(after)+'</td></tr>'; }).join('');
+  openModal('Start '+DOC.bt(b.no),'<p style="margin:0">'+REC(b.rid).name+' · '+n2(b.planned)+' bottles. These materials will be taken from stock now.</p><div class="tw"><table class="tbl"><thead><tr><th>Material</th><th class="num">Issued</th><th class="num">On hand</th><th class="num">After</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+(sh?'<p class="warnbox" style="margin:0">Not enough stock to start this batch. Receive material or plan a smaller batch.</p>':''),'<button class="btn" data-act="closeModal" type="button">Not yet</button><button class="btn pri" data-act="bStartDo" data-no="'+b.no+'" type="button"'+(sh?' disabled':'')+'>Issue materials and start</button>');
+}
+function toQC(b){ setStage(b,'Quality check'); toast(DOC.bt(b.no)+' sent to quality check'); render(); }
+function openComplete(b){
+  const r=REC(b.rid); const ret=Math.round(b.planned*r.loss/100);
+  const rows=r.lines.map(l=>{ const it=ITEM(l.i); return '<tr data-i="'+l.i+'" data-q="'+(l.q*.001)+'" data-iss="'+b.act[l.i]+'" data-tol="'+l.tol+'"><td><b>'+it.name+'</b></td><td class="num e"></td><td class="num"><input type="number" step="0.01" min="0" style="width:110px" value="'+b.act[l.i]+'" aria-label="Actual '+it.name+'"></td><td class="num v"></td></tr>'; }).join('');
+  openModal('Complete '+DOC.bt(b.no),'<div id="cm"><div class="fg"><label>Good bottles<input type="number" id="cm-good" value="'+b.planned+'" min="1" step="10"></label><label>Rejected bottles<input type="number" id="cm-ret" value="'+ret+'" min="0" step="1"></label><label>Cartons packed<input type="number" id="cm-trips" value="'+Math.ceil(b.planned/r.pack)+'" min="1"></label><label>Average weight (g)<input type="number" id="cm-slump" value="'+r.wt+'" step="0.1"></label><label>Leak-test samples<input type="number" id="cm-cubes" value="'+sampleCount(b.planned)+'" min="0"></label></div><p class="mut" style="margin:14px 0 8px">Materials were issued at the recipe quantity. Change the actual column if the plant used more or less. The difference goes back to stock or is taken from it.</p><div class="tw"><table class="tbl" id="cm-mat"><thead><tr><th>Material</th><th class="num">Expected</th><th class="num">Actual</th><th class="num">Variance</th></tr></thead><tbody>'+rows+'</tbody></table></div><div id="cm-note" style="margin-top:12px"></div><input type="hidden" id="cm-no" value="'+b.no+'"></div>','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" id="cm-save" data-act="bCompleteDo" type="button">Complete batch</button>');
+  cmRecalc();
+}
+function cmRecalc(){
+  const total=(+$('#cm-good').value||0)+(+$('#cm-ret').value||0); let over=[],short=[];
+  $$('#cm-mat tbody tr').forEach(tr=>{ const it=ITEM(tr.dataset.i); const exp=+tr.dataset.q*total; const act=+$('input',tr).value||0; const vp=exp?(act/exp-1)*100:0; const iss=+tr.dataset.iss; const tol=+tr.dataset.tol;
+    $('.e',tr).textContent=n2(exp)+' '+it.uom; const v=$('.v',tr); v.textContent=(vp>=0?'+':'')+nf(vp,1)+'%'; v.style.color=vp>tol?'var(--bad)':'inherit'; v.style.fontWeight=vp>tol?'600':'400';
+    if(vp>tol) over.push(it.name); if(act-iss>stockOf(it)+1e-9) short.push(it.name); });
+  $('#cm-note').innerHTML=short.length?'<p class="warnbox" style="margin:0">Not enough stock to cover the extra '+short.join(', ')+'.</p>':over.length?'<p class="warnbox" style="margin:0">Over tolerance: '+over.join(', ')+'. The batch will be flagged for review.</p>':'<p class="okbox" style="margin:0">All materials are within tolerance.</p>';
+  $('#cm-save').disabled=short.length>0||!(+$('#cm-good').value>0);
+}
+function openFail(b){
+  const m=b.act||null; const ret=m?Object.keys(m).map(i=>n2(m[i])+' '+ITEM(i).uom+' '+ITEM(i).name).join(', '):'';
+  openModal((b.act?'Fail ':'Cancel ')+DOC.bt(b.no),'<label>Reason<select id="fl-r">'+['Leak test failed','Weight or wall thickness out of range','Top-load or drop test failed','Machine breakdown','Power or utility failure','Customer cancelled the order','Other'].map(x=>'<option>'+x+'</option>').join('')+'</select></label><label>Note<input id="fl-n" placeholder="What happened"></label>'+(m?'<p class="okbox" style="margin:0"><b>Returned to stock:</b> '+ret+'.</p>':'<p class="mut" style="margin:0">Nothing has left stock for this batch yet, so there is nothing to return.</p>')+'<input type="hidden" id="fl-no" value="'+b.no+'">','<button class="btn" data-act="closeModal" type="button">Keep batch</button><button class="btn danger" data-act="bFailDo" type="button">'+(b.act?'Fail batch and return materials':'Cancel batch')+'</button>');
+}
+function pgVar(){
+  const all=doneB().map(batchCalc).filter(c=>c.b.date>='2026-10-22'); const agg={};
+  all.forEach(c=>c.lines.forEach(x=>{ const a=agg[x.it.id]||(agg[x.it.id]={it:x.it,exp:0,act:0,tol:x.tol}); a.exp+=x.exp; a.act+=x.act; }));
+  const rows=Object.values(agg).map(a=>{ const vp=(a.act/a.exp-1)*100; return '<tr><td><b>'+a.it.name+'</b></td><td class="num">'+n2(a.exp)+' '+a.it.uom+'</td><td class="num">'+n2(a.act)+' '+a.it.uom+'</td><td class="num" style="color:'+(vp>a.tol?'var(--bad)':'inherit')+'">'+(vp>=0?'+':'')+nf(vp,1)+'%</td><td class="num">±'+a.tol+'%</td><td class="num">'+inr((a.act-a.exp)*a.it.rate,0)+'</td></tr>'; }).join('');
+  const fl=all.filter(c=>c.flagged).reverse().map(c=>{ const w=c.lines.filter(x=>x.flag)[0]; return '<tr><td><a class="id" href="#/production/batches/'+c.b.no+'">'+DOC.bt(c.b.no)+'</a></td><td>'+dmy(c.b.date)+'</td><td>'+c.r.grade+'</td><td>'+w.it.name+'</td><td class="num">+'+nf(w.vp,1)+'%</td><td class="num">'+inr((w.act-w.exp)*w.it.rate,0)+'</td></tr>'; }).join('');
+  return ph('Variance','Material use against the recipe over the last 7 days, from 22 Oct to 28 Oct.')
+   +'<section class="pn"><div class="pn-h"><h2>By material</h2></div>'+tbl(['Material',['Expected'],['Actual'],['Variance'],['Tolerance'],['Value of difference']],[rows])+'</section>'
+   +'<section class="pn" style="margin-top:18px"><div class="pn-h"><h2>Batches over tolerance</h2><span class="mut">Resin over-use on the evening shift is worth a check of the hopper loader and regrind ratio</span></div>'+(fl?tbl(['Batch','Date','Grade','Material',['Variance'],['Extra cost']],[fl]):'<div class="empty">No batches over tolerance.</div>')+'</section>';
+}
+
+function pgCust(){
+  const rows=S.cust.map(c=>{ const invs=S.inv.filter(i=>i.c===c.id).map(invCalc); const due=sum(invs,x=>x.due); const last=invs.map(x=>x.inv.date).sort().pop(); return '<tr><td><b>'+c.name+'</b><span class="sm">'+c.email+'</span></td><td>'+c.gstin+'<span class="sm">'+STATES[c.gstin.slice(0,2)]+'</span></td><td>'+c.contact+'</td><td>'+c.city+'</td><td class="num">'+c.credit+' days</td><td class="num">'+inr(due,0)+'</td><td>'+dmy(last)+'</td></tr>'; }).join('');
+  return ph('Customers','The people and firms you sell to, with their GST state and credit days.','<button class="btn pri" data-act="soon" type="button">'+I('plus',16)+'Add customer</button>')+'<section class="pn">'+tbl(['Name','GSTIN','Contact','Location',['Credit'],['Outstanding'],'Last invoice'],[rows])+'</section>';
+}
+function pgInv(){
+  const rows=S.inv.slice().sort((a,b)=>b.no-a.no).map(invCalc).map(x=>'<tr data-st="'+x.status+'"><td><a class="id" href="#/sales/invoices/'+x.inv.no+'">'+DOC.si(x.inv.no)+'</a></td><td>'+x.c.name+'</td><td>'+dmy(x.inv.date)+'</td><td>'+dmy(x.dueDate)+'</td><td class="num">'+n2(x.qty)+'</td><td class="num">'+inr(x.total,0)+'</td><td class="num">'+inr(x.due,0)+'</td><td>'+pill(x.status)+(x.od?'<span class="sm">'+x.od+' days late</span>':'')+'</td></tr>').join('');
+  return ph('Sales invoices','Every invoice raised, what is still due and when.','<a class="btn pri" href="#/sales/invoices/new">'+I('plus',16)+'New invoice</a>')
+   +'<section class="pn"><div class="toolbar" style="padding-top:16px"><input data-filter="#t-inv" placeholder="Search invoice or customer" aria-label="Search invoices"><select data-filter-status="#t-inv" aria-label="Filter by status"><option value="">All statuses</option>'+['Unpaid','Partly paid','Overdue','Paid'].map(s=>'<option>'+s+'</option>').join('')+'</select></div>'+tbl(['Invoice','Customer','Date','Due',['Bottles'],['Total'],['Due now'],'Status'],[rows],'','t-inv')+'</section>';
+}
+function invLine(l){
+  const opts=PRODS().map(p=>'<option value="'+p.id+'"'+(p.id===l.p?' selected':'')+'>'+p.name+'</option>').join('');
+  return '<div class="iline"><label>Product or service<select data-f="p">'+opts+'</select></label><label>Qty (bottles)<input data-f="q" type="number" step="500" min="0" value="'+l.q+'"></label><label>Rate (₹ per bottle)<input data-f="r" type="number" step="0.05" min="0" value="'+l.r+'"></label><label>Discount %<input data-f="d" type="number" step="0.5" min="0" value="'+(l.d||0)+'"></label><label>GST %<select data-f="g">'+[0,5,12,18,28].map(g=>'<option'+(g===(l.g==null?18:l.g)?' selected':'')+'>'+g+'</option>').join('')+'</select></label><div class="ltot" data-f="t">₹0.00</div><button class="btn sm ghost" data-act="invDel" type="button" aria-label="Remove line">'+I('x',16)+'</button></div>';
+}
+function pgInvNew(){
+  const co=S.cust.map(c=>'<option value="'+c.id+'">'+c.name+'</option>').join('');
+  return ph('New sales invoice','Bottles leave the plant and the amount is added to what the customer owes.','',['#/sales/invoices','Back to invoices'])
+   +'<div id="iform" class="two"><div class="stack"><section class="pn pad"><h2>Customer and dates</h2><div class="fg"><label class="w2">Customer<select id="if-c">'+co+'</select></label><label>Plant<select id="if-plant"><option>Vadodara Plant</option></select></label><label>Invoice date<input type="date" id="if-date" value="'+TODAY+'"></label><label>Due date<input type="date" id="if-due"></label><label>Deliver to<input id="if-site" value="Filling plant, Rajkot"></label></div></section>'
+   +'<section class="pn pad"><h2>Items sold</h2><div id="ilines">'+invLine({p:'b1l',q:20000,r:9.20,d:0,g:18})+'</div><div style="margin-top:8px"><button class="btn sm" data-act="invAdd" type="button">'+I('plus',15)+'Add line</button></div></section>'
+   +'<section class="pn pad"><h2>Freight and note</h2><div class="fg"><label>Freight charged to customer (₹)<input type="number" id="if-fc" value="0" min="0" step="100"></label><label>Freight paid by us (₹)<input type="number" id="if-fp" value="0" min="0" step="100"></label><label class="w3">Note<textarea id="if-note" placeholder="Carton labelling, delivery challan range, plant contact"></textarea></label></div></section></div>'
+   +'<aside class="stack"><section class="pn pad" id="isum"></section><div class="row-btns"><a class="btn" href="#/sales/invoices">Cancel</a><button class="btn pri" data-act="invSave" type="button">Save invoice</button></div></aside></div>';
+}
+function invRecalc(){
+  const c=CUS($('#if-c').value); const inter=c.gstin.slice(0,2)!==ORG.stateCode; let taxable=0,gst=0,vol=0;
+  $$('#ilines .iline').forEach(row=>{ const q=+$('[data-f=q]',row).value||0, r=+$('[data-f=r]',row).value||0, d=+$('[data-f=d]',row).value||0, g=+$('[data-f=g]',row).value; const t=q*r*(1-d/100); taxable+=t; gst+=t*g/100; vol+=q; $('[data-f=t]',row).textContent=inr(t*(1+g/100)); });
+  const fc=+$('#if-fc').value||0; const total=taxable+gst+fc;
+  $('#isum').innerHTML='<h2>Invoice summary</h2><div class="sum"><div><span class="m">Customer state</span><b>'+STATES[c.gstin.slice(0,2)]+'</b></div><div><span class="m">Bottles</span><b>'+n2(vol)+'</b></div><div><span class="m">Taxable amount</span><b>'+inr(taxable)+'</b></div>'+(inter?'<div><span class="m">IGST</span><b>'+inr(gst)+'</b></div>':'<div><span class="m">CGST</span><b>'+inr(gst/2)+'</b></div><div><span class="m">SGST</span><b>'+inr(gst/2)+'</b></div>')+'<div><span class="m">Freight</span><b>'+inr(fc)+'</b></div><div class="t"><span>Total</span><span>'+inr(total)+'</span></div></div><p class="mut" style="margin:12px 0 0">Credit terms: '+c.credit+' days. Due '+dmy($('#if-due').value)+'.</p>';
+}
+function pgInvd(no){
+  const inv=S.inv.find(x=>x.no===+no); if(!inv) return nf404(); const x=invCalc(inv);
+  const lines=x.lines.map(l=>'<tr><td><b>'+l.name+'</b>'+(l.svc?'':'<span class="sm">HSN '+l.hsn+'</span>')+'</td><td class="num">'+n2(l.q)+'</td><td class="num">'+inr(l.r)+'</td><td class="num">'+nf(l.d||0,1)+'%</td><td class="num">'+inr(l.t)+'</td><td class="num">'+l.gr+'%</td><td class="num">'+inr(l.t+l.g)+'</td></tr>').join('');
+  const pays=(inv.pay||[]).map(p=>'<tr><td>'+dmy(p.date)+'</td><td>'+p.mode+'</td><td>'+esc(p.ref)+'</td><td>'+(S.acc.find(a=>a.id===p.acc)||{name:'—'}).name+'</td><td class="num">'+inr(p.amt)+'</td></tr>').join('');
+  const loads=Math.ceil(sum(inv.lines,l=>l.q/(REC(l.p).pack||1))), first=1100+inv.no*3, trucks=Math.max(1,Math.ceil(loads/250));
+  return ph(DOC.si(inv.no),x.c.name+' · '+dmy(inv.date),(x.due>0.5?'<button class="btn pri" data-act="payOpen" data-no="'+inv.no+'" type="button">'+I('wallet',16)+'Record receipt</button>':''),['#/sales/invoices','Back to invoices'])
+   +'<div class="two"><div class="stack"><section class="pn pad"><h2>Invoice details</h2><div class="kvs">'+kv('Status',pill(x.status)+(x.od?' <span class="mut">'+x.od+' days late</span>':''))+kv('Customer',x.c.name,x.c.email)+kv('Plant','Vadodara Plant')+kv('Invoice date',dmy(inv.date))+kv('Due date',dmy(x.dueDate),x.c.credit+' days credit')+kv('Delivered',n2(x.qty)+' bottles','≈ '+n2(loads)+' cartons · DC/26-27/'+first+(trucks>1?' to '+(first+trucks-1):''))+kv('Buyer GSTIN',x.c.gstin,STATES[x.c.gstin.slice(0,2)])+kv('Seller GSTIN',ORG.gstin)+kv('Supply type',x.inter?'Inter-state (IGST)':'Intra-state (CGST + SGST)')+'</div></section>'
+   +'<section class="pn"><div class="pn-h"><h2>Items sold</h2></div>'+tbl(['Item',['Qty'],['Rate'],['Discount'],['Taxable'],['GST'],['Line total']],[lines])+'</section>'
+   +'<section class="pn"><div class="pn-h"><h2>Receipts applied</h2></div>'+(pays?tbl(['Date','Mode','Reference','Deposited in',['Amount']],[pays]):'<div class="empty">No money received against this invoice yet.</div>')+'</section></div>'
+   +'<section class="pn pad"><h2>Totals</h2><div class="sum"><div><span class="m">Taxable amount</span><b>'+inr(x.taxable)+'</b></div>'+(x.inter?'<div><span class="m">IGST</span><b>'+inr(x.gst)+'</b></div>':'<div><span class="m">CGST</span><b>'+inr(x.gst/2)+'</b></div><div><span class="m">SGST</span><b>'+inr(x.gst/2)+'</b></div>')+'<div><span class="m">Freight</span><b>'+inr(x.freight)+'</b></div><div class="t"><span>Total</span><span>'+inr(x.total)+'</span></div><div><span class="m">Received</span><b>'+inr(x.paid)+'</b></div><div><span class="m">Due now</span><b style="color:'+(x.od?'var(--bad)':'inherit')+'">'+inr(x.due)+'</b></div></div></section></div>';
+}
+function pgRcpt(){
+  const all=[]; S.inv.forEach(i=>(i.pay||[]).forEach(p=>all.push({p,i}))); all.sort((a,b)=>a.p.date<b.p.date?-1:a.p.date>b.p.date?1:0);
+  const rows=all.map((r,k)=>({n:k+1,r})).reverse().map(({n,r})=>'<tr><td><b>'+DOC.rcp(n)+'</b></td><td>'+dmy(r.p.date)+'</td><td>'+CUS(r.i.c).name+'</td><td><a href="#/sales/invoices/'+r.i.no+'">'+DOC.si(r.i.no)+'</a></td><td>'+r.p.mode+'<span class="sm">'+esc(r.p.ref)+'</span></td><td class="num">'+inr(r.p.amt)+'</td></tr>').join('');
+  return ph('Receipts','Money received from customers and the invoice each payment settled.')+'<section class="pn">'+tbl(['Receipt','Date','Customer','Invoice','Mode',['Amount']],[rows])+'</section>';
+}
+function pgDues(){
+  const d=duesData(); const lab=['Not yet due','Up to 1 month','1–2 months','2–3 months','Over 3 months'];
+  const ticker='<section class="ticker c6"><div class="tk"><span class="k">Total outstanding</span><b class="n">'+lk(d.total)+'</b></div>'+lab.map((l,k)=>'<div class="tk"><span class="k">'+l+'</span><b class="n" style="'+(k>0&&d.tot[k]>0?'color:var(--bad)':'')+'">'+(d.tot[k]?lk(d.tot[k]):'—')+'</b></div>').join('')+'</section>';
+  const rows=d.rows.map(r=>'<tr><td><b>'+r.c.name+'</b><span class="sm">'+r.c.credit+' days credit</span></td>'+r.b.map((v,k)=>'<td class="num" style="'+(k>0&&v>0?'color:var(--bad);font-weight:600':'')+'">'+(v?inr(v,0):'—')+'</td>').join('')+'<td class="num"><b>'+inr(r.total,0)+'</b></td></tr>').join('');
+  return ph('Customer dues','What each customer owes you, aged by invoice due date. As of 28 Oct 2026.')+ticker+'<section class="pn" style="margin-top:18px">'+tbl(['Customer',['Not yet due'],['Up to 1 month'],['1–2 months'],['2–3 months'],['Over 3 months'],['Total']],[rows])+'</section>';
+}
+function pgCost(){
+  const all=doneB().map(batchCalc); const sel=window.__costBatch&&all.find(c=>c.b.no===window.__costBatch)||all.filter(x=>x.b.good>=6000).pop(); const c=sel;
+  const cat=[['HDPE resin',['hdpe'],'#22262A'],['Masterbatch and additives',['tio2','blk','uv'],'#B8BDB4'],['Cartons',['carton'],'#F2B705']];
+  const parts=cat.map(([n,ids,col])=>({n,col,act:sum(c.lines.filter(x=>ids.includes(x.it.id)),x=>x.cost),std:sum(c.lines.filter(x=>ids.includes(x.it.id)),x=>x.expCost)}));
+  parts.push({n:'Labour',col:'#1D4E89',act:c.r.labour*c.total/1000,std:c.r.labour*c.total/1000},{n:'Power and utilities',col:'#A8241C',act:c.r.direct*c.total/1000,std:c.r.direct*c.total/1000},{n:'Overhead',col:'#8A5700',act:c.r.ovh*c.total/1000,std:c.r.ovh*c.total/1000});
+  const tot=sum(parts,p=>p.act), totS=sum(parts,p=>p.std);
+  const opts=all.slice().reverse().map(x=>'<option value="'+x.b.no+'"'+(x.b.no===c.b.no?' selected':'')+'>'+DOC.bt(x.b.no)+' · '+x.r.grade+' · '+dmy(x.b.date)+'</option>').join('');
+  const stk=parts.map(p=>'<i style="width:'+(p.act/tot*100).toFixed(2)+'%;background:'+p.col+'" title="'+p.n+'"></i>').join('');
+  const prow=parts.map(p=>'<tr><td><span class="sw" style="background:'+p.col+'"></span>'+p.n+'</td><td class="num">'+inr(p.act,0)+'</td><td class="num">'+inr(p.std,0)+'</td><td class="num">'+nf(p.act/tot*100,1)+'%</td><td class="num">'+inr(p.act/c.b.good,2)+'</td></tr>').join('');
+  const m={}; all.forEach(x=>{ const a=m[x.r.id]||(m[x.r.id]={r:x.r,v:0,cost:0}); a.v+=x.b.good; a.cost+=x.cost; });
+  const mrows=Object.values(m).map(a=>{ const u=a.cost/a.v; const mg=a.r.price-u; return '<tr><td><b>'+a.r.name+'</b></td><td class="num">'+n2(a.v)+'</td><td class="num">'+inr(a.r.price,2)+'</td><td class="num">'+inr(u,2)+'</td><td class="num">'+inr(mg,2)+'</td><td class="num">'+nf(mg/a.r.price*100,1)+'%</td><td class="num">'+inr(mg*a.v,0)+'</td></tr>'; }).join('');
+  return ph('Costing and margin','What each batch cost, what each product earns, and where the overheads went.')
+   +'<section class="pn"><div class="pn-h"><h2>Batch cost breakdown</h2><label style="min-width:260px">Batch<select id="cost-sel">'+opts+'</select></label></div><p class="cap">Standard is what the recipe says this output should cost. Per good bottle includes the cost of rejects, so more rejects mean a dearer bottle.</p><div style="padding:0 20px 14px"><div class="stk" role="img" aria-label="Cost split">'+stk+'</div></div>'+tbl(['Cost',['Actual'],['Standard'],['Share'],['Per good bottle']],[prow],'<tfoot><tr><td>Total · '+n2(c.b.good)+' good bottles</td><td class="num">'+inr(tot,0)+'</td><td class="num">'+inr(totS,0)+'</td><td class="num">100%</td><td class="num">'+inr(tot/c.b.good,2)+'</td></tr></tfoot>')+'</section>'
+   +'<section class="pn" style="margin-top:18px"><div class="pn-h"><h2>Margin by product</h2><span class="mut">Last 7 days</span></div><p class="cap">List price minus the cost per bottle from recent batches. It uses the list price, not each invoice. Margin earned shows which products bring in the money.</p>'+tbl(['Product',['Bottles'],['List price'],['Cost per bottle'],['Margin per bottle'],['Margin'],['Margin earned']],[mrows])+'</section>';
+}
+
+function pgStock(){
+  const rows=[]; S.items.forEach(it=>{ const low=stockOf(it)<it.reorder; const bl=it.brands||[{n:'—',c:'',q:it.stock}];
+    bl.forEach((b,k)=>rows.push('<tr><td>'+(k===0?'<b>'+it.name+'</b><span class="sm">'+it.sku+'</span>':'')+'</td><td>'+(b.n==='—'?'—':b.n+' · '+b.c)+'</td><td>'+it.uom+'</td><td class="num">'+n2(b.q)+'</td><td class="num">'+(k===0?n2(it.reorder):'')+'</td><td>'+(k===0?(low?pill('Low stock'):pill('In stock')):'')+'</td></tr>')); });
+  return ph('Stock summary','Latest on-hand balances by item and brand catalogue. Balances update after goods receipts, batches and adjustments.','<a class="btn" href="#/stocks/low-stock">Low stock</a>')+'<section class="pn">'+tbl(['Item','Brand and catalogue no','UOM',['Balance'],['Reorder level'],'Status'],[rows.join('')])+'</section>';
+}
+function pgLow(){
+  const low=lowStock(); const rows=low.map(it=>'<tr><td><b>'+it.name+'</b><span class="sm">'+it.sku+'</span></td><td class="num">'+n2(stockOf(it))+' '+it.uom+'</td><td class="num">'+n2(it.reorder)+' '+it.uom+'</td><td class="num">'+n2(it.reorder*2-stockOf(it))+' '+it.uom+'</td><td><button class="btn sm pri" data-act="prNew" data-item="'+it.id+'" type="button">Raise purchase request</button></td></tr>').join('');
+  return ph('Low stock','Items at or below their reorder level.')+'<section class="pn">'+(low.length?tbl(['Item',['On hand'],['Reorder level'],['Suggested order'],''],[rows]):'<div class="empty"><b>Stock is healthy</b><br>Every item is above its reorder level.</div>')+'</section>';
+}
+function pgCash(){
+  const rows=S.acc.map(a=>'<tr><td><b>'+a.name+'</b></td><td>'+a.type+'</td><td class="num">'+inr(a.bal)+'</td></tr>').join('');
+  return ph('Cash and bank accounts','Where money is held. Balances update as payments are recorded.')+'<section class="pn">'+tbl(['Account','Type',['Balance']],[rows],'<tfoot><tr><td>Total</td><td></td><td class="num">'+inr(sum(S.acc,a=>a.bal))+'</td></tr></tfoot>')+'</section>';
+}
+function nf404(){ return ph('Page not found','That page does not exist in this prototype.','<a class="btn" href="#/">Go to dashboard</a>'); }
+
+/* ================= actions ================= */
+const A={
+ tab(el){ dashTab=el.dataset.v; render(); },
+ theme(){ const r=document.documentElement; const dark=r.dataset.theme?r.dataset.theme==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches; r.dataset.theme=dark?'light':'dark'; },
+ menu(){ $('#side').classList.toggle('open'); },
+ reset(){ seed(); toast('Demo data reset'); go('/'); render(); },
+ soon(){ toast('Not part of this walkthrough. The purchase, production and sales flows are live.'); },
+ closeModal(){ closeModal(); },
+ maskClose(el,e){ if(e.target===el) closeModal(); },
+ qrNewBtn(){ qrDraft={step:1,prs:[],vendors:[]}; go('/procurement/quotation-requests/new'); },
+ qrStart(el){ qrDraft={step:1,prs:[+el.dataset.no],vendors:[]}; go('/procurement/quotation-requests/new'); },
+ qrPR(el){ const n=+el.dataset.no,a=qrDraft.prs,k=a.indexOf(n); if(k<0) a.push(n); else a.splice(k,1); render(); },
+ qrVen(el){ const n=el.dataset.v,a=qrDraft.vendors,k=a.indexOf(n); if(k<0) a.push(n); else a.splice(k,1); render(); },
+ qrNext(){ qrDraft.step=Math.min(3,qrDraft.step+1); render(); },
+ qrBack(){ qrDraft.step=Math.max(1,qrDraft.step-1); render(); },
+ qrCreate(){ const no=Math.max(...S.qrs.map(q=>q.no))+1; S.qrs.push({no,prs:qrDraft.prs.slice(),vendors:qrDraft.vendors.slice(),status:'Draft',created:TODAY,by:'Ketan Shah',awarded:null,po:null,quotes:{}}); qrDraft={step:1,prs:[],vendors:[]}; toast(DOC.qr(no)+' saved as a draft'); go('/procurement/quotation-requests/'+no); },
+ qrOpen(el){ const q=S.qrs.find(x=>x.no===+el.dataset.q); q.status='Open'; toast(DOC.qr(q.no)+' opened. Enter each vendor’s quote as it arrives.'); render(); },
+ qrCancel(el){ const q=S.qrs.find(x=>x.no===+el.dataset.q); q.status='Cancelled'; toast(DOC.qr(q.no)+' cancelled'); render(); },
+ qrQuote(el){
+  const q=S.qrs.find(x=>x.no===+el.dataset.q); const v=VEN(el.dataset.v); const c=qrCalc(q); const ex=q.quotes[v.id]||{rates:{},freight:0,days:3,terms:'Net 30'};
+  const rows=c.lines.map(l=>'<label>'+l.it.name+' · '+n2(l.p.q)+' '+l.it.uom+' · rate per '+l.it.uom+' (₹, excluding GST)<input type="number" data-qr="'+l.p.no+'" value="'+(ex.rates[l.p.no]||lastRate(l.p.i))+'" min="0" step="any"></label>').join('');
+  openModal('Quote from '+esc(v.name),rows+'<div class="fg"><label>Freight and loading (₹)<input type="number" id="qq-f" value="'+(ex.freight||0)+'" min="0" step="100"></label><label>Delivery (days)<input type="number" id="qq-d" value="'+ex.days+'" min="0"></label><label>Payment terms<select id="qq-t">'+['Net 30','Net 15','Advance'].map(t=>'<option'+(t===ex.terms?' selected':'')+'>'+t+'</option>').join('')+'</select></label></div><p class="mut" style="margin:0">Rates are pre-filled with the last purchase rate. Replace them with the vendor’s quoted rates.</p><input type="hidden" id="qq-q" value="'+q.no+'"><input type="hidden" id="qq-v" value="'+v.id+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="qrQuoteSave" type="button">Save quote</button>');
+ },
+ qrQuoteSave(){
+  const q=S.qrs.find(x=>x.no===+$('#qq-q').value); const rates={}; let bad=false;
+  $$('#modal [data-qr]').forEach(i=>{ const r=+i.value; if(!(r>0)) bad=true; rates[i.dataset.qr]=r; });
+  if(bad){ toast('Enter a rate greater than zero for every line'); return; }
+  const vid=$('#qq-v').value; q.quotes[vid]={rates,freight:+$('#qq-f').value||0,days:+$('#qq-d').value||0,terms:$('#qq-t').value}; closeModal(); toast('Quote from '+VEN(vid).name+' saved'); render(); },
+ qrAward(el){
+  const q=S.qrs.find(x=>x.no===+el.dataset.q); const x=qrCalc(q).vs.find(y=>y.v.id===el.dataset.v); const c=qrCalc(q);
+  const note=c.low&&c.low!==x?'<p class="warnbox" style="margin:0">This is not the lowest landed total. '+esc(c.low.v.name)+' is '+inr(x.landed-c.low.landed,0)+' cheaper.</p>':'';
+  openModal('Award to '+esc(x.v.name),'<p style="margin:0">Landed total <b>'+inr(x.landed)+'</b> · delivery in '+x.qt.days+' days · '+x.qt.terms+'.</p>'+note+'<p class="mut" style="margin:0">A purchase order is created from these rates and sent for approval. The other vendors’ quotes are kept on this request.</p><input type="hidden" id="aw-q" value="'+q.no+'"><input type="hidden" id="aw-v" value="'+x.v.id+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="qrAwardDo" type="button">Award and create purchase order</button>');
+ },
+ qrAwardDo(){
+  const q=S.qrs.find(x=>x.no===+$('#aw-q').value); const vid=$('#aw-v').value; const qt=q.quotes[vid]; const no=Math.max(...S.pos.map(p=>p.no))+1;
+  S.pos.push({no,v:vid,date:TODAY,status:'Pending approval',bc:S.prs.find(z=>z.no===q.prs[0]).bc,lines:q.prs.map(n=>{ const p=S.prs.find(z=>z.no===n); return {i:p.i,q:p.q,r:qt.rates[n],recv:0,cc:p.cc}; }),by:'Ketan Shah',appr:null,sent:null,terms:qt.terms,del:'FOR Vadodara plant',pf:qt.freight||0,prs:q.prs.slice()});
+  q.prs.forEach(n=>{ S.prs.find(z=>z.no===n).po=no; }); q.status='Awarded'; q.awarded=vid; q.po=no; closeModal(); toast(DOC.qr(q.no)+' awarded to '+VEN(vid).name+' · '+DOC.po(no)+' created'); go('/procurement/purchase-orders/'+no); },
+ prSubmit(el){ const p=S.prs.find(x=>x.no===+el.dataset.no); p.status='Pending approval'; toast(DOC.pr(p.no)+' submitted for approval'); render(); },
+ prApprove(el){ const p=S.prs.find(x=>x.no===+el.dataset.no); p.status='Approved'; toast(DOC.pr(p.no)+' approved. It can now become a purchase order.'); render(); },
+ prReject(el){ const p=S.prs.find(x=>x.no===+el.dataset.no); p.status='Rejected'; toast(DOC.pr(p.no)+' rejected'); render(); },
+ prNew(el){
+  const pre=el.dataset.item||'carton'; const opts=S.items.map(it=>'<option value="'+it.id+'"'+(it.id===pre?' selected':'')+'>'+it.name+' ('+it.uom+')</option>').join('');
+  const it=ITEM(pre); const sug=el.dataset.item?Math.max(1,Math.round(it.reorder*2-stockOf(it))):500;
+  openModal('New purchase request','<label>Item<select id="pr-i">'+opts+'</select></label><div class="fg"><label>Quantity<input type="number" id="pr-q" value="'+sug+'" min="1"></label><label>Need by<input type="date" id="pr-d" value="'+addDays(TODAY,5)+'"></label><label>Priority<select id="pr-p"><option>Medium</option><option>High</option><option>Low</option></select></label></div><div class="fg"><label class="w2">Budget category<select id="pr-bc">'+optList(BC_NAMES(),budgetFor(pre))+'</select></label><label>Cost center<select id="pr-cc">'+optList(CC_NAMES(),DEFAULT_CC[pre])+'</select></label></div><label>Note<input id="pr-n" placeholder="Why it is needed"></label>','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="prSave" type="button">Save as draft</button>');
+ },
+ prSave(){ const no=Math.max(...S.prs.map(p=>p.no))+1; const q=+$('#pr-q').value; if(!(q>0)){ toast('Enter a quantity greater than zero'); return; }
+  S.prs.unshift({no,i:$('#pr-i').value,q,pr:$('#pr-p').value,need:$('#pr-d').value,status:'Draft',po:null,by:'Ketan Shah',bc:$('#pr-bc').value,cc:$('#pr-cc').value,note:$('#pr-n').value}); closeModal(); toast(DOC.pr(no)+' saved as a draft'); go('/procurement/purchase-requests'); },
+ prToPO(el){
+  const p=S.prs.find(x=>x.no===+el.dataset.no); const it=ITEM(p.i); const vopts=S.vendors.filter(v=>!v.blocked).map(v=>'<option value="'+v.id+'"'+(v.id===PREF_VENDOR[p.i]?' selected':'')+'>'+v.name+'</option>').join('');
+  openModal('Create purchase order from '+DOC.pr(p.no),'<label>Vendor<select id="po-v">'+vopts+'</select></label><div class="fg"><label>Quantity ('+it.uom+')<input type="number" id="po-q" value="'+p.q+'" min="1"></label><label>Rate (₹ per '+it.uom+')<input type="number" id="po-r" value="'+lastRate(p.i)+'" min="0"></label><label>Payment terms<select id="po-t"><option>Net 30</option><option>Net 15</option><option>Advance</option></select></label></div><div class="fg"><label class="w2">Budget category<select id="po-bc">'+optList(BC_NAMES(),p.bc||budgetFor(p.i))+'</select></label><label>Cost center<select id="po-cc">'+optList(CC_NAMES(),p.cc||DEFAULT_CC[p.i])+'</select></label></div><p id="po-rem" class="mut" style="margin:0"></p><p class="mut" style="margin:0">'+it.name+' · last bought at '+inr(lastRate(p.i),0)+' per '+it.uom+'. GST '+it.gst+'% is added by the vendor’s state.</p><input type="hidden" id="po-pr" value="'+p.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="poCreate" type="button">Create and send for approval</button>');
+  poRem();
+ },
+ poCreate(){ const prNo=+$('#po-pr').value; const p=S.prs.find(x=>x.no===prNo); const no=Math.max(...S.pos.map(x=>x.no))+1;
+  S.pos.push({no,v:$('#po-v').value,date:TODAY,status:'Pending approval',bc:$('#po-bc').value,lines:[{i:p.i,q:+$('#po-q').value,r:+$('#po-r').value,recv:0,cc:$('#po-cc').value}],by:'Ketan Shah',appr:null,sent:null,terms:$('#po-t').value,del:'FOR Vadodara plant',prs:[prNo]}); p.po=no; closeModal(); toast(DOC.po(no)+' created and sent for approval'); go('/procurement/purchase-orders/'+no); },
+ poApprove(el){ const p=S.pos.find(x=>x.no===+el.dataset.no); p.status='Approved'; p.appr='Ketan Shah'; p.sent=null; toast(DOC.po(p.no)+' approved. Send it to the vendor next.'); go('/procurement/purchase-orders/'+p.no); },
+ poReject(el){ const p=S.pos.find(x=>x.no===+el.dataset.no); p.status='Rejected'; toast(DOC.po(p.no)+' rejected'); go('/procurement/purchase-orders'); },
+ poSend(el){ const p=S.pos.find(x=>x.no===+el.dataset.no); p.status='Sent to vendor'; p.sent=TODAY; toast(DOC.po(p.no)+' sent to '+VEN(p.v).contact); render(); },
+ poReceive(el){
+  const p=S.pos.find(x=>x.no===+el.dataset.no); const rows=p.lines.filter(l=>l.q-l.recv>0).map((l,k)=>{ const it=ITEM(l.i); return '<label>'+it.name+' · pending '+n2(l.q-l.recv)+' '+it.uom+'<input type="number" data-rl="'+k+'" value="'+(l.q-l.recv)+'" min="0" max="'+(l.q-l.recv)+'" step="0.5"></label>'; }).join('');
+  openModal('Record receipt for '+DOC.po(p.no),rows+'<div class="fg"><label>Challan number<input id="gr-c" value="CH-'+(4100+Math.floor(Math.random()*800))+'"></label><label>Vehicle number<input id="gr-v" value="'+VEHICLES[Math.floor(Math.random()*VEHICLES.length)]+'"></label><label>Receipt date<input type="date" id="gr-d" value="'+TODAY+'"></label></div><input type="hidden" id="gr-po" value="'+p.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="grSave" type="button">Receive into stock</button>');
+ },
+ grSave(){
+  const p=S.pos.find(x=>x.no===+$('#gr-po').value); const open=p.lines.filter(l=>l.q-l.recv>0); const got=[];
+  $$('#modal [data-rl]').forEach(inp=>{ const l=open[+inp.dataset.rl]; const q=Math.min(+inp.value||0,l.q-l.recv); if(q>0){ l.recv=r3(l.recv+q); addStock(ITEM(l.i),q); got.push({i:l.i,q}); } });
+  if(!got.length){ toast('Enter a quantity to receive'); return; }
+  const no=Math.max(...S.grns.map(g=>g.no))+1; S.grns.push({no,po:p.no,date:$('#gr-d').value,by:'Bhavna Parmar',challan:$('#gr-c').value,veh:$('#gr-v').value,lines:got});
+  p.status=p.lines.every(l=>l.recv>=l.q-1e-9)?'Fully received':'Partially received'; closeModal(); toast(DOC.grn(no)+' recorded · stock updated'); render(); },
+ batchSave(){
+  const vol=+$('#bf-good').value; if(!(vol>0)){ toast('Enter the planned output'); return; }
+  const no=Math.max(...S.batches.map(b=>b.no))+1;
+  S.batches.push({no,date:$('#bf-date').value,shift:$('#bf-shift').value,rid:$('#bf-rec').value,planned:vol,good:0,ret:0,stage:'Planned',since:NOW,by:'Ketan Shah',log:[{s:'Planned',at:NOW}]});
+  batchView='board'; toast(DOC.bt(no)+' added to Planned · stock is unchanged'); go('/production/batches'); },
+ bview(el){ batchView=el.dataset.v; render(); },
+ bStart(el){ openStart(S.batches.find(b=>b.no===+el.dataset.no)); },
+ bStartDo(el){ const b=S.batches.find(x=>x.no===+el.dataset.no); const act={};
+  reqMat(b).forEach(x=>{ takeStock(x.it,x.qty); act[x.it.id]=+x.qty.toFixed(3); }); b.act=act; setStage(b,ISSUE_STAGE); closeModal(); toast(DOC.bt(b.no)+' started · materials issued from stock'); render(); },
+ bQC(el){ toQC(S.batches.find(b=>b.no===+el.dataset.no)); },
+ bComplete(el){ openComplete(S.batches.find(b=>b.no===+el.dataset.no)); },
+ bCompleteDo(){
+  const b=S.batches.find(x=>x.no===+$('#cm-no').value); const act={};
+  $$('#cm-mat tbody tr').forEach(tr=>{ const i=tr.dataset.i; const a=+$('input',tr).value||0; const diff=a-b.act[i]; if(diff>0) takeStock(ITEM(i),diff); else if(diff<0) addStock(ITEM(i),-diff); act[i]=a; });
+  b.good=+$('#cm-good').value; b.ret=+$('#cm-ret').value||0; b.cartons=+$('#cm-trips').value||1; b.wt=+$('#cm-slump').value; b.samples=+$('#cm-cubes').value; b.act=act; setStage(b,'Completed'); b.date=TODAY;
+  const c=batchCalc(b); closeModal(); toast(DOC.bt(b.no)+' completed · '+n2(b.good)+' bottles at '+inr(c.unit,2)+' each'); render(); },
+ wrNew(){ openWrNew(); },
+ wrNewSave(){ const t=$('#wn-ti').value.trim(); if(!t){ toast('Add a one-line title'); return; }
+  const no=Math.max(...S.wrs.map(w=>w.no))+1; S.wrs.push({no,machine:$('#wn-m').value,title:t,type:$('#wn-t').value,impact:$('#wn-i').value,by:'Ketan Shah',assignee:null,stage:'Requested',since:NOW,desc:$('#wn-d').value,log:[{s:'Requested',at:NOW,by:'Ketan Shah'}]});
+  closeModal(); toast(DOC_WR(no)+' raised · it is in the inbox for screening'); render(); },
+ wrView(el){ openWrView(WR(el.dataset.wr)); },
+ wrApprove(el){ openWrApprove(WR(el.dataset.wr)); },
+ wrApproveDo(){ const w=WR($('#wa-no').value); w.assignee=$('#wa-t').value; wrSet(w,'Approved'); closeModal(); toast(DOC_WR(w.no)+' approved · assigned to '+w.assignee); render(); },
+ wrReject(el){ openWrReject(WR(el.dataset.wr)); },
+ wrRejectDo(){ const n=$('#wj-n').value.trim(); if(!n){ toast('Add a note the requester will read'); return; } const w=WR($('#wj-no').value); w.reason=$('#wj-r').value; w.note=n; wrSet(w,'Rejected'); closeModal(); toast(DOC_WR(w.no)+' rejected · the reason is kept on the card'); render(); },
+ wrDup(el){ openWrDup(WR(el.dataset.wr)); },
+ wrDupDo(){ const w=WR($('#wd-no').value); w.dupOf=+$('#wd-o').value; wrSet(w,'Duplicate'); closeModal(); toast(DOC_WR(w.no)+' marked as a duplicate of '+DOC_WR(w.dupOf)); render(); },
+ wrStart(el){ wrStartOrResume(WR(el.dataset.wr)); },
+ wrResume(el){ wrStartOrResume(WR(el.dataset.wr)); },
+ wrWait(el){ openWrWait(WR(el.dataset.wr)); },
+ wrWaitDo(){ const w=WR($('#ww-no').value); w.waitFor=$('#ww-r').value; w.waitNote=$('#ww-n').value; wrSet(w,'Waiting'); closeModal(); toast(DOC_WR(w.no)+' is waiting · '+w.waitFor); render(); },
+ wrDone(el){ openWrDone(WR(el.dataset.wr)); },
+ wrDoneDo(){ const w=WR($('#wn-no').value); w.doneNote=$('#wn-n').value; wrSet(w,'Done'); closeModal(); toast(DOC_WR(w.no)+' done · '+w.machine); render(); },
+ bBlock(el){ openBlock(S.batches.find(b=>b.no===+el.dataset.no)); },
+ bBlockDo(){ const b=S.batches.find(x=>x.no===+$('#bl-no').value); b.prev=b.stage; b.blockReason=$('#bl-r').value; b.blockNote=$('#bl-n').value; setStage(b,'Blocked'); closeModal(); toast(DOC.bt(b.no)+' blocked · '+b.blockReason); render(); },
+ bResume(el){ resumeBatch(S.batches.find(b=>b.no===+el.dataset.no)); },
+ bFail(el){ openFail(S.batches.find(b=>b.no===+el.dataset.no)); },
+ bFailDo(){
+  const b=S.batches.find(x=>x.no===+$('#fl-no').value); const had=!!b.act;
+  if(b.act){ Object.keys(b.act).forEach(i=>addStock(ITEM(i),b.act[i])); b.returned=b.act; delete b.act; } else b.returned={};
+  b.reason=$('#fl-r').value; b.note=$('#fl-n').value; setStage(b,'Failed or cancelled'); closeModal(); toast(DOC.bt(b.no)+(had?' failed · materials returned to stock':' cancelled')); render(); },
+ invAdd(){ $('#ilines').insertAdjacentHTML('beforeend',invLine({p:'b500',q:10000,r:6.40,d:0,g:18})); invRecalc(); },
+ invDel(el){ if($$('#ilines .iline').length>1){ el.closest('.iline').remove(); invRecalc(); } else toast('An invoice needs at least one line'); },
+ invSave(){
+  const lines=$$('#ilines .iline').map(row=>({p:$('[data-f=p]',row).value,q:+$('[data-f=q]',row).value||0,r:+$('[data-f=r]',row).value||0,d:+$('[data-f=d]',row).value||0,g:+$('[data-f=g]',row).value})).filter(l=>l.q>0);
+  if(!lines.length){ toast('Add a quantity to at least one line'); return; }
+  const no=Math.max(...S.inv.map(i=>i.no))+2; S.inv.push({no,date:$('#if-date').value,c:$('#if-c').value,lines,freight:+$('#if-fc').value||0,pay:[]});
+  toast(DOC.si(no)+' saved · added to '+CUS($('#if-c').value).name+'’s dues'); go('/sales/invoices/'+no); },
+ payOpen(el){
+  const inv=S.inv.find(x=>x.no===+el.dataset.no); const x=invCalc(inv);
+  openModal('Record receipt for '+DOC.si(inv.no),'<div class="fg"><label>Amount (₹)<input type="number" id="pay-a" value="'+x.due.toFixed(2)+'" min="1" step="0.01"></label><label>Date<input type="date" id="pay-d" value="'+TODAY+'"></label><label>Mode<select id="pay-m"><option>NEFT</option><option>RTGS</option><option>UPI</option><option>Cheque</option><option>Cash</option></select></label><label class="w2">Reference<input id="pay-r" placeholder="UTR or cheque number"></label><label>Deposit to<select id="pay-acc">'+S.acc.map(a=>'<option value="'+a.id+'">'+a.name+'</option>').join('')+'</select></label></div><p class="mut" style="margin:0">'+x.c.name+' owes '+inr(x.due)+' on this invoice.</p><input type="hidden" id="pay-i" value="'+inv.no+'">','<button class="btn" data-act="closeModal" type="button">Cancel</button><button class="btn pri" data-act="paySave" type="button">Save receipt</button>');
+ },
+ paySave(){
+  const inv=S.inv.find(x=>x.no===+$('#pay-i').value); const x=invCalc(inv); const amt=Math.min(+$('#pay-a').value||0,x.due);
+  if(amt<=0){ toast('Enter the amount received'); return; }
+  const acc=$('#pay-acc').value; inv.pay.push({date:$('#pay-d').value,amt:+amt.toFixed(2),mode:$('#pay-m').value,ref:$('#pay-r').value||'—',acc}); S.acc.find(a=>a.id===acc).bal+=amt;
+  closeModal(); toast(inr(amt,0)+' received against '+DOC.si(inv.no)); render(); }
+};
+document.addEventListener('click',e=>{ const el=e.target.closest('[data-act]'); if(!el) return; e.preventDefault(); const fn=A[el.dataset.act]; if(fn) fn(el,e); });
+document.addEventListener('input',e=>{
+  const t=e.target;
+  if(t.matches('[data-filter]')){ const q=t.value.toLowerCase(); $$(t.dataset.filter+' tbody tr').forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none'; }); }
+  else if(t.matches('[data-filter-status]')){ const q=t.value; $$(t.dataset.filterStatus+' tbody tr').forEach(tr=>{ tr.style.display=!q||tr.dataset.st===q?'':'none'; }); }
+  else if(t.id==='bf-rec'||t.id==='bf-good') batchRebuild();
+  else if(t.closest&&t.closest('#cm')) cmRecalc();
+  else if(t.closest&&t.closest('#iform')){
+    if(t.id==='if-c'||t.id==='if-date'){ const c=CUS($('#if-c').value); $('#if-due').value=addDays($('#if-date').value,c.credit); }
+    if(t.dataset&&t.dataset.f==='p'){ const row=t.closest('.iline'); const p=PROD(t.value); $('[data-f=r]',row).value=p.price; }
+    invRecalc();
+  }
+  else if(t.id==='pr-i'){ $('#pr-bc').value=budgetFor(t.value); $('#pr-cc').value=DEFAULT_CC[t.value]; }
+  else if(t.id==='po-bc'||t.id==='po-q'||t.id==='po-r') poRem();
+  else if(t.id==='cost-sel'){ window.__costBatch=+t.value; render(); }
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+/* ================= board drag and drop ================= */
+let dragNo=null;
+document.addEventListener('dragstart',e=>{ const c=e.target.closest&&e.target.closest('.bcard[data-no]'); if(!c) return; dragNo=+c.dataset.no; c.classList.add('dragging'); if(e.dataTransfer){ e.dataTransfer.effectAllowed='move'; try{ e.dataTransfer.setData('text/plain',String(dragNo)); }catch(_){} } });
+document.addEventListener('dragend',()=>{ dragNo=null; $$('.bcard.dragging').forEach(x=>x.classList.remove('dragging')); $$('.col.drop').forEach(x=>x.classList.remove('drop')); });
+document.addEventListener('dragover',e=>{ const col=e.target.closest&&e.target.closest('.col[data-stage]'); if(col&&dragNo!=null){ e.preventDefault(); $$('.col.drop').forEach(x=>{ if(x!==col) x.classList.remove('drop'); }); col.classList.add('drop'); } });
+document.addEventListener('drop',e=>{ const col=e.target.closest&&e.target.closest('.col[data-stage]'); if(!col||dragNo==null) return; e.preventDefault(); const n=dragNo; dragNo=null; col.classList.remove('drop'); moveBatch(n,col.dataset.stage); });
+
+/* ================= work request drag and drop ================= */
+let dragWr=null;
+document.addEventListener('dragstart',e=>{ const c=e.target.closest&&e.target.closest('.wcard[data-wr]'); if(!c) return; dragWr=+c.dataset.wr; c.classList.add('dragging'); if(e.dataTransfer){ e.dataTransfer.effectAllowed='move'; try{ e.dataTransfer.setData('text/plain','wr'+dragWr); }catch(_){} } });
+document.addEventListener('dragend',()=>{ dragWr=null; $$('.wcard.dragging').forEach(x=>x.classList.remove('dragging')); $$('.wcol.drop').forEach(x=>x.classList.remove('drop')); });
+document.addEventListener('dragover',e=>{ const col=e.target.closest&&e.target.closest('.wcol[data-wstage]'); if(col&&dragWr!=null){ e.preventDefault(); $$('.wcol.drop').forEach(x=>{ if(x!==col) x.classList.remove('drop'); }); col.classList.add('drop'); } });
+document.addEventListener('drop',e=>{ const col=e.target.closest&&e.target.closest('.wcol[data-wstage]'); if(!col||dragWr==null) return; e.preventDefault(); const n=dragWr; dragWr=null; col.classList.remove('drop'); wrMove(n,col.dataset.wstage); });
+
+/* ================= router ================= */
+const routes=[
+ [/^\/$/,dashboard],[/^\/master\/items$/,pgItems],[/^\/master\/vendors$/,pgVendors],[/^\/master\/cost-centers$/,pgCC],[/^\/budget\/categories$/,pgBudget],
+ [/^\/procurement\/purchase-requests$/,pgPR],[/^\/procurement\/quotation-requests$/,pgQR],[/^\/procurement\/quotation-requests\/new$/,pgQRNew],[/^\/procurement\/quotation-requests\/(\d+)$/,pgQRd],[/^\/procurement\/purchase-orders$/,pgPO],[/^\/procurement\/purchase-orders\/(\d+)$/,pgPOd],[/^\/procurement\/goods-receipts$/,pgGRN],[/^\/procurement\/approvals$/,pgAppr],
+ [/^\/production\/recipes$/,pgRec],[/^\/production\/recipes\/(\w+)$/,pgRecd],[/^\/production\/batches$/,pgBatches],[/^\/production\/batches\/new$/,pgBatchNew],[/^\/production\/batches\/(\d+)$/,pgBatchd],[/^\/production\/work-requests$/,pgWR],[/^\/production\/variance$/,pgVar],
+ [/^\/sales\/customers$/,pgCust],[/^\/sales\/invoices$/,pgInv],[/^\/sales\/invoices\/new$/,pgInvNew],[/^\/sales\/invoices\/(\d+)$/,pgInvd],[/^\/sales\/receipts$/,pgRcpt],[/^\/sales\/dues$/,pgDues],
+ [/^\/costing$/,pgCost],[/^\/stocks\/summary$/,pgStock],[/^\/stocks\/low-stock$/,pgLow],[/^\/accounts\/cash-bank$/,pgCash]
+];
+function render(){
+  const path=(location.hash.slice(1)||'/'); let out=null;
+  for(const [re,fn] of routes){ const m=path.match(re); if(m){ out=fn.apply(null,m.slice(1)); break; } }
+  if(out==null) out=nf404();
+  $('#view').innerHTML=out; renderNav(path); $('#side').classList.remove('open');
+  if(path==='/production/batches/new') batchRebuild();
+  if(path==='/sales/invoices/new'){ $('#if-due').value=addDays($('#if-date').value,CUS($('#if-c').value).credit); invRecalc(); }
+}
+window.addEventListener('hashchange',()=>{ render(); window.scrollTo(0,0); });
+seed(); render();
+window.__proto={render,S:()=>S,routes,moveBatch,wrMove};
+})();
+</script>
+</body>
+</html>
