@@ -1,4 +1,7 @@
 ---
+import { Picture } from 'astro:assets';
+import dashboardShot from '@/assets/niyojan/dashboard.png';
+
 interface Props {
   kind: 'ev' | 'docs' | 'niyojan';
   compact?: boolean;
@@ -54,23 +57,16 @@ const { kind, compact = false } = Astro.props;
   )}
 
   {kind === 'niyojan' && (
-    <div class="screen niyojan-screen" role="img" aria-label="Illustration of the Niyojan operations dashboard">
-      <div class="niyojan-sidebar">
-        <div class="niyojan-logo"><span>N</span> Niyojan</div>
-        <div class="niyojan-nav"><i class="active"></i><i></i><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="niyojan-main">
-        <div class="niyojan-top"><span>Shakti Bricks &amp; Blocks</span><span class="niyojan-user">MT</span></div>
-        <div class="niyojan-content">
-          <div class="niyojan-title"><div><small>HEAD OFFICE</small><strong>Plant snapshot</strong></div><span class="niyojan-action">+ New production batch</span></div>
-          <div class="niyojan-kpis"><div><small>Finished stock</small><b>13,540</b><em>units across 2 products</em></div><div><small>Customer dues</small><b>₹41,257.50</b><em>across 2 customers</em></div><div><small>Unit cost</small><b>₹5.78</b><em>per good unit</em></div></div>
-          <div class="niyojan-panels">
-            <div class="niyojan-panel"><span>Unit cost, last 7 days</span><svg viewBox="0 0 300 90" aria-hidden="true"><path d="M0 70C30 58 45 67 73 48S118 50 144 36 193 42 220 24 265 26 300 14" /></svg></div>
-            <div class="niyojan-alerts"><span>Needs attention</span><p><i></i>Material variance</p><p><i></i>Customer dues</p></div>
-          </div>
-        </div>
-      </div>
+    <div class="screen niyojan-shot">
+      <div class="screen__bar"><div class="screen__dots"><i></i><i></i><i></i></div><span>Batchline · demo workspace</span><span>Sample data</span></div>
+      <Picture
+        src={dashboardShot}
+        formats={['avif', 'webp']}
+        widths={[640, 960, 1440]}
+        sizes={compact ? '(max-width: 980px) 90vw, 640px' : '(max-width: 980px) 100vw, 1000px'}
+        alt="Today at the plant dashboard from the Batchline demo: output against plan, an at-risk list, cost against standard, customer dues, and cash."
+      />
     </div>
   )}
-  <figcaption class="sr-only">A representative interface view based on the project’s current implementation.</figcaption>
+  <figcaption class="sr-only">{kind === 'niyojan' ? 'A screenshot of the Batchline demo, built on sample data for a fictional bottle plant.' : 'A representative interface view based on the project’s current implementation.'}</figcaption>
 </figure>

@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import ProjectVisual from '@/components/ProjectVisual.astro';
 import { projectPath, type Project } from '@/lib/projects';
@@ -22,6 +23,8 @@ const {
   liveUrl,
   sourceUrl,
   deploymentStatus,
+  gallery,
+  galleryIntro,
 } = project.data;
 
 const status = liveUrl ? 'Live demo available' : deploymentStatus;
@@ -67,6 +70,22 @@ const application = {
     <div class="case-body page-shell">
       <slot />
     </div>
+    {gallery && (
+      <section class="case-gallery page-shell" aria-labelledby="gallery-heading">
+        <h2 id="gallery-heading">Screens from the demo</h2>
+        {galleryIntro && <p class="case-gallery__intro">{galleryIntro}</p>}
+        <div class="case-gallery__grid">
+          {gallery.map((item) => (
+            <figure>
+              <a class="case-gallery__frame" href={item.src.src} target="_blank" rel="noreferrer" aria-label={`Open the full-size screenshot: ${item.caption}`}>
+                <Picture src={item.src} formats={['avif', 'webp']} widths={[560, 840, 1120]} sizes="(max-width: 980px) 100vw, 570px" alt={item.alt} loading="lazy" />
+              </a>
+              <figcaption>{item.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
     <aside class="next-project page-shell">
       <p class="eyebrow">Continue exploring</p>
       <a href={projectPath(next)}><span>{wrapsToFirst ? 'Back to first project' : 'Next project'}</span><strong>{next.data.title}</strong><i aria-hidden="true">↗</i></a>
